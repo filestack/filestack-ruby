@@ -14,7 +14,6 @@ class Filelink
   # @param [String]             apikey        Your Filestack API Key
   # @param [FilestackSecurity]  security      Filestack security object if
   #                                           security is enabled.
-  #
   def initialize(file_handle, apikey, security = nil)
     @file_handle = file_handle
     @apikey = apikey
