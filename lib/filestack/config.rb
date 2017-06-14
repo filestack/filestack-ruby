@@ -20,6 +20,6 @@ class FilestackConfig
   VERSION = Filestack::Ruby::VERSION
   HEADERS = {
     'User-Agent' => "filestack-python #{VERSION}",
-    'Filestack-Source' => "Python-#{VERSION}"
+    'Filestack-Source' => "Ruby-#{VERSION}"
   }.freeze
 end
