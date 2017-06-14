@@ -1,5 +1,6 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
+puts lib
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "filestack/ruby/version"
 
@@ -31,6 +32,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "typhoeus", "~> 1.1"
+  spec.add_dependency "unirest", "~> 1.1.2"
+  spec.add_dependency "parallel", "~> 1.11.2"
+  spec.add_dependency "mimemagic", "~> 0.3.2"
 
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
