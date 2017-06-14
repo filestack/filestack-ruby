@@ -40,9 +40,7 @@ module UploadUtils
   # @return [Unirest::Response]
   def send_upload(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: 'S3')
     data = if filepath
-             {
-               fileUpload: File.open(filepath)
-             }
+             { fileUpload: File.open(filepath) }
            else
              { url: external_url }
            end
