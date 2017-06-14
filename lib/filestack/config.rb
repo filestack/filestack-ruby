@@ -19,7 +19,7 @@ class FilestackConfig
   DEFAULT_CHUNK_SIZE = 5 * 1024**2
   VERSION = Filestack::Ruby::VERSION
   HEADERS = {
-    'User-Agent' => "filestack-python #{VERSION}",
+    'User-Agent' => "filestack-ruby #{VERSION}",
     'Filestack-Source' => "Ruby-#{VERSION}"
   }.freeze
 end
