@@ -34,7 +34,7 @@ class FilestackSecurity
   #                               url: (regex) subset of external URL domains
   #                                  that are allowed to be image/document
   #                                  sources for processing
-  def initialize(secret, options = {})
+  def initialize(secret, options: {})
     generate(secret, options)
   end
 
@@ -44,7 +44,6 @@ class FilestackSecurity
   # @param [Hash]     options   Hash of options - see constructor
   def generate(secret, options)
     policy_json = create_policy_string(options)
-
     @policy = Base64.urlsafe_encode64(policy_json)
     @signature = OpenSSL::HMAC.hexdigest('sha256', secret, policy)
   end
@@ -53,7 +52,7 @@ class FilestackSecurity
   #
   # @param [String]   url    The URL to sign
   #
-  # @return [String] the signed url
+  # @return [String]
   def sign_url(url)
     format('%s&policy=%s&signature=%s', url, policy, signature)
   end
@@ -64,7 +63,7 @@ class FilestackSecurity
   # Manage options and convert hash to json string
   #
   def create_policy_string(options)
-    options['expiry'] = expiry_timestamp(options)
+    options[:expiry] = expiry_timestamp(options)
     options.to_json
   end
 
@@ -73,7 +72,7 @@ class FilestackSecurity
   #
   def expiry_timestamp(options)
     expiry_time = if options.key?(:expiry)
-                    options['expiry']
+                    options[:expiry]
                   else
                     FilestackSecurity::DEFAULT_EXPIRY
                   end
