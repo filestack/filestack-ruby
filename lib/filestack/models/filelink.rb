@@ -1,6 +1,7 @@
 require 'filestack/ruby/version'
 require 'filestack/config'
 require 'filestack/utils/utils'
+require 'filestack/models/filestack_transform'
 require 'filestack/mixins/filestack_common'
 
 # This class represents a file stored on your Filestack
@@ -34,7 +35,6 @@ class Filelink
     send_download(filepath)
   end
 
-
   # Delete filelink
   #
   # @return [Unirest::Response]
@@ -49,6 +49,10 @@ class Filelink
   # @return [Unirest::Response]
   def overwrite(filepath)
     send_overwrite(filepath, handle, apikey, security)
+  end
+
+  def transform
+    Transform.new(handle: @handle, apikey: @apikey, security: @security)
   end
 
   # Get the URL of the Filelink
