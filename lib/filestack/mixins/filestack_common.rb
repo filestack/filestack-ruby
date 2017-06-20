@@ -2,7 +2,6 @@ require 'filestack/config'
 require 'filestack/utils/utils'
 require 'filestack/utils/multipart_upload_utils'
 require 'mimemagic'
-require 'typhoeus'
 
 # Module is mixin for common functionalities that all Filestack
 # objects can call.
