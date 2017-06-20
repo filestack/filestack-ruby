@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
   end
-
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
@@ -31,7 +30,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "typhoeus", "~> 1.1"
   spec.add_dependency "unirest", "~> 1.1.2"
   spec.add_dependency "parallel", "~> 1.11.2"
   spec.add_dependency "mimemagic", "~> 0.3.2"
