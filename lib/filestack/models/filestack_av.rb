@@ -10,7 +10,7 @@ class AV
   def initialize(url, apikey: nil, security: nil)
     @url = url
     @apikey = apikey
-    @secuirty = security
+    @security = security
   end
 
   # Turns AV into filelink if video conversion is complete
