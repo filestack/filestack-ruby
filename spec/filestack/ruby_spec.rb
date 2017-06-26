@@ -1,5 +1,9 @@
+require 'simplecov'
+SimpleCov.start 
+
 require 'spec_helper'
-require 'filestack/filestack'
+require './lib/filestack'
+require 'filestack/config'
 require 'filestack/mixins/filestack_common'
 require 'filestack/utils/multipart_upload_utils'
 require 'filestack/utils/utils'
@@ -11,6 +15,18 @@ include FilestackCommon
 class Response
   def body
     'thisissomecontent'
+  end
+
+  def code
+    200
+  end
+end
+
+class GeneralResponse
+  attr_reader :body
+
+  def initialize(body_content)
+    @body = body_content
   end
 end
 
@@ -47,6 +63,7 @@ RSpec.describe Filestack::Ruby do
     @test_filelink = Filelink.new(@test_handle)
     @test_security = FilestackSecurity.new(@test_secret)
     @test_secure_filelink = Filelink.new(@test_apikey, security: @test_security)
+    @test_transform = Transform.new(apikey: @test_apikey, handle: @test_handle)
   end
 
   it 'has a version number' do
@@ -222,5 +239,76 @@ RSpec.describe Filestack::Ruby do
   it 'does not ovewrite an unsecure filelink' do
     bad = @test_filelink.overwrite(@test_filepath)
     expect(bad).to eq('Overwrite requires security')
+  end
+
+  ###################
+  ## TRANFORM TESTS #
+  ###################
+
+  it 'calls the correct transform methods' do
+    TransformConfig::TRANSFORMATIONS.each do |transformation|
+      @test_transform.public_send(transformation, width: 100, height: 100)
+    end
+  end
+
+  it 'does not call the wrong transform method' do
+    expect {
+      lambda @test_transform.wrong_transformation(width: 100, height: 100)
+    }.to raise_error(NoMethodError)
+  end
+
+  it 'creates AV class' do
+    class AVstatus
+      def body
+        { 'status' => 'completed' }
+      end
+    end
+
+    class AVresponse
+      def body
+        { 'status' => 'completed',
+          'data' => {
+            'url' => 'https://cdn.filestackcontent.com/somehandle'
+          } }
+      end
+    end
+    allow(Unirest).to receive(:post).and_return(@response)
+    allow(Unirest).to receive(:get).and_return(AVresponse.new)
+    av = @test_transform.av_convert(width: 100, height: 100)
+    expect(av.status).to eq('completed')
+    expect(av.to_filelink.handle).to eq('somehandle')
+  end
+
+  it 'stores a transformation url' do
+    transform_content = { 'url' => 'https://cdn.filestack.com/somehandle' }
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new(transform_content))
+    expect(@test_transform.store.handle).to eq('somehandle')
+  end
+
+  it 'returns a debug object' do
+    debug_content = { 'metadata' => { 'width' => 500 } }
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new(debug_content))
+    debug = @test_transform.resize(width: 100).debug
+    expect(debug['metadata']['width']).to eq(500)
+  end
+
+  ###############
+  ## TAGS TESTS #
+  ###############
+
+  it 'returns tags' do
+    tag_content = { 'tags' => { 'tag' => 'sometag' } }
+    allow(Unirest).to receive(:get).and_return(GeneralResponse.new(tag_content))
+    tags = @test_secure_filelink.tags
+    expect(tags['tag']).to eq('sometag')
+  end
+
+  it 'returns sfw' do
+    sfw_content = { 'sfw' => { 'sfw' => 'true' } }
+    allow(Unirest).to receive(:get).and_return(GeneralResponse.new(sfw_content))
+    sfw = @test_secure_filelink.sfw
+    expect(sfw['sfw']).to eq('true')
   end
 end
