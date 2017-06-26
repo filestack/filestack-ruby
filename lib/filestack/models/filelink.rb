@@ -55,6 +55,14 @@ class Filelink
     Transform.new(handle: @handle, apikey: @apikey, security: @security)
   end
 
+  def tags
+    send_tags('tags', @handle, @security)
+  end
+
+  def sfw
+    send_tags('sfw', @handle, @security)
+  end
+
   # Get the URL of the Filelink
   #
   # @return [String]

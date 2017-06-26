@@ -62,6 +62,16 @@ class Transform
     response.body
   end
 
+  # Add debug parameter to get information on transformation image
+  #
+  # @return [Unirest::Response]
+  def debug
+    @transform_tasks.push(
+      add_transform_task('debug')
+    )
+    UploadUtils.make_call(url, 'get').body
+  end
+
   # Stores a transformation URL and returns a filelink
   #
   # @return [Filestack::Filelink]
@@ -84,6 +94,10 @@ class Transform
   # @return [String]
   def url
     base = [FilestackConfig::CDN_URL]
+    if @transform_tasks.include? 'debug'
+      @transform_tasks.delete('debug')
+      base.push('debug')
+    end
     base.push(@apikey) if @apikey && @external_url
     if @security
       policy = @security.policy

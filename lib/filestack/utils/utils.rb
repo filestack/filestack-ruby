@@ -92,7 +92,7 @@ module TransformUtils
   # Creates a transformation task to be sent back to transform object
   #
   # @return [String]
-  def add_transform_task(transform, options)
+  def add_transform_task(transform, options = {})
     options_list = []
     if !options.empty?
       options.each do |key, array|
