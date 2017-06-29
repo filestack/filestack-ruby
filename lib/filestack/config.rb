@@ -33,6 +33,4 @@ class TransformConfig
     partial_pixelate partial_blur collage upscale enhance
     redeye ascii filetype_conversion quality
   ].freeze
-  NON_SELF_TRANSFORMATIONS = %w[av_convert filetype_conversion zip].freeze
-  ALL_TRANSFORM = TRANSFORMATIONS + NON_SELF_TRANSFORMATIONS
 end

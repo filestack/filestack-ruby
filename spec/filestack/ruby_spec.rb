@@ -1,5 +1,8 @@
+require 'simplecov'
+SimpleCov.start 
+
 require 'spec_helper'
-require 'filestack/filestack'
+require './lib/filestack'
 require 'filestack/config'
 require 'filestack/mixins/filestack_common'
 require 'filestack/utils/multipart_upload_utils'
@@ -16,6 +19,14 @@ class Response
 
   def code
     200
+  end
+end
+
+class GeneralResponse
+  attr_reader :body
+
+  def initialize(body_content)
+    @body = body_content
   end
 end
 
@@ -269,13 +280,35 @@ RSpec.describe Filestack::Ruby do
   end
 
   it 'stores a transformation url' do
-    class TransformResponse
-      def body
-        { 'url' => 'https://cdn.filestack.com/somehandle' }
-      end
-    end
-
-    allow(Unirest).to receive(:get).and_return(TransformResponse.new)
+    transform_content = { 'url' => 'https://cdn.filestack.com/somehandle' }
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new(transform_content))
     expect(@test_transform.store.handle).to eq('somehandle')
+  end
+
+  it 'returns a debug object' do
+    debug_content = { 'metadata' => { 'width' => 500 } }
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new(debug_content))
+    debug = @test_transform.resize(width: 100).debug
+    expect(debug['metadata']['width']).to eq(500)
+  end
+
+  ###############
+  ## TAGS TESTS #
+  ###############
+
+  it 'returns tags' do
+    tag_content = { 'tags' => { 'tag' => 'sometag' } }
+    allow(Unirest).to receive(:get).and_return(GeneralResponse.new(tag_content))
+    tags = @test_secure_filelink.tags
+    expect(tags['tag']).to eq('sometag')
+  end
+
+  it 'returns sfw' do
+    sfw_content = { 'sfw' => { 'sfw' => 'true' } }
+    allow(Unirest).to receive(:get).and_return(GeneralResponse.new(sfw_content))
+    sfw = @test_secure_filelink.sfw
+    expect(sfw['sfw']).to eq('true')
   end
 end

@@ -31,6 +31,11 @@ class Filelink
     send_get_content(url)
   end
 
+  # Download Filelink
+  #
+  # @param [String]              filepath     The local destination of the
+  #                                           downloaded filelink
+  # @return [Unirest::Response]
   def download(filepath)
     send_download(filepath)
   end
@@ -51,8 +56,26 @@ class Filelink
     send_overwrite(filepath, handle, apikey, security)
   end
 
+  # Turn the filelink into a transform object to perform
+  # transform operations
+  #
+  # @return [Filestack::Transform]
   def transform
     Transform.new(handle: @handle, apikey: @apikey, security: @security)
+  end
+
+  # Return auto and user tags for the filelink
+  #
+  # @return [Hash]
+  def tags
+    send_tags('tags', @handle, @security)
+  end
+
+  # Return true (SFW) or false (NSFW)
+  #
+  # @return [Bool]
+  def sfw 
+    send_tags('sfw', @handle, @security)
   end
 
   # Get the URL of the Filelink

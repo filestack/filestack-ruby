@@ -52,7 +52,11 @@ module MultipartUploadUtils
       FilestackConfig::MULTIPART_START_URL, parameters: params,
                                             headers: FilestackConfig::HEADERS
     )
-    response.body
+    if response.code == 200
+      response.body
+    else
+      raise Exception(response.body)
+    end
   end
 
   # Create array of jobs for parallel uploading
