@@ -62,8 +62,9 @@ RSpec.describe Filestack::Ruby do
     @test_client = Client.new(@test_apikey)
     @test_filelink = Filelink.new(@test_handle)
     @test_security = FilestackSecurity.new(@test_secret)
+    @test_secure_client = Client.new(@test_apikey, security: @test_security)
     @test_secure_filelink = Filelink.new(@test_apikey, security: @test_security)
-    @test_transform = Transform.new(apikey: @test_apikey, handle: @test_handle)
+    @test_transform = Transform.new(apikey: @test_apikey, handle: @test_handle, security: @test_security)
   end
 
   it 'has a version number' do
@@ -95,6 +96,47 @@ RSpec.describe Filestack::Ruby do
     expect(signed_url).to include('signature=')
   end
 
+  it 'Filelink makes correct url' do
+    expect(@test_secure_filelink.url)
+  end
+
+  it 'Filelink uploads without multipart' do
+    class UploadResponse
+      def code
+        200
+      end
+
+      def body
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+      end
+    end
+    allow(Unirest).to receive(:post)
+      .and_return(UploadResponse.new)
+    filelink = @test_secure_client.upload(filepath: @test_filepath, multipart: false)
+    expect(filelink.handle).to eq('somehandle')
+  end
+
+  it 'Filelink uploads external without multipart' do
+    class UploadResponse
+      def code
+        200
+      end
+
+      def body
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+      end
+    end
+    allow(Unirest).to receive(:post)
+      .and_return(UploadResponse.new)
+    filelink = @test_secure_client.upload(external_url: @test_filepath, multipart: false)
+    expect(filelink.handle).to eq('somehandle')
+  end
+
+  it 'Does not upload when both url and filepath are present' do
+    bad = @test_secure_client.upload(filepath: @test_filepath, external_url: 'someurl', multipart: false)
+    expect(bad).to eq('You cannot upload a URL and file at the same time')
+  end
+
   ######################
   ## MULTIPART TESTING #
   ######################
@@ -117,7 +159,7 @@ RSpec.describe Filestack::Ruby do
 
     response = MultipartUploadUtils.multipart_start(
       @test_apikey, @test_filename, @test_filesize, 
-      @start_response, nil, nil
+      @start_response, @test_security, nil
     )
     expect(response).to eq('thisissomecontent')
   end
@@ -258,12 +300,6 @@ RSpec.describe Filestack::Ruby do
   end
 
   it 'creates AV class' do
-    class AVstatus
-      def body
-        { 'status' => 'completed' }
-      end
-    end
-
     class AVresponse
       def body
         { 'status' => 'completed',
@@ -277,6 +313,12 @@ RSpec.describe Filestack::Ruby do
     av = @test_transform.av_convert(width: 100, height: 100)
     expect(av.status).to eq('completed')
     expect(av.to_filelink.handle).to eq('somehandle')
+  end
+
+  it 'does not create AV from external url' do
+    av = Transform.new(external_url: 'someexternal_url')
+    bad = av.av_convert(width: 100, height: 100)
+    expect(bad).to eq('av_convert does not support external URLs. Please upload file first.')
   end
 
   it 'stores a transformation url' do
