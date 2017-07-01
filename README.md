@@ -1,8 +1,18 @@
-# Filestack::Ruby
+[![Travis CI][travis_ci_badge]][travis_ci]
+[![Coveralls][coveralls_badge]][coveralls]
+[![Code Climate][code_climate_badge]][code_climate]
 
+# Filestack Ruby SDK
+<a href="https://www.filestack.com"><img src="https://filestack.com/themes/filestack/assets/images/press-articles/color.svg" align="left" hspace="10" vspace="6"></a>
 This is the official Ruby SDK for Filestack - API and content management system that makes it easy to add powerful file uploading and transformation capabilities to any web or mobile application.
 
-## Installation
+## Resources
+
+* [Filestack](https://www.filestack.com)
+* [Documentation](https://www.filestack.com/docs)
+* [API Reference](https://filestack.github.io/)
+
+## Installing
 
 Add this line to your application's Gemfile:
 
@@ -20,31 +30,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+## Versioning
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Filestack Ruby SDK follows the [Semantic Versioning](http://semver.org/).
 
 ## Issues
 
 If you have problems, please create a [Github Issue](https://github.com/filestack/filestack-ruby/issues).
 
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/filestack-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
-## Code of Conduct
-
-Everyone interacting in the Filestack::Ruby project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](/blob/master/CODE_OF_CONDUCT.md).
+Please see [CONTRIBUTING.md](https://github.com/filestack/filestack-ruby/CONTRIBUTING.md) for details.
 
 ## Credits
 
 Thank you to all the [contributors](https://github.com/filestack/filestack-ruby/graphs/contributors).
+
+[travis_ci]: http://travis-ci.org/filestack/filestack-ruby
+
+[travis_ci_badge]: https://travis-ci.org/filestack/filestack-ruby.svg?branch=master		
+[code_climate]: https://codeclimate.com/github/filestack/filestack-ruby		
+[code_climate_badge]: https://codeclimate.com/github/filestack/filestack-ruby.png		
+[coveralls]: https://coveralls.io/github/filestack/filestack-ruby?branch=master		
+[coveralls_badge]: https://coveralls.io/repos/github/filestack/filestack-ruby/badge.svg?branch=master
