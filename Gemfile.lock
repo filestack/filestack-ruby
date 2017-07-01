@@ -48,7 +48,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.15)
   filestack!
-  rake (~> 10.0)
+  rake
   rspec (~> 3.0)
   simplecov (~> 0.14)
 
