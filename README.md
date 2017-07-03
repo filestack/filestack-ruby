@@ -68,7 +68,7 @@ transform = filelink.transform
 Or by using an external URL via the client:
 
 ```ruby
-
+transform = client.convert_external('https://someurl.com')
 ```
 
 Transformations can be chained together as you please.
