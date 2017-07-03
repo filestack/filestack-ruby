@@ -1,13 +1,23 @@
-# Filestack::Ruby
+[![Travis CI][travis_ci_badge]][travis_ci]
+[![Coveralls][coveralls_badge]][coveralls]
+[![Code Climate][code_climate_badge]][code_climate]
 
+# Filestack Ruby SDK
+<a href="https://www.filestack.com"><img src="https://filestack.com/themes/filestack/assets/images/press-articles/color.svg" align="left" hspace="10" vspace="6"></a>
 This is the official Ruby SDK for Filestack - API and content management system that makes it easy to add powerful file uploading and transformation capabilities to any web or mobile application.
 
-## Installation
+## Resources
+
+* [Filestack](https://www.filestack.com)
+* [Documentation](https://www.filestack.com/docs)
+* [API Reference](https://filestack.github.io/)
+
+## Installing
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'filestack-ruby'
+gem 'filestack'
 ```
 
 And then execute:
@@ -20,31 +30,119 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'filestack'
+```
+Intialize the client using your API key, and security if you are using it. 
+```ruby
+client = Client.new('YOUR_API_KEY', security: security_object)
+```
+### Uploading
+Filestack uses multipart uploading by default, which is faster for larger files. This can be turned off by passing in ```multipart: false```. Multipart is disabled when uploading external URLs. 
+```ruby
+filelink = client.upload(filepath: '/path/to/file')
 
-## Development
+# OR
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+filelink = client.upload(external_url: 'http://someurl.com')
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Security
+If security is enabled on your account, or if you are using certain actions that require security (delete, overwrite and certain transformations), you will need to create a security object and pass it into the client on instantiation. 
+
+```ruby
+security = FilestackSecurity.new('YOUR_APP_SECRET', options: {call: %w[read store pick]})
+client = client.new('YOUR_API_KEY', security: security)
+```
+
+### Using Filelinks
+Filelink objects are representation of a file handle. You can download, get raw file content, delete and overwrite file handles directly. Security is required for overwrite and delete methods. 
+
+### Transformations 
+Transforms can be initiated one of two ways. The first, by calling ```transform``` on a filelink:
+
+```ruby
+transform = filelink.transform
+```
+
+Or by using an external URL via the client:
+
+```ruby
+transform = client.convert_external('https://someurl.com')
+```
+
+Transformations can be chained together as you please.
+
+```ruby
+transform = filelink.transform.resize(width: 100, height: 100).flip.enhance
+```
+
+You can retrieve the URL of a transform object:
+
+```ruby
+transform.url
+```
+
+Or you can store (upload) the transformation as a new filelink:
+
+```ruby
+new_filelink = transform.store()
+```
+
+For a list of valid transformations, please see [here](https://www.filestack.com/docs/image-transformations).
+
+### Tagging
+
+If you have auto-tagging enabled onto your account, it can be called on any filelink object (tags don't work on external URLs).
+
+```ruby
+tags = filelink.tags
+```
+
+This will return a hash with labels and their associated confidence:
+
+```ruby
+{
+    "auto" => {
+        "art"=>73,
+        "big cats"=>79,
+        "carnivoran"=>80,
+        "cartoon"=>93,
+        "cat like mammal"=>92,
+        "fauna"=>86, "mammal"=>92, 
+        "small to medium sized cats"=>89, 
+        "tiger"=>92,
+        "vertebrate"=>90},
+    "user" => nil
+}
+```
+
+SFW is called the same way, but returns a boolean value (true == safe-for-work, false == not-safe-for-work). 
+
+```ruby
+sfw = transform.sfw
+``` 
+
+## Versioning
+
+Filestack Ruby SDK follows the [Semantic Versioning](http://semver.org/).
 
 ## Issues
 
 If you have problems, please create a [Github Issue](https://github.com/filestack/filestack-ruby/issues).
 
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/filestack-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
-## Code of Conduct
-
-Everyone interacting in the Filestack::Ruby project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](/blob/master/CODE_OF_CONDUCT.md).
+Please see [CONTRIBUTING.md](https://github.com/filestack/filestack-ruby/CONTRIBUTING.md) for details.
 
 ## Credits
 
 Thank you to all the [contributors](https://github.com/filestack/filestack-ruby/graphs/contributors).
+
+[travis_ci]: http://travis-ci.org/filestack/filestack-ruby
+
+[travis_ci_badge]: https://travis-ci.org/filestack/filestack-ruby.svg?branch=master		
+[code_climate]: https://codeclimate.com/github/filestack/filestack-ruby		
+[code_climate_badge]: https://codeclimate.com/github/filestack/filestack-ruby.png		
+[coveralls]: https://coveralls.io/github/filestack/filestack-ruby?branch=master		
+[coveralls_badge]: https://coveralls.io/repos/github/filestack/filestack-ruby/badge.svg?branch=master

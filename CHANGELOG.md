@@ -1,4 +1,4 @@
-# Filestack-ruby Changelog
+# Filestack-Ruby Changelog
 
-## 0.1.0 (May 30, 2017)
-- Gem initialized
+## 2.0.0
+- First release, includes uploads, transformations, conversions and tagging

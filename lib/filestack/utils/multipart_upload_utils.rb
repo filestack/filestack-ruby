@@ -12,7 +12,6 @@ include UploadUtils
 
 # Includes all the utility functions for Filestack multipart uploads
 module MultipartUploadUtils
-
   def get_file_info(file)
     filename = File.basename(file)
     filesize = File.size(file)
@@ -53,7 +52,11 @@ module MultipartUploadUtils
       FilestackConfig::MULTIPART_START_URL, parameters: params,
                                             headers: FilestackConfig::HEADERS
     )
-    response.body
+    if response.code == 200
+      response.body
+    else
+      raise Exception(response.body)
+    end
   end
 
   # Create array of jobs for parallel uploading
@@ -105,7 +108,7 @@ module MultipartUploadUtils
   #                                            multipart uploads
   #
   # @return [Unirest::Response]
-  def upload_chunk(job, apikey, location_url, filepath, options)
+  def upload_chunk(job, apikey, filepath, options)
     file = File.open(filepath)
     file.seek(job[:seek])
     chunk = file.read(FilestackConfig::DEFAULT_CHUNK_SIZE)
@@ -122,9 +125,7 @@ module MultipartUploadUtils
       store_location: options.nil? ? 's3' : options[:store_location],
       file: Tempfile.new(job[:filename])
     }
-
     data = data.merge!(options) if options
-
     fs_response = Unirest.post(
       FilestackConfig::MULTIPART_UPLOAD_URL, parameters: data,
                                              headers: FilestackConfig::HEADERS
@@ -146,7 +147,7 @@ module MultipartUploadUtils
   def run_uploads(jobs, apikey, filepath, options)
     results = Parallel.map(jobs) do |job|
       response = upload_chunk(
-        job, apikey, job[:location_url], filepath, options
+        job, apikey, filepath, options
       )
       part = job[:part]
       etag = response.headers[:etag]
@@ -165,7 +166,7 @@ module MultipartUploadUtils
   #                                             multipart_start
   # @param [FilestackSecurity]  security        Security object with
   #                                             policy/signature
-  # @param [Array]              parts_and_etags Array of strings defining 
+  # @param [Array]              parts_and_etags Array of strings defining
   #                                             etags and their associated
   #                                             part numbers
   # @param [Hash]               options         User-defined options for

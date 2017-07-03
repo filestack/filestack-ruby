@@ -2,7 +2,6 @@ require 'filestack/config'
 require 'filestack/utils/utils'
 require 'filestack/utils/multipart_upload_utils'
 require 'mimemagic'
-require 'typhoeus'
 
 # Module is mixin for common functionalities that all Filestack
 # objects can call.
@@ -26,7 +25,6 @@ module FilestackCommon
   # @return [Int]                             Size of file written
   def send_download(filepath)
     content = send_get_content(url)
-    puts filepath
     File.write(filepath, content.body)
   end
 
@@ -74,5 +72,22 @@ module FilestackCommon
       headers: headers,
       parameters: content
     )
+  end
+
+  # Get tags or sfw content from a filelink
+  #
+  # @param [String]              task         'tags' or 'sfw'
+  # @param [String]              handle       The filehandle
+  # @param [Filestack::Security] security     Security object
+  #
+  # @return [Hash]
+  def send_tags(task, handle, security)
+    raise 'You must use security for tags' if security.nil?
+
+    policy = security.policy
+    signature = security.signature
+    url = "#{FilestackConfig::CDN_URL}/#{task}/"\
+      "security=signature:#{signature},policy:#{policy}/#{handle}"
+    UploadUtils.make_call(url, 'get').body[task]
   end
 end

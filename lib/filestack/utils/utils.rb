@@ -35,7 +35,7 @@ module UploadUtils
   #                                            policy/signature
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
-  # @param [String]             storage        Storage destination 
+  # @param [String]             storage        Storage destination
   #                                            (s3, rackspace, etc)
   # @return [Unirest::Response]
   def send_upload(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: 'S3')
@@ -44,6 +44,8 @@ module UploadUtils
            else
              { url: external_url }
            end
+
+    # adds any user-defined upload options to request payload
     data = data.merge!(options) unless options.nil?
     base = "#{FilestackConfig::API_URL}/store/#{storage}?key=#{apikey}"
 
@@ -82,5 +84,24 @@ module UploadUtils
       url = "#{url}?#{security_path}"
     end
     url
+  end
+end
+
+# Utility functions for transformations
+module TransformUtils
+  # Creates a transformation task to be sent back to transform object
+  #
+  # @return [String]
+  def add_transform_task(transform, options = {})
+    options_list = []
+    if !options.empty?
+      options.each do |key, array|
+        options_list.push("#{key}:#{array}")
+      end
+      options_string = options_list.join(',')
+      "#{transform}=#{options_string}"
+    else
+      transform.to_s
+    end
   end
 end
