@@ -1,6 +1,9 @@
 require 'simplecov'
 SimpleCov.start 
 
+require 'coveralls'
+Coveralls.wear!
+
 require 'spec_helper'
 require './lib/filestack'
 require 'filestack/config'
