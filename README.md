@@ -101,7 +101,7 @@ tags = filelink.tags
 
 This will return a hash with labels and their associated confidence:
 
-```ruby
+```ruby 
 {
     "auto" => {
         "art"=>73,
