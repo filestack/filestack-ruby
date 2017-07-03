@@ -186,7 +186,7 @@ RSpec.describe Filestack::Ruby do
       .and_return(@response)
 
     response = MultipartUploadUtils.upload_chunk(
-      @job, @test_apikey, @start_response['location_url'], @test_filepath, nil
+      @job, @test_apikey, @test_filepath, nil
     )
     expect(response.body).to eq('thisissomecontent')
   end
