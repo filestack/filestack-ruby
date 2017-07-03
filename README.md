@@ -17,7 +17,7 @@ This is the official Ruby SDK for Filestack - API and content management system 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'filestack-ruby'
+gem 'filestack'
 ```
 
 And then execute:
