@@ -26,7 +26,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install filestack-ruby
+    $ gem install filestack
 
 ## Usage
 
@@ -101,7 +101,7 @@ tags = filelink.tags
 
 This will return a hash with labels and their associated confidence:
 
-```ruby
+```ruby 
 {
     "auto" => {
         "art"=>73,
