@@ -336,6 +336,11 @@ RSpec.describe Filestack::Ruby do
     expect(debug['metadata']['width']).to eq(500)
   end
 
+  it 'returns a transform with external URL' do
+    transform = @test_client.transform_external('http://someurl.com')
+    expect(transform.url).to eq("https://cdn.filestackcontent.com/#{@test_apikey}/http://someurl.com")
+  end
+  
   ###############
   ## TAGS TESTS #
   ###############
