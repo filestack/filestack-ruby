@@ -108,7 +108,7 @@ module MultipartUploadUtils
   #                                            multipart uploads
   #
   # @return [Unirest::Response]
-  def upload_chunk(job, apikey, location_url, filepath, options)
+  def upload_chunk(job, apikey, filepath, options)
     file = File.open(filepath)
     file.seek(job[:seek])
     chunk = file.read(FilestackConfig::DEFAULT_CHUNK_SIZE)
@@ -147,7 +147,7 @@ module MultipartUploadUtils
   def run_uploads(jobs, apikey, filepath, options)
     results = Parallel.map(jobs) do |job|
       response = upload_chunk(
-        job, apikey, job[:location_url], filepath, options
+        job, apikey, filepath, options
       )
       part = job[:part]
       etag = response.headers[:etag]

@@ -48,4 +48,8 @@ class Client
                end
     Filelink.new(response['handle'], security: @security, apikey: @apikey)
   end
+
+  def transform_external(external_url)
+    Transform.new(external_url: external_url, security: @security, apikey: @apikey)
+  end
 end

@@ -88,7 +88,6 @@ module FilestackCommon
     signature = security.signature
     url = "#{FilestackConfig::CDN_URL}/#{task}/"\
       "security=signature:#{signature},policy:#{policy}/#{handle}"
-
     UploadUtils.make_call(url, 'get').body[task]
   end
 end

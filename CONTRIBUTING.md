@@ -62,7 +62,7 @@ The header and the body of the commit message must be separated by a line in bla
 Verify that your changes are actually working by adding the required unit tests. It is desirable to include unit test covering all new features you implement. Also, if you find a bug which is not currently detected by the unit tests you might consider to implement a new one or modify the current implementation. After this, you can verify that everything works fine after your changes with:
 
 ```
-nosetests
+rake
 ```
 
 ### Step 5: Push your changes
