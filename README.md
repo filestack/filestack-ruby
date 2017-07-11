@@ -26,7 +26,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install filestack-ruby
+    $ gem install filestack
 
 ## Usage
 
@@ -86,7 +86,7 @@ transform.url
 Or you can store (upload) the transformation as a new filelink:
 
 ```ruby
-new_filelink = transform.store()
+new_filelink = transform.store
 ```
 
 For a list of valid transformations, please see [here](https://www.filestack.com/docs/image-transformations).
@@ -101,7 +101,7 @@ tags = filelink.tags
 
 This will return a hash with labels and their associated confidence:
 
-```ruby
+```ruby 
 {
     "auto" => {
         "art"=>73,
@@ -120,7 +120,7 @@ This will return a hash with labels and their associated confidence:
 SFW is called the same way, but returns a boolean value (true == safe-for-work, false == not-safe-for-work). 
 
 ```ruby
-sfw = transform.sfw
+sfw = filelink.sfw
 ``` 
 
 ## Versioning
