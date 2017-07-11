@@ -1,7 +1,6 @@
 require 'filestack/utils/multipart_upload_utils'
 require 'filestack/models/filestack_transform'
 require 'filestack/utils/utils'
-require './lib/filestack/'
 
 # The Filestack Client class acts as a hub for all
 # Filestack actions that do not require a file handle, including
