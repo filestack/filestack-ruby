@@ -14,7 +14,7 @@ class IntelligentState
     @offset = 524288
     @ok = true
     @alive = true
-    @retries = 1
+    @retries = 0
     @backoff = 1
     @offset_index = 0
     @offset_sizes = [524288, 262144, 131072, 65536, 32768]
@@ -30,7 +30,7 @@ class IntelligentState
   end
 
   def backoff
-    2 if @backoff == 1
+    return 2 if @backoff == 1
     @backoff = @backoff * 2 
   end
 
