@@ -245,6 +245,12 @@ RSpec.describe Filestack::Ruby do
     expect(response.body).to eq(@response.body)
   end
 
+  ##############################
+  ## INTELLIGENT UTILS TESTING #
+  ##############################
+  
+
+
   #########################
   ## COMMON MIXIN TESTING #
   #########################
