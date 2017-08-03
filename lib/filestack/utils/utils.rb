@@ -185,7 +185,7 @@ module IntelligentUtils
       batch = get_generator_batch(generator)   
       # run parts   
       Parallel.map(batch, in_threads: 5) do |chunk|
-        response, state = run_intelligent_uploads(chunk, state)
+        state = run_intelligent_uploads(chunk, state)
         # condition: a chunk has failed but we have not reached the maximum retries
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
@@ -197,7 +197,7 @@ module IntelligentUtils
             sleep(state.backoff)
           end
           state.add_retry
-          response, state = run_intelligent_uploads(chunk, state)
+          state = run_intelligent_uploads(chunk, state)
         end
         raise "Upload has failed. Please try again later." unless state.ok
         bar.increment!
@@ -215,17 +215,16 @@ module IntelligentUtils
     end
   end
 
-   def create_upload_job_chunks(jobs, state, apikey, filename, filepath, filesize, start_response, options)
-    intelligent_list = []
+  def create_upload_job_chunks(jobs, state, apikey, filename, filepath, filesize, start_response)
     jobs.each { |job|
       job[:chunks] = chunk_job(
-        job, state, apikey, filename, filepath, filesize, start_response, options
+        job, state, apikey, filename, filepath, filesize, start_response
       )
     }
     jobs
   end
 
-  def chunk_job(job, state, apikey, filename, filepath, filesize, start_response, options)
+  def chunk_job(job, state, apikey, filename, filepath, filesize, start_response)
     offset = 0
     seek_point = job[:seek]
     chunk_list = []
@@ -253,9 +252,9 @@ module IntelligentUtils
     failed = false
     chunks = chunk_job(
       part, state, part[:apikey], part[:filename], part[:filepath], 
-      part[:filesize], part[:start_response], part[:options]
+      part[:filesize], part[:start_response]
     )
-    chunk_results = Parallel.map(chunks, in_threads: 3) do |chunk|
+    Parallel.map(chunks, in_threads: 3) do |chunk|
       begin
         upload_chunk_intelligently(chunk, state, part[:apikey], part[:filepath], part[:options])
       rescue => e
@@ -288,11 +287,10 @@ module IntelligentUtils
                                                                    headers: FilestackConfig::HEADERS)
     if response.code == 200
       state.reset
-      return [response, state]
     else 
       state.ok = false
-      return [response, state]
     end
+    state
   end
 
   def upload_chunk_intelligently(job, state, apikey, filepath, options)

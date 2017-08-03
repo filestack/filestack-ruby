@@ -239,7 +239,6 @@ module MultipartUploadUtils
   #
   # @return [Unirest::Response]
   def multipart_upload(apikey, filepath, security, options)
-    start = Time.now
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, options
@@ -252,10 +251,10 @@ module MultipartUploadUtils
     )
     if intelligent
       state = IntelligentState.new
-      responses = run_intelligent_upload_flow(jobs, state)
+      run_intelligent_upload_flow(jobs, state)
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
-        start_response, nil, options, intelligent = true
+        start_response, nil, options, intelligent
       )
     else
       parts_and_etags = run_uploads(jobs, apikey, filepath, options)
@@ -267,7 +266,7 @@ module MultipartUploadUtils
     while response_complete.code != 200
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
-        start_response, nil, options, intelligent = true
+        start_response, nil, options, intelligent
       )      
     end
     response_complete.body
