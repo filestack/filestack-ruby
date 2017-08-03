@@ -170,6 +170,7 @@ module IntelligentUtils
       state.offset
     end
   end
+  
   # Runs the intelligent upload flow, from start to finish
   #
   # @param     jobs      A list of file parts
@@ -181,7 +182,8 @@ module IntelligentUtils
     generator = create_intelligent_generator(jobs)
     working_offset = FilestackConfig::DEFAULT_OFFSET_SIZE
     while generator.alive?
-      batch = get_generator_batch(generator)      
+      batch = get_generator_batch(generator)   
+      # run parts   
       Parallel.map(batch, in_threads: 5) do |chunk|
         response, state = run_intelligent_uploads(chunk, state)
         # condition: a chunk has failed but we have not reached the maximum retries
@@ -197,9 +199,7 @@ module IntelligentUtils
           state.add_retry
           response, state = run_intelligent_uploads(chunk, state)
         end
-        unless state.ok
-          raise "Upload has failed. Please try again later."
-        end
+        raise "Upload has failed. Please try again later." unless state.ok
         bar.increment!
       end
     end
