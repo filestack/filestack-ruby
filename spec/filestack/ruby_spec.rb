@@ -199,6 +199,10 @@ RSpec.describe Filestack::Ruby do
       def headers
         { etag: 'someetag' }
       end
+
+      def code
+        200
+      end
     end
 
     jobs = []

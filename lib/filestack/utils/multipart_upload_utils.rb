@@ -167,11 +167,11 @@ module MultipartUploadUtils
         job, apikey, filepath, options
       )
       if response.code == 200 
+        bar.increment!
         part = job[:part]
         etag = response.headers[:etag]
         "#{part}:#{etag}"
       end
-      bar.increment!
     end
     results
   end
@@ -245,8 +245,8 @@ module MultipartUploadUtils
       apikey, filename, filesize, mimetype, security, options
     )
     
-    intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
-    # intelligent = false
+    # intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
+    intelligent = false
     jobs = create_upload_jobs(
       apikey, filename, filepath, filesize, start_response, options
     )
@@ -264,9 +264,7 @@ module MultipartUploadUtils
         start_response, parts_and_etags, options
       )
     end
-    finish = Time.now
     while response_complete.code != 200
-      puts response_complete.code
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
         start_response, nil, options, intelligent = true
