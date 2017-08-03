@@ -15,7 +15,7 @@ class IntelligentState
     @ok = true
     @alive = true
     @retries = 1
-    @backoff = 5
+    @backoff = 1
     @offset_index = 0
     @offset_sizes = [524288, 262144, 131072, 65536, 32768]
   end
@@ -30,7 +30,8 @@ class IntelligentState
   end
 
   def backoff
-    @backoff
+    2 if @backoff == 1
+    @backoff = @backoff * 2 
   end
 
   def next_offset
@@ -183,8 +184,7 @@ module IntelligentUtils
       batch = get_generator_batch(generator)      
       Parallel.map(batch, in_threads: 5) do |chunk|
         response, state = run_intelligent_uploads(chunk, state)
-        # condition: chunk did not fail and has been committed 
-          # condition: a chunk has failed but we have not reached the maximum retries
+        # condition: a chunk has failed but we have not reached the maximum retries
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
           if state.error_type == 'S3'
