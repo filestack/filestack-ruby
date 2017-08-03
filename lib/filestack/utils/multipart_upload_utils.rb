@@ -244,8 +244,7 @@ module MultipartUploadUtils
       apikey, filename, filesize, mimetype, security, options
     )
     
-    # intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
-    intelligent = false
+    intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
     jobs = create_upload_jobs(
       apikey, filename, filepath, filesize, start_response, options
     )

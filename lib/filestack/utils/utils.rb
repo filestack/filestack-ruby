@@ -189,11 +189,10 @@ module IntelligentUtils
         # condition: a chunk has failed but we have not reached the maximum retries
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
-          if state.error_type == 'S3'
-            sleep(state.backoff)
+          if state.error_type == 'S3_NETWORK'
             state.offset = working_offset = change_offset(working_offset, state)
           # condition: timeout to backend, requiring only backoff
-          elsif state.error_type == 'BACKEND'
+          elsif ['S3_SERVER', 'BACKEND_SERVER'].include? state.error_type
             sleep(state.backoff)
           end
           state.add_retry
@@ -258,7 +257,7 @@ module IntelligentUtils
       begin
         upload_chunk_intelligently(chunk, state, part[:apikey], part[:filepath], part[:options])
       rescue => e
-        if e.message == 'S3' or e.message == 'BACKEND'
+        if FilestackConfig::INTELLIGENT_ERROR_MESSAGES.include? e.message
           state.error_type = e.message
         end
         failed = true
@@ -268,7 +267,7 @@ module IntelligentUtils
 
     if failed
       state.ok = false
-      return false, state
+      return state
     else
       state.ok = true
     end
@@ -319,32 +318,32 @@ module IntelligentUtils
                                               headers: FilestackConfig::HEADERS
     )
     begin 
-      if fs_response.code == 200
-        fs_response = fs_response.body
-      elsif fs_response.code == 500
-        raise 'BACKEND'
-      else 
-        raise 'FAILURE'
+      unless fs_response.code == 200
+        if [400, 403, 404].include? fs_response.code
+          raise 'FAILURE'
+        else 
+          raise 'BACKEND_SERVER'
+        end
       end
 
     rescue
-      raise 'BACKEND'
+      raise 'BACKEND_NETWORK'
     end
-
+    fs_response = fs_response.body
     begin 
       amazon_response = Unirest.put(
         fs_response['url'], headers: fs_response['headers'], parameters: chunk
       )
       unless amazon_response.code == 200
-        if amazon_response.code == 500
-          raise 'S3'
-        else 
+        if [400, 403, 404].include? amazon_response.code
           raise 'FAILURE'
+        else 
+          raise 'S3_SERVER'
         end
       end
     
     rescue
-      raise 'S3'
+      raise 'S3_NETWORK'
     end
     amazon_response
   end
