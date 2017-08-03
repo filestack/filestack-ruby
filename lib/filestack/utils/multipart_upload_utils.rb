@@ -4,18 +4,22 @@ require 'mimemagic'
 require 'json'
 require 'parallel'
 require 'unirest'
-
+require 'progress_bar'
 require 'filestack/config'
 require 'filestack/utils/utils'
 
 include UploadUtils
-
+include IntelligentUtils
+Unirest.timeout(30)
 # Includes all the utility functions for Filestack multipart uploads
 module MultipartUploadUtils
   def get_file_info(file)
     filename = File.basename(file)
     filesize = File.size(file)
     mimetype = MimeMagic.by_magic(File.open(file))
+    if mimetype.nil?
+      mimetype = 'application/octet-stream'
+    end
     [filename, filesize, mimetype.to_s]
   end
 
@@ -38,9 +42,10 @@ module MultipartUploadUtils
       mimetype: mimetype,
       size: filesize,
       store_location: options.nil? ? 's3' : options[:store_location],
-      file: Tempfile.new(filename)
+      file: Tempfile.new(filename),
+      options: options,
+      'multipart' => 'true'
     }
-
     params = params.merge!(options) if options
 
     unless security.nil?
@@ -55,7 +60,7 @@ module MultipartUploadUtils
     if response.code == 200
       response.body
     else
-      raise Exception(response.body)
+      raise RuntimeException.new(response.body)
     end
   end
 
@@ -78,24 +83,35 @@ module MultipartUploadUtils
     part = 1
     seek_point = 0
     while seek_point < filesize
-      jobs.push(
+      part_info = {
         seek: seek_point,
         filepath: filepath,
         filename: filename,
         apikey: apikey,
         part: part,
+        filesize: filesize,
         uri: start_response['uri'],
         region: start_response['region'],
         upload_id: start_response['upload_id'],
         location_url: start_response['location_url'],
+        start_response: start_response,
+        options: options,
         store_location: options.nil? ? 's3' : options[:store_location]
-      )
+      }
+      if seek_point + FilestackConfig::DEFAULT_CHUNK_SIZE > filesize
+        size = filesize - (seek_point)
+      else
+        size = FilestackConfig::DEFAULT_CHUNK_SIZE
+      end
+      part_info[:size] = size
+      jobs.push(part_info)
       part += 1
       seek_point += FilestackConfig::DEFAULT_CHUNK_SIZE
     end
     jobs
   end
 
+ 
   # Uploads one chunk of the file
   #
   # @param [Hash]               job            Hash of options needed
@@ -112,6 +128,7 @@ module MultipartUploadUtils
     file = File.open(filepath)
     file.seek(job[:seek])
     chunk = file.read(FilestackConfig::DEFAULT_CHUNK_SIZE)
+    
     md5 = Digest::MD5.new
     md5 << chunk
     data = {
@@ -122,7 +139,7 @@ module MultipartUploadUtils
       uri: job[:uri],
       region: job[:region],
       upload_id: job[:upload_id],
-      store_location: options.nil? ? 's3' : options[:store_location],
+      store_location: job[:store_location],
       file: Tempfile.new(job[:filename])
     }
     data = data.merge!(options) if options
@@ -134,7 +151,6 @@ module MultipartUploadUtils
       fs_response['url'], headers: fs_response['headers'], parameters: chunk
     )
   end
-
   # Runs all jobs in parallel
   #
   # @param [Array]              jobs           Array of jobs to be run
@@ -145,17 +161,20 @@ module MultipartUploadUtils
   #
   # @return [Array]                            Array of parts/etags strings
   def run_uploads(jobs, apikey, filepath, options)
-    results = Parallel.map(jobs) do |job|
+    bar = ProgressBar.new(jobs.length)
+    results = Parallel.map(jobs, in_threads: 4) do |job|
       response = upload_chunk(
         job, apikey, filepath, options
       )
-      part = job[:part]
-      etag = response.headers[:etag]
-      "#{part}:#{etag}"
+      if response.code == 200 
+        part = job[:part]
+        etag = response.headers[:etag]
+        "#{part}:#{etag}"
+      end
+      bar.increment!
     end
     results
   end
-
   # Send complete call to multipart endpoint
   #
   # @param [String]             apikey          Filestack API key
@@ -173,20 +192,34 @@ module MultipartUploadUtils
   #                                             multipart uploads
   #
   # @return [Unirest::Response]
-  def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options)
-    data = {
-      apikey: apikey,
-      uri: start_response['uri'],
-      region: start_response['region'],
-      upload_id: start_response['upload_id'],
-      filename: filename,
-      size: filesize,
-      mimetype: mimetype,
-      parts: parts_and_etags.join(';'),
-      store_location: options.nil? ? 's3' : options[:store_location],
-      file: Tempfile.new(filename)
-    }
-
+  def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, intelligent = false)
+    if !intelligent
+      data = {
+        apikey: apikey,
+        uri: start_response['uri'],
+        region: start_response['region'],
+        upload_id: start_response['upload_id'],
+        filename: filename,
+        size: filesize,
+        mimetype: mimetype,
+        parts: parts_and_etags.join(';'),
+        store_location: options.nil? ? 's3' : options[:store_location],
+        file: Tempfile.new(filename)
+      }
+    else
+      data = {
+        apikey: apikey,
+        uri: start_response['uri'],
+        region: start_response['region'],
+        upload_id: start_response['upload_id'],
+        filename: filename,
+        size: filesize,
+        mimetype: mimetype,
+        store_location: options.nil? ? 's3' : options[:store_location],
+        file: Tempfile.new(filename),
+        'multipart' => 'true'
+      }
+    end
     data = data.merge!(options) if options
 
     Unirest.post(
@@ -206,18 +239,39 @@ module MultipartUploadUtils
   #
   # @return [Unirest::Response]
   def multipart_upload(apikey, filepath, security, options)
+    start = Time.now
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, options
     )
+    
+    intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
+    # intelligent = false
     jobs = create_upload_jobs(
       apikey, filename, filepath, filesize, start_response, options
     )
-    parts_and_etags = run_uploads(jobs, apikey, filepath, options)
-    response_complete = multipart_complete(
-      apikey, filename, filesize, mimetype,
-      start_response, parts_and_etags, options
-    )
+    if intelligent
+      state = IntelligentState.new
+      responses = run_intelligent_upload_flow(jobs, state)
+      response_complete = multipart_complete(
+        apikey, filename, filesize, mimetype,
+        start_response, nil, options, intelligent = true
+      )
+    else
+      parts_and_etags = run_uploads(jobs, apikey, filepath, options)
+      response_complete = multipart_complete(
+        apikey, filename, filesize, mimetype,
+        start_response, parts_and_etags, options
+      )
+    end
+    finish = Time.now
+    while response_complete.code != 200
+      puts response_complete.code
+      response_complete = multipart_complete(
+        apikey, filename, filesize, mimetype,
+        start_response, nil, options, intelligent = true
+      )      
+    end
     response_complete.body
   end
 end
