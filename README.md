@@ -56,7 +56,7 @@ If security is enabled on your account, or if you are using certain actions that
 
 ```ruby
 security = FilestackSecurity.new('YOUR_APP_SECRET', options: {call: %w[read store pick]})
-client = client.new('YOUR_API_KEY', security: security)
+client = FilestackClient.new('YOUR_API_KEY', security: security)
 ```
 
 ### Using FilestackFilelinks
