@@ -364,6 +364,34 @@ RSpec.describe Filestack::Ruby do
     expect(response.code).to eq(200)
   end
 
+   it 'catches failure' do
+    class FilestackResponse
+      def body
+        {
+          url: 'someurl',
+          headers: 'someheaders'
+        }
+      end
+
+      def code
+        200
+      end
+    end
+
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+
+    allow(Unirest).to receive(:post)
+      .and_return(FilestackResponse.new)
+    allow(Unirest).to receive(:put)
+      .and_return(Response.new(400))
+    jobs[0][:offset] = 0
+    expect {IntelligentUtils.upload_chunk_intelligently(jobs[0], state, @test_apikey, @test_filepath, {})}.to raise_error(RuntimeError)
+  end
+
 
   #########################
   ## COMMON MIXIN TESTING #
