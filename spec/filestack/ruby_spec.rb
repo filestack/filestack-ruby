@@ -62,11 +62,11 @@ RSpec.describe Filestack::Ruby do
       location_url: @start_response[:location_url]
     }
     @response = Response.new
-    @test_client = Client.new(@test_apikey)
-    @test_filelink = Filelink.new(@test_handle)
+    @test_client = FilestackClient.new(@test_apikey)
+    @test_filelink = FilestackFilelink.new(@test_handle)
     @test_security = FilestackSecurity.new(@test_secret)
-    @test_secure_client = Client.new(@test_apikey, security: @test_security)
-    @test_secure_filelink = Filelink.new(@test_apikey, security: @test_security)
+    @test_secure_client = FilestackClient.new(@test_apikey, security: @test_security)
+    @test_secure_filelink = FilestackFilelink.new(@test_apikey, security: @test_security)
     @test_transform = Transform.new(apikey: @test_apikey, handle: @test_handle, security: @test_security)
   end
 
@@ -99,11 +99,11 @@ RSpec.describe Filestack::Ruby do
     expect(signed_url).to include('signature=')
   end
 
-  it 'Filelink makes correct url' do
+  it 'FilestackFilelink makes correct url' do
     expect(@test_secure_filelink.url)
   end
 
-  it 'Filelink uploads without multipart' do
+  it 'FilestackFilelink uploads without multipart' do
     class UploadResponse
       def code
         200
@@ -119,7 +119,7 @@ RSpec.describe Filestack::Ruby do
     expect(filelink.handle).to eq('somehandle')
   end
 
-  it 'Filelink uploads external without multipart' do
+  it 'FilestackFilelink uploads external without multipart' do
     class UploadResponse
       def code
         200

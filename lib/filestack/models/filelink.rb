@@ -7,14 +7,14 @@ require 'filestack/mixins/filestack_common'
 # This class represents a file stored on your Filestack
 # storage.  Once initialized, you may perform transformations, conversions,
 # get metadata, update, or delete it.
-class Filelink
+class FilestackFilelink
   include FilestackCommon
   include UploadUtils
   attr_reader :handle, :apikey, :security
 
-  # Initialize Filelink
+  # Initialize FilestackFilelink
   #
-  # @param [String]             file_handle   The Filelink handle
+  # @param [String]             file_handle   The FilestackFilelink handle
   # @param [String]             apikey        Your Filestack API Key (optional)
   # @param [FilestackSecurity]  security      Filestack security object, if
   #                                           security is enabled.
@@ -31,7 +31,7 @@ class Filelink
     send_get_content(url)
   end
 
-  # Download Filelink
+  # Download FilestackFilelink
   #
   # @param [String]              filepath     The local destination of the
   #                                           downloaded filelink
@@ -78,7 +78,7 @@ class Filelink
     send_tags('sfw', @handle, @security)
   end
 
-  # Get the URL of the Filelink
+  # Get the URL of the FilestackFilelink
   #
   # @return [String]
   def url

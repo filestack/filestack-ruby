@@ -63,11 +63,11 @@ module UploadUtils
     raise response.body
   end
 
-  # Generates the URL for a Filelink object
+  # Generates the URL for a FilestackFilelink object
   # @param [String]           base          The base Filestack URL
-  # @param [String]           handle        The Filelink handle (optional)
+  # @param [String]           handle        The FilestackFilelink handle (optional)
   # @param [String]           path          The specific API path (optional)
-  # @param [String]           security      Security for the Filelink (optional)
+  # @param [String]           security      Security for the FilestackFilelink (optional)
   #
   # return [String]
   def get_url(base, handle: nil, path: nil, security: nil)
