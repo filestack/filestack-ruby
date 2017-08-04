@@ -30,8 +30,7 @@ class IntelligentState
   end
 
   def backoff
-    return 2 if @backoff == 1
-    @backoff = @backoff * 2 
+    @backoff = 2 ** retries
   end
 
   def next_offset
@@ -184,8 +183,8 @@ module IntelligentUtils
     while generator.alive?
       batch = get_generator_batch(generator)   
       # run parts   
-      Parallel.map(batch, in_threads: 5) do |chunk|
-        state = run_intelligent_uploads(chunk, state)
+      Parallel.map(batch, in_threads: 4) do |part|
+        state = run_intelligent_uploads(part, state)
         # condition: a chunk has failed but we have not reached the maximum retries
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
@@ -196,7 +195,7 @@ module IntelligentUtils
             sleep(state.backoff)
           end
           state.add_retry
-          state = run_intelligent_uploads(chunk, state)
+          state = run_intelligent_uploads(part, state)
         end
         raise "Upload has failed. Please try again later." unless state.ok
         bar.increment!
@@ -257,9 +256,7 @@ module IntelligentUtils
       begin
         upload_chunk_intelligently(chunk, state, part[:apikey], part[:filepath], part[:options])
       rescue => e
-        if FilestackConfig::INTELLIGENT_ERROR_MESSAGES.include? e.message
-          state.error_type = e.message
-        end
+        state.error_type = e.message
         failed = true
         Parallel::Kill
       end
@@ -317,6 +314,7 @@ module IntelligentUtils
       FilestackConfig::MULTIPART_UPLOAD_URL, parameters: data,
                                               headers: FilestackConfig::HEADERS
     )
+    # POST to multipart/upload
     begin 
       unless fs_response.code == 200
         if [400, 403, 404].include? fs_response.code
@@ -330,6 +328,8 @@ module IntelligentUtils
       raise 'BACKEND_NETWORK'
     end
     fs_response = fs_response.body
+    
+    # PUT to S3
     begin 
       amazon_response = Unirest.put(
         fs_response['url'], headers: fs_response['headers'], parameters: chunk

@@ -16,12 +16,16 @@ include UploadUtils
 include FilestackCommon
 
 class Response
+  def initialize(error_number = nil)
+    @code = error_number || 200
+  end
+
   def body
     'thisissomecontent'
   end
 
   def code
-    200
+    @code
   end
 end
 
@@ -249,6 +253,116 @@ RSpec.describe Filestack::Ruby do
   ## INTELLIGENT UTILS TESTING #
   ##############################
   
+  it 'creates a batch of jobs' do
+    jobs = []
+
+    4.times do
+      jobs.push([])
+    end
+
+    generator = IntelligentUtils.create_intelligent_generator(jobs)
+    batch = get_generator_batch(generator)
+    expect(batch.length).to eq(4)
+  end
+
+  it 'runs intelligent upload flow without failure' do
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+
+    IntelligentUtils.run_intelligent_upload_flow(jobs, state)
+    expect(true)
+  end
+
+  it 'runs intelligent upload flow with failure' do
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    state.ok = false
+    jobs = MultipartUploadUtils.create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
+  end
+
+  it 'runs intelligent uploads without error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_return(state)
+    allow(Unirest).to receive(:post)
+      .and_return(@response)
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok)
+  end
+
+  it 'runs intelligent uploads with failure error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_raise('FAILURE')
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok).to eq(false)
+    expect(state.error_type).to eq('FAILURE')
+  end
+
+  it 'runs intelligent uploads with 400 error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_return(true)
+    allow(Unirest).to receive(:post)
+      .and_return(Response.new(400))
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok).to eq(false)
+  end
+
+  it 'uploads chunk intelligently' do
+    class FilestackResponse
+      def body
+        {
+          url: 'someurl',
+          headers: 'someheaders'
+        }
+      end
+
+      def code
+        200
+      end
+    end
+
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+
+    allow(Unirest).to receive(:post)
+      .and_return(FilestackResponse.new)
+    allow(Unirest).to receive(:put)
+      .and_return(@response)
+    jobs[0][:offset] = 0
+    response = IntelligentUtils.upload_chunk_intelligently(jobs[0], state, @test_apikey, @test_filepath, {})
+    expect(response.code).to eq(200)
+  end
 
 
   #########################
