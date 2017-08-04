@@ -30,12 +30,16 @@ Or install it yourself as:
 
 ## Usage
 
+## IMPORTANT
+
+A recent change (2.1.0) has renamed the Client to FilestackClient, and the Filelink to FilestackFilelink. Please make neccessary changes before upgrading to newest release if you run 2.0.1 or 2.0.0. This was to address namespace concerns by users with models and attributes named Client, and to be more consistent. 
+
 ```ruby
 require 'filestack'
 ```
 Intialize the client using your API key, and security if you are using it. 
 ```ruby
-client = Client.new('YOUR_API_KEY', security: security_object)
+client = FilestackClient.new('YOUR_API_KEY', security: security_object)
 ```
 ### Uploading
 Filestack uses multipart uploading by default, which is faster for larger files. This can be turned off by passing in ```multipart: false```. Multipart is disabled when uploading external URLs. 
@@ -55,8 +59,8 @@ security = FilestackSecurity.new('YOUR_APP_SECRET', options: {call: %w[read stor
 client = client.new('YOUR_API_KEY', security: security)
 ```
 
-### Using Filelinks
-Filelink objects are representation of a file handle. You can download, get raw file content, delete and overwrite file handles directly. Security is required for overwrite and delete methods. 
+### Using FilestackFilelinks
+FilestackFilelink objects are representation of a file handle. You can download, get raw file content, delete and overwrite file handles directly. Security is required for overwrite and delete methods. 
 
 ### Transformations 
 Transforms can be initiated one of two ways. The first, by calling ```transform``` on a filelink:
