@@ -3,6 +3,7 @@
 *.rbc
 *.bundle
 .rspec_status
+Gemfile.lock
 
 /.config
 /coverage/
