@@ -30,10 +30,15 @@ class Response
 end
 
 class GeneralResponse
-  attr_reader :body
+  attr_reader :body, :code
 
-  def initialize(body_content)
+  def initialize(body_content, error_number = nil)
+    @code = error_number || 200
     @body = body_content
+  end
+  
+  def code
+    @code
   end
 end
 
@@ -49,10 +54,18 @@ RSpec.describe Filestack::Ruby do
     @test_filesize = 10000
     @test_mimetype = 'image/jpeg'
     @start_response = {
-      uri: 'uri',
-      region: 'region',
-      upload_id: 'upload_id',
-      location_url: 'location_url'
+      'uri' => 'uri',
+      'region' => 'region',
+      'upload_id' => 'upload_id',
+      'location_url' => 'location_url',
+      'upload_type' => 'not_intelligent'
+    }
+    @intelligent_start_response = {
+      'uri' => 'uri',
+      'region' => 'region',
+      'upload_id' => 'upload_id',
+      'location_url' => 'location_url',
+      'upload_type' => 'intelligent_ingestion'
     }
     @job = {
       seek: 0,
@@ -66,11 +79,11 @@ RSpec.describe Filestack::Ruby do
       location_url: @start_response[:location_url]
     }
     @response = Response.new
-    @test_client = Client.new(@test_apikey)
-    @test_filelink = Filelink.new(@test_handle)
+    @test_client = FilestackClient.new(@test_apikey)
+    @test_filelink = FilestackFilelink.new(@test_handle)
     @test_security = FilestackSecurity.new(@test_secret)
-    @test_secure_client = Client.new(@test_apikey, security: @test_security)
-    @test_secure_filelink = Filelink.new(@test_apikey, security: @test_security)
+    @test_secure_client = FilestackClient.new(@test_apikey, security: @test_security)
+    @test_secure_filelink = FilestackFilelink.new(@test_apikey, security: @test_security)
     @test_transform = Transform.new(apikey: @test_apikey, handle: @test_handle, security: @test_security)
   end
 
@@ -103,11 +116,11 @@ RSpec.describe Filestack::Ruby do
     expect(signed_url).to include('signature=')
   end
 
-  it 'Filelink makes correct url' do
+  it 'FilestackFilelink makes correct url' do
     expect(@test_secure_filelink.url)
   end
 
-  it 'Filelink uploads without multipart' do
+  it 'FilestackFilelink uploads without multipart' do
     class UploadResponse
       def code
         200
@@ -123,7 +136,7 @@ RSpec.describe Filestack::Ruby do
     expect(filelink.handle).to eq('somehandle')
   end
 
-  it 'Filelink uploads external without multipart' do
+  it 'FilestackFilelink uploads external without multipart' do
     class UploadResponse
       def code
         200
@@ -249,9 +262,29 @@ RSpec.describe Filestack::Ruby do
     expect(response.body).to eq(@response.body)
   end
 
+  it 'runs multipart uploads' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@start_response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:run_uploads)
+      .and_return(['somepartsandetags'])
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}))
+    filelink = @test_client.upload(filepath: @test_filepath)
+  end
+
   ##############################
   ## INTELLIGENT UTILS TESTING #
   ##############################
+
+  it 'runs intelligent multipart uploads' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@intelligent_start_response)
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_upload_flow)
+      .and_return(true)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}))
+    filelink = @test_client.upload(filepath: @test_filepath, intelligent: true)
+  end
   
   it 'creates a batch of jobs' do
     jobs = []
@@ -318,6 +351,19 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
     expect(state.ok).to eq(false)
     expect(state.error_type).to eq('FAILURE')
+  end
+
+  it 'retries upon failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'BACKEND_SERVER'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
   end
 
   it 'runs intelligent uploads with 400 error' do 
