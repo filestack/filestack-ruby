@@ -74,14 +74,14 @@ class Transform
 
   # Stores a transformation URL and returns a filelink
   #
-  # @return [Filestack::Filelink]
+  # @return [Filestack::FilestackFilelink]
   def store
     @transform_tasks.push(
       add_transform_task('store', {})
     )
     response = UploadUtils.make_call(url, 'get')
     handle = response.body['url'].split('/').last
-    Filelink.new(handle, apikey: @apikey, security: @security)
+    FilestackFilelink.new(handle, apikey: @apikey, security: @security)
   end
 
   # Override default method (best practice when overriding method_missing)

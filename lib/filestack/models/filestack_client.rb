@@ -2,16 +2,16 @@ require 'filestack/utils/multipart_upload_utils'
 require 'filestack/models/filestack_transform'
 require 'filestack/utils/utils'
 
-# The Filestack Client class acts as a hub for all
+# The Filestack FilestackClient class acts as a hub for all
 # Filestack actions that do not require a file handle, including
 # uploading files (both local and external), initiating an external
 # transformation, and other tasks
-class Client
+class FilestackClient
   include MultipartUploadUtils
   include UploadUtils
   attr_reader :apikey, :security
 
-  # Initialize Client
+  # Initialize FilestackClient
   #
   # @param [String]               apikey        Your Filestack API key
   # @param [FilestackSecurity]    security      A Filestack security object,
@@ -28,13 +28,13 @@ class Client
   #                                                    (Default: true)
   # @param [Hash]                 options          User-supplied upload options
   #
-  # return [Filestack::Filelink]
-  def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3')
+  # return [Filestack::FilestackFilelink]
+  def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3', intelligent: false)
     if filepath && external_url
       return 'You cannot upload a URL and file at the same time'
     end
     response = if filepath && multipart
-                 multipart_upload(@apikey, filepath, @security, options)
+                 multipart_upload(@apikey, filepath, @security, options, intelligent: intelligent)
                else
                  send_upload(
                    @apikey,
@@ -45,7 +45,7 @@ class Client
                    storage: storage
                  )
                end
-    Filelink.new(response['handle'], security: @security, apikey: @apikey)
+    FilestackFilelink.new(response['handle'], security: @security, apikey: @apikey)
   end
 
   def transform_external(external_url)

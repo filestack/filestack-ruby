@@ -15,12 +15,12 @@ class AV
 
   # Turns AV into filelink if video conversion is complete
   #
-  # @return [Filestack::Filelink]
+  # @return [Filestack::FilestackFilelink]
   def to_filelink
     return 'Video conversion incomplete' unless status == 'completed'
     response = UploadUtils.make_call(@url, 'get').body
     handle = response['data']['url'].split('/').last
-    Filelink.new(handle, apikey: @apikey, security: @security)
+    FilestackFilelink.new(handle, apikey: @apikey, security: @security)
   end
 
   # Checks the status of the video conversion
