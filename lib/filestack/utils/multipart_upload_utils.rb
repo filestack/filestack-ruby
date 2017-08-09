@@ -60,7 +60,7 @@ module MultipartUploadUtils
     if response.code == 200
       response.body
     else
-      raise RuntimeException.new(response.body)
+      raise RuntimeError.new(response.body)
     end
   end
 
@@ -238,13 +238,13 @@ module MultipartUploadUtils
   #                                             multipart uploads
   #
   # @return [Unirest::Response]
-  def multipart_upload(apikey, filepath, security, options)
+  def multipart_upload(apikey, filepath, security, options, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, options
     )
     
-    intelligent = start_response['upload_type'].include? 'intelligent_ingestion'
+    intelligent = (start_response['upload_type'].include? 'intelligent_ingestion')
     jobs = create_upload_jobs(
       apikey, filename, filepath, filesize, start_response, options
     )
@@ -262,7 +262,7 @@ module MultipartUploadUtils
         start_response, parts_and_etags, options
       )
     end
-    while response_complete.code != 200
+    while response_complete.code == 202
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
         start_response, nil, options, intelligent
