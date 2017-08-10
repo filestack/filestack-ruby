@@ -366,6 +366,19 @@ RSpec.describe Filestack::Ruby do
     expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
   end
 
+  it 'retries upon network failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'S3_NETWORK'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
   it 'runs intelligent uploads with 400 error' do 
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)

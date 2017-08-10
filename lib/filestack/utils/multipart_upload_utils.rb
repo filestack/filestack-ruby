@@ -243,12 +243,13 @@ module MultipartUploadUtils
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, options
     )
-    
-    intelligent = (start_response['upload_type'].include? 'intelligent_ingestion')
+    unless start_response['upload_type'].nil?
+      intelligent_enabled = ((start_response['upload_type'].include? 'intelligent_ingestion')) && intelligent
+    end
     jobs = create_upload_jobs(
       apikey, filename, filepath, filesize, start_response, options
     )
-    if intelligent
+    if intelligent_enabled
       state = IntelligentState.new
       run_intelligent_upload_flow(jobs, state)
       response_complete = multipart_complete(
