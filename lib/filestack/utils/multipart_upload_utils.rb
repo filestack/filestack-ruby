@@ -238,7 +238,7 @@ module MultipartUploadUtils
   #                                             multipart uploads
   #
   # @return [Unirest::Response]
-  def multipart_upload(apikey, filepath, security, options, intelligent: false)
+  def multipart_upload(apikey, filepath, security, options, timeout, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, options
@@ -263,11 +263,17 @@ module MultipartUploadUtils
         start_response, parts_and_etags, options
       )
     end
-    while response_complete.code == 202
-      response_complete = multipart_complete(
-        apikey, filename, filesize, mimetype,
-        start_response, nil, options, intelligent
-      )      
+    begin
+      Timeout::timeout(timeout){
+        while response_complete.code == 202
+          response_complete = multipart_complete(
+            apikey, filename, filesize, mimetype,
+            start_response, nil, options, intelligent
+          )      
+        end
+      }
+    rescue
+      raise "Upload timed out upon completion. Please try again later"
     end
     response_complete.body
   end
