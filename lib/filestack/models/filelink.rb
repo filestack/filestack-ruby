@@ -71,6 +71,13 @@ class FilestackFilelink
     send_tags('tags', @handle, @security)
   end
 
+  # Return metadata for file handle
+  #
+  # @return [Unirest::Response]
+  def metadata(params = {})
+    send_metadata(@handle, @security, params)
+  end
+
   # Return true (SFW) or false (NSFW)
   #
   # @return [Bool]
