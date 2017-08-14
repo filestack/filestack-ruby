@@ -32,8 +32,8 @@ end
 class GeneralResponse
   attr_reader :body, :code
 
-  def initialize(body_content, error_number = nil)
-    @code = error_number || 200
+  def initialize(body_content, error_number = 200)
+    @code = error_number
     @body = body_content
   end
   
@@ -284,6 +284,17 @@ RSpec.describe Filestack::Ruby do
     allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
       .and_return(GeneralResponse.new({'handle' => 'somehandle'}))
     filelink = @test_client.upload(filepath: @test_filepath, intelligent: true)
+    expect(filelink.handle).to eq('somehandle')
+  end
+
+  it 'intelligent uploads fails upon 202 timeout' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@intelligent_start_response)
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_upload_flow)
+      .and_return(true)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}, 202))
+    expect{@test_client.upload(filepath: @test_filepath, intelligent: true, timeout: 0.1)}.to raise_error(RuntimeError)
   end
   
   it 'creates a batch of jobs' do
@@ -374,6 +385,32 @@ RSpec.describe Filestack::Ruby do
     )
     state.ok = false
     state.error_type = 'S3_NETWORK'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'retries upon server failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'S3_SERVER'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'retries upon backend network failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'BACKEND_NETWORK'
     allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
     expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
@@ -495,6 +532,20 @@ RSpec.describe Filestack::Ruby do
   it 'does not ovewrite an unsecure filelink' do
     bad = @test_filelink.overwrite(@test_filepath)
     expect(bad).to eq('Overwrite requires security')
+  end
+
+  it 'gets metadata' do 
+    allow(UploadUtils).to receive(:make_call)
+      .and_return(GeneralResponse.new({data: 'data'}))
+    metadata = @test_filelink.metadata
+    expect(metadata[:data]).to eq('data')
+  end
+
+  it 'gets metadata with security' do 
+    allow(UploadUtils).to receive(:make_call)
+      .and_return(GeneralResponse.new({data: 'data'}))
+    metadata = @test_secure_filelink.metadata
+    expect(metadata[:data]).to eq('data')
   end
 
   ###################
