@@ -29,12 +29,12 @@ class FilestackClient
   # @param [Hash]                 options          User-supplied upload options
   #
   # return [Filestack::FilestackFilelink]
-  def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3', intelligent: false)
+  def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3', intelligent: false, timeout: 60)
     if filepath && external_url
       return 'You cannot upload a URL and file at the same time'
     end
     response = if filepath && multipart
-                 multipart_upload(@apikey, filepath, @security, options, intelligent: intelligent)
+                 multipart_upload(@apikey, filepath, @security, options, timeout, intelligent: intelligent)
                else
                  send_upload(
                    @apikey,
