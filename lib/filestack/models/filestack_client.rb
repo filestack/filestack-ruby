@@ -29,7 +29,11 @@ class FilestackClient
   # @param [Hash]                 options          User-supplied upload options
   #
   # return [Filestack::FilestackFilelink]
+<<<<<<< HEAD
   def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3', intelligent: false, timeout: 60)
+=======
+  def upload(filepath: nil, external_url: nil, multipart: true, options: nil, storage: 's3')
+>>>>>>> develop
     if filepath && external_url
       return 'You cannot upload a URL and file at the same time'
     end
