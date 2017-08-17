@@ -162,7 +162,7 @@ RSpec.describe Filestack::Ruby do
       .and_return(GeneralResponse.new('somebytes'))
     @test_client.zip('test-files/test.zip', ["https://www.example.com","https://www.example.com"])
   end
-  
+
   ######################
   ## MULTIPART TESTING #
   ######################
@@ -300,7 +300,7 @@ RSpec.describe Filestack::Ruby do
       .and_return(true)
     allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
       .and_return(GeneralResponse.new({'handle' => 'somehandle'}, 202))
-    expect{@test_client.upload(filepath: @test_filepath, intelligent: true, timeout: 0.1)}.to raise_error(RuntimeError)
+    expect{@test_client.upload(filepath: @test_filepath, intelligent: true, timeout: 1)}.to raise_error(RuntimeError)
   end
   
   it 'creates a batch of jobs' do
