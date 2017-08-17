@@ -1,6 +1,8 @@
+require 'filestack/config'
 require 'filestack/utils/multipart_upload_utils'
 require 'filestack/models/filestack_transform'
 require 'filestack/utils/utils'
+require 'json'
 
 # The Filestack FilestackClient class acts as a hub for all
 # Filestack actions that do not require a file handle, including
@@ -54,6 +56,13 @@ class FilestackClient
   # @return [Filestack::Transform]
   def transform_external(external_url)
     Transform.new(external_url: external_url, security: @security, apikey: @apikey)
+  end  
+
+  def zip(destination, files)    
+    encoded_files = JSON.generate(files).gsub('"', '')
+    zip_url = "#{FilestackConfig::CDN_URL}/#{@apikey}/zip/#{encoded_files}"
+    escaped_zip_url = zip_url.gsub("[","%5B").gsub("]","%5D")
+    response = UploadUtils.make_call(escaped_zip_url, 'get')    
+    File.write(destination, response.body)
   end
-  
 end
