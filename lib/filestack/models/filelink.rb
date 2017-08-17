@@ -37,7 +37,7 @@ class FilestackFilelink
   #                                           downloaded filelink
   # @return [Unirest::Response]
   def download(filepath)
-    send_download(filepath)
+    send_download(url, filepath)
   end
 
   # Delete filelink

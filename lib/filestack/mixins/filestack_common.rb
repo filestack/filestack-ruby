@@ -23,7 +23,7 @@ module FilestackCommon
   # @param [String]             filepath      Local path of file to be written
   #
   # @return [Int]                             Size of file written
-  def send_download(filepath)
+  def send_download(url, filepath)
     content = send_get_content(url)
     File.write(filepath, content.body)
   end

@@ -157,6 +157,12 @@ RSpec.describe Filestack::Ruby do
     expect(bad).to eq('You cannot upload a URL and file at the same time')
   end
 
+  it 'zips corectly' do
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new('somebytes'))
+    @test_client.zip('test-files/test.zip', ["https://www.example.com","https://www.example.com"])
+  end
+  
   ######################
   ## MULTIPART TESTING #
   ######################
