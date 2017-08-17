@@ -165,7 +165,45 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>transform</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The task to be added</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Dict</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A dictionary representing the options for that task</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -186,9 +224,6 @@
       <pre class="lines">
 
 
-133
-134
-135
 136
 137
 138
@@ -197,10 +232,13 @@
 141
 142
 143
-144</pre>
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_transform_task'>add_transform_task</span><span class='lparen'>(</span><span class='id identifier rubyid_transform'>transform</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_options_list'>options_list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -224,7 +262,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Aug 15 11:31:47 2017 by
+  Generated on Thu Aug 17 10:04:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.0).
 </div>

@@ -129,6 +129,9 @@ end
 module TransformUtils
   # Creates a transformation task to be sent back to transform object
   #
+  # @param [String]   transform     The task to be added
+  # @param [Dict]   options         A dictionary representing the options for that task
+  #
   # @return [String]
   def add_transform_task(transform, options = {})
     options_list = []
@@ -147,7 +150,7 @@ end
 module IntelligentUtils
   # Generates a batch given a Fiber
   #
-  # @param     generator     A living Fiber object
+  # @param [Fiber]    generator     A living Fiber object
   #
   # @return [Array]
   def get_generator_batch(generator)
@@ -158,10 +161,24 @@ module IntelligentUtils
     return batch
   end
 
+  # Check if state is in error state
+  # or has reached maximum retries  
+  #
+  # @param [IntelligentState]  state   An IntelligentState object
+  # 
+  # @return [Boolean]
   def bad_state(state)
     !state.ok && state.alive?
   end
 
+  # Return current working offest if state
+  # has not tried it. Otherwise, return the next
+  # offset of the state
+  #
+  # @param [Integer]    working_offset    The current offset
+  # @param [IntelligentState]    state    An IntelligentState object
+  #
+  # @return [Integer] 
   def change_offset(working_offset, state)
     if state.offset > working_offset
       working_offset
@@ -172,8 +189,8 @@ module IntelligentUtils
   
   # Runs the intelligent upload flow, from start to finish
   #
-  # @param     jobs      A list of file parts
-  # @param     state     An IntelligentState object
+  # @param [Array]    jobs      A list of file parts
+  # @param [IntelligentState]    state     An IntelligentState object
   #
   # @return [Array]
   def run_intelligent_upload_flow(jobs, state)
@@ -189,6 +206,7 @@ module IntelligentUtils
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
           if state.error_type == 'S3_NETWORK'
+            sleep(5)
             state.offset = working_offset = change_offset(working_offset, state)
           # condition: timeout to backend, requiring only backoff
           elsif ['S3_SERVER', 'BACKEND_SERVER'].include? state.error_type
@@ -202,7 +220,12 @@ module IntelligentUtils
       end
     end
   end
-
+  
+  # Creates a generator of part jobs
+  #
+  # @param [Array]     jobs      A list of file parts
+  #
+  # @return [Fiber]
   def create_intelligent_generator(jobs)
     jobs_gen = jobs.lazy.each
     Fiber.new do
@@ -213,6 +236,18 @@ module IntelligentUtils
     end
   end
 
+  # Loop and run chunks for each offset
+  #
+  # @param [Array]              jobs            A list of file parts
+  # @param [IntelligentState]   state           An IntelligentState object
+  # @param [String]             apikey          Filestack API key
+  # @param [String]             filename        Name of incoming file
+  # @param [String]             filepath        Local path to the file
+  # @param [Int]                filesize        Size of incoming file
+  # @param [Unirest::Response]  start_response  Response body from
+  #                                             multipart_start
+  #
+  # @return [Array]
   def create_upload_job_chunks(jobs, state, apikey, filename, filepath, filesize, start_response)
     jobs.each { |job|
       job[:chunks] = chunk_job(
@@ -221,7 +256,19 @@ module IntelligentUtils
     }
     jobs
   end
-
+  
+  # Chunk a specific job into offests
+  #
+  # @param [Dict]               job             Dictionary with all job options
+  # @param [IntelligentState]   state           An IntelligentState object
+  # @param [String]             apikey          Filestack API key
+  # @param [String]             filename        Name of incoming file
+  # @param [String]             filepath        Local path to the file
+  # @param [Int]                filesize        Size of incoming file
+  # @param [Unirest::Response]  start_response  Response body from
+  #                                             multipart_start
+  #
+  # @return [Dict]
   def chunk_job(job, state, apikey, filename, filepath, filesize, start_response)
     offset = 0
     seek_point = job[:seek]
@@ -246,6 +293,13 @@ module IntelligentUtils
     chunk_list
   end
 
+  # Send a job's chunks in parallel and commit
+  #
+  # @param [Dict]    part      A dictionary representing the information
+  #                            for a single part
+  # @param [IntelligentState]  state     An IntelligentState object
+  #
+  # @return [IntelligentState]
   def run_intelligent_uploads(part, state)
     failed = false
     chunks = chunk_job(
@@ -289,6 +343,17 @@ module IntelligentUtils
     state
   end
 
+  # Upload a single chunk
+  # 
+  # @param [Dict]               job             Dictionary with all job options
+  # @param [IntelligentState]   state           An IntelligentState object
+  # @param [String]             apikey          Filestack API key
+  # @param [String]             filename        Name of incoming file
+  # @param [String]             filepath        Local path to the file
+  # @param [Hash]               options         User-defined options for
+  #                                             multipart uploads
+  #
+  # @return [Unirest::Response]
   def upload_chunk_intelligently(job, state, apikey, filepath, options)
     file = File.open(filepath)
     file.seek(job[:seek] + job[:offset])

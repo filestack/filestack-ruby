@@ -224,7 +224,7 @@ and external), initiating an external transformation, and other tasks</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#transform_external-instance_method" title="#transform_external (instance method)">#<strong>transform_external</strong>(external_url)  &#x21d2; Object </a>
+      <a href="#transform_external-instance_method" title="#transform_external (instance method)">#<strong>transform_external</strong>(external_url)  &#x21d2; Filestack::Transform </a>
     
 
     
@@ -238,7 +238,9 @@ and external), initiating an external transformation, and other tasks</p>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Transform an external URL.</p>
+</div></span>
   
 </li>
 
@@ -475,24 +477,68 @@ and external), initiating an external transformation, and other tasks</p>
       <div class="method_details first">
   <h3 class="signature first" id="transform_external-instance_method">
   
-    #<strong>transform_external</strong>(external_url)  &#x21d2; <tt>Object</tt> 
+    #<strong>transform_external</strong>(external_url)  &#x21d2; <tt>Filestack::Transform</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Transform an external URL</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>external_url</span>
+      
+      
+        <span class='type'>(<tt>string</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A valid URL</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Filestack::Transform</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-51
-52
-53</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/models/filestack_client.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/models/filestack_client.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transform_external'>transform_external</span><span class='lparen'>(</span><span class='id identifier rubyid_external_url'>external_url</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Transform.html" title="Transform (class)">Transform</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Transform.html#initialize-instance_method" title="Transform#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>external_url:</span> <span class='id identifier rubyid_external_url'>external_url</span><span class='comma'>,</span> <span class='label'>security:</span> <span class='ivar'>@security</span><span class='comma'>,</span> <span class='label'>apikey:</span> <span class='ivar'>@apikey</span><span class='rparen'>)</span>
@@ -646,7 +692,7 @@ and external), initiating an external transformation, and other tasks</p>
 </div>
 
       <div id="footer">
-  Generated on Tue Aug 15 11:31:47 2017 by
+  Generated on Thu Aug 17 10:04:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.0).
 </div>

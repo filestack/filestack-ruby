@@ -392,22 +392,6 @@
   
     <li>
       
-        <span class='name'>security</span>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Security object with policy/signature</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>options</span>
       
       
@@ -444,6 +428,8 @@
       <pre class="lines">
 
 
+79
+80
 81
 82
 83
@@ -473,12 +459,10 @@
 107
 108
 109
-110
-111
-112</pre>
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_upload_jobs'>create_upload_jobs</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_jobs'>jobs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -730,6 +714,8 @@
       <pre class="lines">
 
 
+193
+194
 195
 196
 197
@@ -762,12 +748,10 @@
 224
 225
 226
-227
-228
-229</pre>
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 195</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_multipart_complete'>multipart_complete</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_parts_and_etags'>parts_and_etags</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_intelligent'>intelligent</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_intelligent'>intelligent</span>
@@ -1120,6 +1104,8 @@
       <pre class="lines">
 
 
+239
+240
 241
 242
 243
@@ -1156,12 +1142,10 @@
 274
 275
 276
-277
-278
-279</pre>
+277</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 239</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_multipart_upload'>multipart_upload</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_timeout'>timeout</span><span class='comma'>,</span> <span class='label'>intelligent:</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='id identifier rubyid_get_file_info'>get_file_info</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
@@ -1319,6 +1303,8 @@
       <pre class="lines">
 
 
+161
+162
 163
 164
 165
@@ -1331,12 +1317,10 @@
 172
 173
 174
-175
-176
-177</pre>
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_uploads'>run_uploads</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bar'>bar</span> <span class='op'>=</span> <span class='const'>ProgressBar</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
@@ -1481,6 +1465,8 @@
       <pre class="lines">
 
 
+125
+126
 127
 128
 129
@@ -1505,12 +1491,10 @@
 148
 149
 150
-151
-152
-153</pre>
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_chunk'>upload_chunk</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
@@ -1549,7 +1533,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Aug 15 11:31:47 2017 by
+  Generated on Thu Aug 17 10:04:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.0).
 </div>

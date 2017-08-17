@@ -72,8 +72,6 @@ module MultipartUploadUtils
   # @param [Int]                filesize       Size of incoming file
   # @param [Unirest::Response]  start_response Response body from
   #                                            multipart_start
-  # @param [FilestackSecurity]  security       Security object with
-  #                                            policy/signature
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
   #

@@ -101,7 +101,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#bad_state-instance_method" title="#bad_state (instance method)">#<strong>bad_state</strong>(state)  &#x21d2; Object </a>
+      <a href="#bad_state-instance_method" title="#bad_state (instance method)">#<strong>bad_state</strong>(state)  &#x21d2; Boolean </a>
     
 
     
@@ -115,7 +115,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Check if state is in error state or has reached maximum retries.</p>
+</div></span>
   
 </li>
 
@@ -123,7 +125,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#change_offset-instance_method" title="#change_offset (instance method)">#<strong>change_offset</strong>(working_offset, state)  &#x21d2; Object </a>
+      <a href="#change_offset-instance_method" title="#change_offset (instance method)">#<strong>change_offset</strong>(working_offset, state)  &#x21d2; Integer </a>
     
 
     
@@ -137,7 +139,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Return current working offest if state has not tried it.</p>
+</div></span>
   
 </li>
 
@@ -145,7 +149,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#chunk_job-instance_method" title="#chunk_job (instance method)">#<strong>chunk_job</strong>(job, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; Object </a>
+      <a href="#chunk_job-instance_method" title="#chunk_job (instance method)">#<strong>chunk_job</strong>(job, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; Dict </a>
     
 
     
@@ -159,7 +163,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Chunk a specific job into offests.</p>
+</div></span>
   
 </li>
 
@@ -167,7 +173,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_intelligent_generator-instance_method" title="#create_intelligent_generator (instance method)">#<strong>create_intelligent_generator</strong>(jobs)  &#x21d2; Object </a>
+      <a href="#create_intelligent_generator-instance_method" title="#create_intelligent_generator (instance method)">#<strong>create_intelligent_generator</strong>(jobs)  &#x21d2; Fiber </a>
     
 
     
@@ -181,7 +187,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a generator of part jobs.</p>
+</div></span>
   
 </li>
 
@@ -189,7 +197,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_upload_job_chunks-instance_method" title="#create_upload_job_chunks (instance method)">#<strong>create_upload_job_chunks</strong>(jobs, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; Object </a>
+      <a href="#create_upload_job_chunks-instance_method" title="#create_upload_job_chunks (instance method)">#<strong>create_upload_job_chunks</strong>(jobs, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; Array </a>
     
 
     
@@ -203,7 +211,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Loop and run chunks for each offset.</p>
+</div></span>
   
 </li>
 
@@ -259,7 +269,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#run_intelligent_uploads-instance_method" title="#run_intelligent_uploads (instance method)">#<strong>run_intelligent_uploads</strong>(part, state)  &#x21d2; Object </a>
+      <a href="#run_intelligent_uploads-instance_method" title="#run_intelligent_uploads (instance method)">#<strong>run_intelligent_uploads</strong>(part, state)  &#x21d2; IntelligentState </a>
     
 
     
@@ -273,7 +283,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Send a job&#39;s chunks in parallel and commit.</p>
+</div></span>
   
 </li>
 
@@ -281,7 +293,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#upload_chunk_intelligently-instance_method" title="#upload_chunk_intelligently (instance method)">#<strong>upload_chunk_intelligently</strong>(job, state, apikey, filepath, options)  &#x21d2; Object </a>
+      <a href="#upload_chunk_intelligently-instance_method" title="#upload_chunk_intelligently (instance method)">#<strong>upload_chunk_intelligently</strong>(job, state, apikey, filepath, options)  &#x21d2; Unirest::Response </a>
     
 
     
@@ -295,7 +307,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Upload a single chunk.</p>
+</div></span>
   
 </li>
 
@@ -312,24 +326,68 @@
       <div class="method_details first">
   <h3 class="signature first" id="bad_state-instance_method">
   
-    #<strong>bad_state</strong>(state)  &#x21d2; <tt>Object</tt> 
+    #<strong>bad_state</strong>(state)  &#x21d2; <tt>Boolean</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Check if state is in error state or has reached maximum retries</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-161
-162
-163</pre>
+170
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 161</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bad_state'>bad_state</span><span class='lparen'>(</span><span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
   <span class='op'>!</span><span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_ok'>ok</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_alive?'>alive?</span>
@@ -342,28 +400,89 @@
       <div class="method_details ">
   <h3 class="signature " id="change_offset-instance_method">
   
-    #<strong>change_offset</strong>(working_offset, state)  &#x21d2; <tt>Object</tt> 
+    #<strong>change_offset</strong>(working_offset, state)  &#x21d2; <tt>Integer</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return current working offest if state has not tried it. Otherwise, return
+the next offset of the state</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>working_offset</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current offset</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-165
-166
-167
-168
-169
-170
-171</pre>
+182
+183
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 182</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_change_offset'>change_offset</span><span class='lparen'>(</span><span class='id identifier rubyid_working_offset'>working_offset</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_offset'>offset</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_working_offset'>working_offset</span>
@@ -380,44 +499,184 @@
       <div class="method_details ">
   <h3 class="signature " id="chunk_job-instance_method">
   
-    #<strong>chunk_job</strong>(job, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; <tt>Object</tt> 
+    #<strong>chunk_job</strong>(job, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; <tt>Dict</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Chunk a specific job into offests</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>job</span>
+      
+      
+        <span class='type'>(<tt>Dict</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Dictionary with all job options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to the file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filesize</span>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_response</span>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Response body from multipart_start</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Dict</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247</pre>
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 272</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chunk_job'>chunk_job</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -450,30 +709,74 @@
       <div class="method_details ">
   <h3 class="signature " id="create_intelligent_generator-instance_method">
   
-    #<strong>create_intelligent_generator</strong>(jobs)  &#x21d2; <tt>Object</tt> 
+    #<strong>create_intelligent_generator</strong>(jobs)  &#x21d2; <tt>Fiber</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a generator of part jobs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>jobs</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of file parts</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Fiber</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-206
-207
-208
-209
-210
-211
-212
-213
-214</pre>
+229
+230
+231
+232
+233
+234
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 229</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_intelligent_generator'>create_intelligent_generator</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_jobs_gen'>jobs_gen</span> <span class='op'>=</span> <span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_lazy'>lazy</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span>
@@ -492,29 +795,169 @@
       <div class="method_details ">
   <h3 class="signature " id="create_upload_job_chunks-instance_method">
   
-    #<strong>create_upload_job_chunks</strong>(jobs, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; <tt>Object</tt> 
+    #<strong>create_upload_job_chunks</strong>(jobs, state, apikey, filename, filepath, filesize, start_response)  &#x21d2; <tt>Array</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Loop and run chunks for each offset</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>jobs</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of file parts</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to the file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filesize</span>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_response</span>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Response body from multipart_start</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-216
-217
-218
-219
-220
-221
-222
-223</pre>
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 251</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_create_upload_job_chunks'>create_upload_job_chunks</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_job'>job</span><span class='op'>|</span>
@@ -555,7 +998,7 @@
         <span class='name'>generator</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Fiber</tt>)</span>
       
       
       
@@ -588,16 +1031,16 @@
       <pre class="lines">
 
 
-153
-154
-155
 156
 157
 158
-159</pre>
+159
+160
+161
+162</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_generator_batch'>get_generator_batch</span><span class='lparen'>(</span><span class='id identifier rubyid_generator'>generator</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_batch'>batch</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -637,7 +1080,7 @@
         <span class='name'>jobs</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt>Array</tt>)</span>
       
       
       
@@ -653,7 +1096,7 @@
         <span class='name'>state</span>
       
       
-        <span class='type'></span>
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
       
       
       
@@ -686,23 +1129,6 @@
       <pre class="lines">
 
 
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
 196
 197
 198
@@ -711,10 +1137,28 @@
 201
 202
 203
-204</pre>
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_intelligent_upload_flow'>run_intelligent_upload_flow</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bar'>bar</span> <span class='op'>=</span> <span class='const'>ProgressBar</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
@@ -729,6 +1173,7 @@
 </span>      <span class='kw'>while</span> <span class='id identifier rubyid_bad_state'><span class='object_link'><a href="#bad_state-instance_method" title="IntelligentUtils#bad_state (method)">bad_state</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
         <span class='comment'># condition: timeout to S3, requiring offset size to be changed
 </span>        <span class='kw'>if</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_error_type'>error_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>S3_NETWORK</span><span class='tstring_end'>&#39;</span></span>
+          <span class='id identifier rubyid_sleep'>sleep</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
           <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='id identifier rubyid_working_offset'>working_offset</span> <span class='op'>=</span> <span class='id identifier rubyid_change_offset'><span class='object_link'><a href="#change_offset-instance_method" title="IntelligentUtils#change_offset (method)">change_offset</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_working_offset'>working_offset</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
         <span class='comment'># condition: timeout to backend, requiring only backoff
 </span>        <span class='kw'>elsif</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>S3_SERVER</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BACKEND_SERVER</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_state'>state</span><span class='period'>.</span><span class='id identifier rubyid_error_type'>error_type</span>
@@ -750,63 +1195,123 @@
       <div class="method_details ">
   <h3 class="signature " id="run_intelligent_uploads-instance_method">
   
-    #<strong>run_intelligent_uploads</strong>(part, state)  &#x21d2; <tt>Object</tt> 
+    #<strong>run_intelligent_uploads</strong>(part, state)  &#x21d2; <tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send a job&#39;s chunks in parallel and commit</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>part</span>
+      
+      
+        <span class='type'>(<tt>Dict</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A dictionary representing the information for a single part</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290</pre>
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 249</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 303</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run_intelligent_uploads'>run_intelligent_uploads</span><span class='lparen'>(</span><span class='id identifier rubyid_part'>part</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_failed'>failed</span> <span class='op'>=</span> <span class='kw'>false</span>
@@ -858,79 +1363,203 @@
       <div class="method_details ">
   <h3 class="signature " id="upload_chunk_intelligently-instance_method">
   
-    #<strong>upload_chunk_intelligently</strong>(job, state, apikey, filepath, options)  &#x21d2; <tt>Object</tt> 
+    #<strong>upload_chunk_intelligently</strong>(job, state, apikey, filepath, options)  &#x21d2; <tt>Unirest::Response</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Upload a single chunk</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>job</span>
+      
+      
+        <span class='type'>(<tt>Dict</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Dictionary with all job options</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>state</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>An IntelligentState object</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to the file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349</pre>
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 357</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_upload_chunk_intelligently'>upload_chunk_intelligently</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
@@ -1000,7 +1629,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Aug 15 11:31:47 2017 by
+  Generated on Thu Aug 17 10:04:38 2017 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.9 (ruby-2.4.0).
 </div>

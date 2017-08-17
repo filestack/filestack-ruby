@@ -47,8 +47,13 @@ class FilestackClient
                end
     FilestackFilelink.new(response['handle'], security: @security, apikey: @apikey)
   end
-
+  # Transform an external URL 
+  #
+  # @param [string]    external_url   A valid URL 
+  #
+  # @return [Filestack::Transform]
   def transform_external(external_url)
     Transform.new(external_url: external_url, security: @security, apikey: @apikey)
   end
+  
 end
