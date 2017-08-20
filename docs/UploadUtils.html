@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: UploadUtils
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "UploadUtils";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (U)</a> &raquo;
+    
+    
+    <span class="title">UploadUtils</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: UploadUtils
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="AV.html" title="AV (class)">AV</a></span>, <span class='object_link'><a href="FilestackClient.html" title="FilestackClient (class)">FilestackClient</a></span>, <span class='object_link'><a href="FilestackCommon.html" title="FilestackCommon (module)">FilestackCommon</a></span>, <span class='object_link'><a href="FilestackFilelink.html" title="FilestackFilelink (class)">FilestackFilelink</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/filestack/utils/utils.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Includes general utility functions for the Filestack Ruby SDK</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_url-instance_method" title="#get_url (instance method)">#<strong>get_url</strong>(base, handle: nil, path: nil, security: nil)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Generates the URL for a FilestackFilelink object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#make_call-instance_method" title="#make_call (instance method)">#<strong>make_call</strong>(url, action, parameters: nil, headers: nil)  &#x21d2; Unirest::Request </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>General request function.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_upload-instance_method" title="#send_upload (instance method)">#<strong>send_upload</strong>(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: &#39;S3&#39;)  &#x21d2; Unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Uploads to v1 REST API (for external URLs or if multipart is turned off).</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_url-instance_method">
+  
+    #<strong>get_url</strong>(base, handle: nil, path: nil, security: nil)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Generates the URL for a FilestackFilelink object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>base</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The base Filestack URL</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>handle</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The FilestackFilelink handle (optional)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The specific API path (optional)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security for the FilestackFilelink (optional)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_url'>get_url</span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='label'>handle:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>path:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>security:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_url_components'>url_components</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_base'>base</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_url_components'>url_components</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_path'>path</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_url_components'>url_components</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_handle'>handle</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_handle'>handle</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='id identifier rubyid_url_components'>url_components</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span>
+    <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+    <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+    <span class='id identifier rubyid_security_path'>security_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>policy=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;signature=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_url'>url</span><span class='embexpr_end'>}</span><span class='tstring_content'>?</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_security_path'>security_path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_url'>url</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="make_call-instance_method">
+  
+    #<strong>make_call</strong>(url, action, parameters: nil, headers: nil)  &#x21d2; <tt>Unirest::Request</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>General request function</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The URL being called</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>action</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The specific HTTP action (&#39;get&#39;, &#39;post&#39;, &#39;delete&#39;,
+&#39;put&#39;)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>parameters</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The query and/or body parameters</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Request</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_make_call'>make_call</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>headers:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_headers'>headers</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_headers'>headers</span>
+              <span class='id identifier rubyid_headers'>headers</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#HEADERS-constant" title="FilestackConfig::HEADERS (constant)">HEADERS</a></span></span><span class='rparen'>)</span>
+            <span class='kw'>else</span>
+              <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#HEADERS-constant" title="FilestackConfig::HEADERS (constant)">HEADERS</a></span></span>
+            <span class='kw'>end</span>
+  <span class='const'>Unirest</span><span class='period'>.</span><span class='id identifier rubyid_public_send'>public_send</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_action'>action</span><span class='comma'>,</span> <span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_parameters'>parameters</span><span class='comma'>,</span> <span class='label'>headers:</span> <span class='id identifier rubyid_headers'>headers</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_upload-instance_method">
+  
+    #<strong>send_upload</strong>(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: &#39;S3&#39;)  &#x21d2; <tt>Unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Uploads to v1 REST API (for external URLs or if multipart is turned off)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>external_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>External URL to be uploaded</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security object with policy/signature</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>storage</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Storage destination (s3, rackspace, etc)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/utils.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_upload'>send_upload</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='label'>filepath:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>external_url:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>security:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>storage:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>S3</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_filepath'>filepath</span>
+           <span class='lbrace'>{</span> <span class='label'>fileUpload:</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+         <span class='kw'>else</span>
+           <span class='lbrace'>{</span> <span class='label'>url:</span> <span class='id identifier rubyid_external_url'>external_url</span> <span class='rbrace'>}</span>
+         <span class='kw'>end</span>
+
+  <span class='comment'># adds any user-defined upload options to request payload
+</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#API_URL-constant" title="FilestackConfig::API_URL (constant)">API_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/store/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_storage'>storage</span><span class='embexpr_end'>}</span><span class='tstring_content'>?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apikey'>apikey</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span>
+    <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+    <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+    <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base'>base</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;signature=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;policy=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_make_call'><span class='object_link'><a href="#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_base'>base</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>post</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='int'>200</span>
+    <span class='id identifier rubyid_handle'>handle</span> <span class='op'>=</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span>
+    <span class='kw'>return</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>handle</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_handle'>handle</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Aug 17 10:04:38 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.4.0).
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: MultipartUploadUtils
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "MultipartUploadUtils";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">MultipartUploadUtils</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: MultipartUploadUtils
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="FilestackClient.html" title="FilestackClient (class)">FilestackClient</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/filestack/utils/multipart_upload_utils.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Includes all the utility functions for Filestack multipart uploads</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_upload_jobs-instance_method" title="#create_upload_jobs (instance method)">#<strong>create_upload_jobs</strong>(apikey, filename, filepath, filesize, start_response, options)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Create array of jobs for parallel uploading.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_file_info-instance_method" title="#get_file_info (instance method)">#<strong>get_file_info</strong>(file)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#multipart_complete-instance_method" title="#multipart_complete (instance method)">#<strong>multipart_complete</strong>(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, intelligent = false)  &#x21d2; Unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send complete call to multipart endpoint.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#multipart_start-instance_method" title="#multipart_start (instance method)">#<strong>multipart_start</strong>(apikey, filename, filesize, mimetype, security, options)  &#x21d2; Unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send start response to multipart endpoint.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#multipart_upload-instance_method" title="#multipart_upload (instance method)">#<strong>multipart_upload</strong>(apikey, filepath, security, options, timeout, intelligent: false)  &#x21d2; Unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Run entire multipart process through with file and options.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_uploads-instance_method" title="#run_uploads (instance method)">#<strong>run_uploads</strong>(jobs, apikey, filepath, options)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Runs all jobs in parallel.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#upload_chunk-instance_method" title="#upload_chunk (instance method)">#<strong>upload_chunk</strong>(job, apikey, filepath, options)  &#x21d2; Unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Uploads one chunk of the file.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create_upload_jobs-instance_method">
+  
+    #<strong>create_upload_jobs</strong>(apikey, filename, filepath, filesize, start_response, options)  &#x21d2; <tt>Array</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Create array of jobs for parallel uploading</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filesize</span>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_response</span>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Response body from multipart_start</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 79</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_upload_jobs'>create_upload_jobs</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_jobs'>jobs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_part'>part</span> <span class='op'>=</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_seek_point'>seek_point</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='kw'>while</span> <span class='id identifier rubyid_seek_point'>seek_point</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_filesize'>filesize</span>
+    <span class='id identifier rubyid_part_info'>part_info</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='label'>seek:</span> <span class='id identifier rubyid_seek_point'>seek_point</span><span class='comma'>,</span>
+      <span class='label'>filepath:</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span>
+      <span class='label'>filename:</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span>
+      <span class='label'>apikey:</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span>
+      <span class='label'>part:</span> <span class='id identifier rubyid_part'>part</span><span class='comma'>,</span>
+      <span class='label'>filesize:</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span>
+      <span class='label'>uri:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>region:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>region</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>upload_id:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>upload_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>location_url:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>location_url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>start_response:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span>
+      <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span>
+      <span class='label'>store_location:</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s3</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:store_location</span><span class='rbracket'>]</span>
+    <span class='rbrace'>}</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_seek_point'>seek_point</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#DEFAULT_CHUNK_SIZE-constant" title="FilestackConfig::DEFAULT_CHUNK_SIZE (constant)">DEFAULT_CHUNK_SIZE</a></span></span> <span class='op'>&gt;</span> <span class='id identifier rubyid_filesize'>filesize</span>
+      <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_filesize'>filesize</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='id identifier rubyid_seek_point'>seek_point</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#DEFAULT_CHUNK_SIZE-constant" title="FilestackConfig::DEFAULT_CHUNK_SIZE (constant)">DEFAULT_CHUNK_SIZE</a></span></span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_part_info'>part_info</span><span class='lbracket'>[</span><span class='symbol'>:size</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_size'>size</span>
+    <span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span><span class='lparen'>(</span><span class='id identifier rubyid_part_info'>part_info</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_part'>part</span> <span class='op'>+=</span> <span class='int'>1</span>
+    <span class='id identifier rubyid_seek_point'>seek_point</span> <span class='op'>+=</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#DEFAULT_CHUNK_SIZE-constant" title="FilestackConfig::DEFAULT_CHUNK_SIZE (constant)">DEFAULT_CHUNK_SIZE</a></span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_jobs'>jobs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_file_info-instance_method">
+  
+    #<strong>get_file_info</strong>(file)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_file_info'>get_file_info</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filename'>filename</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_basename'>basename</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filesize'>filesize</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='const'>MimeMagic</span><span class='period'>.</span><span class='id identifier rubyid_by_magic'>by_magic</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>application/octet-stream</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>end</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="multipart_complete-instance_method">
+  
+    #<strong>multipart_complete</strong>(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, intelligent = false)  &#x21d2; <tt>Unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send complete call to multipart endpoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filesize</span>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mimetype</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Mimetype of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>start_response</span>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Response body from multipart_start</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security object with policy/signature</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>parts_and_etags</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of strings defining etags and their associated part numbers</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_multipart_complete'>multipart_complete</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_parts_and_etags'>parts_and_etags</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_intelligent'>intelligent</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_intelligent'>intelligent</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='label'>apikey:</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span>
+      <span class='label'>uri:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>region:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>region</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>upload_id:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>upload_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>filename:</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span>
+      <span class='label'>size:</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span>
+      <span class='label'>mimetype:</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+      <span class='label'>parts:</span> <span class='id identifier rubyid_parts_and_etags'>parts_and_etags</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='label'>store_location:</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s3</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:store_location</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>file:</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='label'>apikey:</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span>
+      <span class='label'>uri:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>region:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>region</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>upload_id:</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>upload_id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>filename:</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span>
+      <span class='label'>size:</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span>
+      <span class='label'>mimetype:</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+      <span class='label'>store_location:</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s3</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:store_location</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='label'>file:</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>multipart</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span>
+
+  <span class='const'>Unirest</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#MULTIPART_COMPLETE_URL-constant" title="FilestackConfig::MULTIPART_COMPLETE_URL (constant)">MULTIPART_COMPLETE_URL</a></span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+                                             <span class='label'>headers:</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#HEADERS-constant" title="FilestackConfig::HEADERS (constant)">HEADERS</a></span></span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="multipart_start-instance_method">
+  
+    #<strong>multipart_start</strong>(apikey, filename, filesize, mimetype, security, options)  &#x21d2; <tt>Unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send start response to multipart endpoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filesize</span>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>mimetype</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Mimetype of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security object with policy/signature</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 38</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_multipart_start'>multipart_start</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>apikey:</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span>
+    <span class='label'>filename:</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span>
+    <span class='label'>mimetype:</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+    <span class='label'>size:</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span>
+    <span class='label'>store_location:</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>s3</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:store_location</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>file:</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>options:</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>multipart</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>true</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span>
+
+  <span class='kw'>unless</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:policy</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:signature</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'>Unirest</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#MULTIPART_START_URL-constant" title="FilestackConfig::MULTIPART_START_URL (constant)">MULTIPART_START_URL</a></span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span>
+                                          <span class='label'>headers:</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#HEADERS-constant" title="FilestackConfig::HEADERS (constant)">HEADERS</a></span></span>
+  <span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='int'>200</span>
+    <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RuntimeError</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="multipart_upload-instance_method">
+  
+    #<strong>multipart_upload</strong>(apikey, filepath, security, options, timeout, intelligent: false)  &#x21d2; <tt>Unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Run entire multipart process through with file and options</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filename</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Name of incoming file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security object with policy/signature</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_multipart_upload'>multipart_upload</span><span class='lparen'>(</span><span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_timeout'>timeout</span><span class='comma'>,</span> <span class='label'>intelligent:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='id identifier rubyid_get_file_info'>get_file_info</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_start_response'>start_response</span> <span class='op'>=</span> <span class='id identifier rubyid_multipart_start'>multipart_start</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>upload_type</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_intelligent_enabled'>intelligent_enabled</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_start_response'>start_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>upload_type</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>intelligent_ingestion</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_intelligent'>intelligent</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_jobs'>jobs</span> <span class='op'>=</span> <span class='id identifier rubyid_create_upload_jobs'>create_upload_jobs</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_intelligent_enabled'>intelligent_enabled</span>
+    <span class='id identifier rubyid_state'>state</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="IntelligentState.html" title="IntelligentState (class)">IntelligentState</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="IntelligentState.html#initialize-instance_method" title="IntelligentState#initialize (method)">new</a></span></span>
+    <span class='id identifier rubyid_run_intelligent_upload_flow'><span class='object_link'><a href="IntelligentUtils.html#run_intelligent_upload_flow-instance_method" title="IntelligentUtils#run_intelligent_upload_flow (method)">run_intelligent_upload_flow</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_state'>state</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_response_complete'>response_complete</span> <span class='op'>=</span> <span class='id identifier rubyid_multipart_complete'>multipart_complete</span><span class='lparen'>(</span>
+      <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_intelligent'>intelligent</span>
+    <span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_parts_and_etags'>parts_and_etags</span> <span class='op'>=</span> <span class='id identifier rubyid_run_uploads'>run_uploads</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_response_complete'>response_complete</span> <span class='op'>=</span> <span class='id identifier rubyid_multipart_complete'>multipart_complete</span><span class='lparen'>(</span>
+      <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+      <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='id identifier rubyid_parts_and_etags'>parts_and_etags</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span>
+    <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>begin</span>
+    <span class='const'>Timeout</span><span class='op'>::</span><span class='id identifier rubyid_timeout'>timeout</span><span class='lparen'>(</span><span class='id identifier rubyid_timeout'>timeout</span><span class='rparen'>)</span><span class='lbrace'>{</span>
+      <span class='kw'>while</span> <span class='id identifier rubyid_response_complete'>response_complete</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='int'>202</span>
+        <span class='id identifier rubyid_response_complete'>response_complete</span> <span class='op'>=</span> <span class='id identifier rubyid_multipart_complete'>multipart_complete</span><span class='lparen'>(</span>
+          <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='id identifier rubyid_filesize'>filesize</span><span class='comma'>,</span> <span class='id identifier rubyid_mimetype'>mimetype</span><span class='comma'>,</span>
+          <span class='id identifier rubyid_start_response'>start_response</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='id identifier rubyid_intelligent'>intelligent</span>
+        <span class='rparen'>)</span>      
+      <span class='kw'>end</span>
+    <span class='rbrace'>}</span>
+  <span class='kw'>rescue</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Upload timed out upon completion. Please try again later</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_response_complete'>response_complete</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_uploads-instance_method">
+  
+    #<strong>run_uploads</strong>(jobs, apikey, filepath, options)  &#x21d2; <tt>Array</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Runs all jobs in parallel</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>jobs</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of jobs to be run</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Array of parts/etags strings</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 161</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run_uploads'>run_uploads</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_bar'>bar</span> <span class='op'>=</span> <span class='const'>ProgressBar</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='const'>Parallel</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='id identifier rubyid_jobs'>jobs</span><span class='comma'>,</span> <span class='label'>in_threads:</span> <span class='int'>4</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_job'>job</span><span class='op'>|</span>
+    <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='id identifier rubyid_upload_chunk'>upload_chunk</span><span class='lparen'>(</span>
+      <span class='id identifier rubyid_job'>job</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span>
+    <span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='int'>200</span> 
+      <span class='id identifier rubyid_bar'>bar</span><span class='period'>.</span><span class='id identifier rubyid_increment!'>increment!</span>
+      <span class='id identifier rubyid_part'>part</span> <span class='op'>=</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:part</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_etag'>etag</span> <span class='op'>=</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_headers'>headers</span><span class='lbracket'>[</span><span class='symbol'>:etag</span><span class='rbracket'>]</span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_part'>part</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_etag'>etag</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_results'>results</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="upload_chunk-instance_method">
+  
+    #<strong>upload_chunk</strong>(job, apikey, filepath, options)  &#x21d2; <tt>Unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Uploads one chunk of the file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>job</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of options needed to upload a chunk</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>location_url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Location url given back from endpoint</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path to file</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>User-defined options for multipart uploads</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/utils/multipart_upload_utils.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_upload_chunk'>upload_chunk</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_seek'>seek</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:seek</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_chunk'>chunk</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#DEFAULT_CHUNK_SIZE-constant" title="FilestackConfig::DEFAULT_CHUNK_SIZE (constant)">DEFAULT_CHUNK_SIZE</a></span></span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_md5'>md5</span> <span class='op'>=</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>MD5</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='id identifier rubyid_md5'>md5</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_chunk'>chunk</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>apikey:</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span>
+    <span class='label'>part:</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:part</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>size:</span> <span class='id identifier rubyid_chunk'>chunk</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='comma'>,</span>
+    <span class='label'>md5:</span> <span class='id identifier rubyid_md5'>md5</span><span class='period'>.</span><span class='id identifier rubyid_base64digest'>base64digest</span><span class='comma'>,</span>
+    <span class='label'>uri:</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:uri</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>region:</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:region</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>upload_id:</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:upload_id</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>store_location:</span> <span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:store_location</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>file:</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_job'>job</span><span class='lbracket'>[</span><span class='symbol'>:filename</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span>
+  <span class='id identifier rubyid_fs_response'>fs_response</span> <span class='op'>=</span> <span class='const'>Unirest</span><span class='period'>.</span><span class='id identifier rubyid_post'>post</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#MULTIPART_UPLOAD_URL-constant" title="FilestackConfig::MULTIPART_UPLOAD_URL (constant)">MULTIPART_UPLOAD_URL</a></span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span>
+                                           <span class='label'>headers:</span> <span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#HEADERS-constant" title="FilestackConfig::HEADERS (constant)">HEADERS</a></span></span>
+  <span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='const'>Unirest</span><span class='period'>.</span><span class='id identifier rubyid_put'>put</span><span class='lparen'>(</span>
+    <span class='id identifier rubyid_fs_response'>fs_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>url</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>headers:</span> <span class='id identifier rubyid_fs_response'>fs_response</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>headers</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_chunk'>chunk</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Aug 17 10:04:38 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.4.0).
+</div>
+
+    </div>
+  </body>
+</html>

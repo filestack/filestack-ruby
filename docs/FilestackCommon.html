@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: FilestackCommon
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "FilestackCommon";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (F)</a> &raquo;
+    
+    
+    <span class="title">FilestackCommon</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: FilestackCommon
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></dd>
+  </dl>
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="FilestackFilelink.html" title="FilestackFilelink (class)">FilestackFilelink</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/filestack/mixins/filestack_common.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Module is mixin for common functionalities that all Filestack objects can
+call.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_delete-instance_method" title="#send_delete (instance method)">#<strong>send_delete</strong>(handle, apikey, security)  &#x21d2; unirest::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send the delete api request to delete a filelink.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_download-instance_method" title="#send_download (instance method)">#<strong>send_download</strong>(filepath)  &#x21d2; Int </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the content of a filehandle.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_get_content-instance_method" title="#send_get_content (instance method)">#<strong>send_get_content</strong>(url, parameters: nil)  &#x21d2; Bytes </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get the contents of a Filestack handle.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_metadata-instance_method" title="#send_metadata (instance method)">#<strong>send_metadata</strong>(handle, security = nil, params)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_overwrite-instance_method" title="#send_overwrite (instance method)">#<strong>send_overwrite</strong>(filepath, handle, apikey, security)  &#x21d2; Typhoeus::Response </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send the overwrite api request to update a filelink.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_tags-instance_method" title="#send_tags (instance method)">#<strong>send_tags</strong>(task, handle, security)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Get tags or sfw content from a filelink.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="UploadUtils.html#get_url-instance_method" title="UploadUtils#get_url (method)">#get_url</a></span>, <span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">#make_call</a></span>, <span class='object_link'><a href="UploadUtils.html#send_upload-instance_method" title="UploadUtils#send_upload (method)">#send_upload</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="send_delete-instance_method">
+  
+    #<strong>send_delete</strong>(handle, apikey, security)  &#x21d2; <tt>unirest::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send the delete api request to delete a filelink</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The url of the Filehandle to be deleted (includes security)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>unirest::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_delete'>send_delete</span><span class='lparen'>(</span><span class='id identifier rubyid_handle'>handle</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Delete requires security</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+  <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#API_URL-constant" title="FilestackConfig::API_URL (constant)">API_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/file</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make_call'><span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base'>base</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_handle'>handle</span><span class='embexpr_end'>}</span><span class='tstring_content'>?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apikey'>apikey</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;signature=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;policy=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delete</span><span class='tstring_end'>&#39;</span></span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_download-instance_method">
+  
+    #<strong>send_download</strong>(filepath)  &#x21d2; <tt>Int</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the content of a filehandle</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Local path of file to be written</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Int</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Size of file written</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 26</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_download'>send_download</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_send_get_content'>send_get_content</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_content'>content</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_get_content-instance_method">
+  
+    #<strong>send_get_content</strong>(url, parameters: nil)  &#x21d2; <tt>Bytes</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get the contents of a Filestack handle</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file_handle</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Filelink handle</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Optional Filestack security object if security is enabled</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bytes</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_get_content'>send_get_content</span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make_call'><span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_parameters'>parameters</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_metadata-instance_method">
+  
+    #<strong>send_metadata</strong>(handle, security = nil, params)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_metadata'>send_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_handle'>handle</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span>
+    <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+    <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#CDN_URL-constant" title="FilestackConfig::CDN_URL (constant)">CDN_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_handle'>handle</span><span class='embexpr_end'>}</span><span class='tstring_content'>/metadata?signature=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;policy=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#CDN_URL-constant" title="FilestackConfig::CDN_URL (constant)">CDN_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_handle'>handle</span><span class='embexpr_end'>}</span><span class='tstring_content'>/metadata</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make_call'><span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>parameters:</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_code'>code</span> <span class='op'>==</span> <span class='int'>200</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_overwrite-instance_method">
+  
+    #<strong>send_overwrite</strong>(filepath, handle, apikey, security)  &#x21d2; <tt>Typhoeus::Response</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send the overwrite api request to update a filelink</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>filepath</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filepath of file to upload</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>handle</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The Filelink handle</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>apikey</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack API Key</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="FilestackSecurity.html" title="FilestackSecurity (class)">FilestackSecurity</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Filestack security object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Typhoeus::Response</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_overwrite'>send_overwrite</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='id identifier rubyid_handle'>handle</span><span class='comma'>,</span> <span class='id identifier rubyid_apikey'>apikey</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Overwrite requires security</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='id identifier rubyid_file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filepath'>filepath</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>r</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='op'>=</span> <span class='const'>MimeMagic</span><span class='period'>.</span><span class='id identifier rubyid_by_magic'>by_magic</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_file'>file</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span>
+
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+
+  <span class='id identifier rubyid_headers'>headers</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Content-Type</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_mimetype'>mimetype</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_base'>base</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#API_URL-constant" title="FilestackConfig::API_URL (constant)">API_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/file</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='const'><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make_call'><span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_base'>base</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_handle'>handle</span><span class='embexpr_end'>}</span><span class='tstring_content'>?key=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_apikey'>apikey</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;signature=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_content'>&amp;policy=</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>put</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span>
+    <span class='label'>headers:</span> <span class='id identifier rubyid_headers'>headers</span><span class='comma'>,</span>
+    <span class='label'>parameters:</span> <span class='id identifier rubyid_content'>content</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_tags-instance_method">
+  
+    #<strong>send_tags</strong>(task, handle, security)  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Get tags or sfw content from a filelink</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>task</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>&#39;tags&#39; or &#39;sfw&#39;</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>handle</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The filehandle</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>security</span>
+      
+      
+        <span class='type'>(<tt>Filestack::Security</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Security object</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/filestack/mixins/filestack_common.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_tags'>send_tags</span><span class='lparen'>(</span><span class='id identifier rubyid_task'>task</span><span class='comma'>,</span> <span class='id identifier rubyid_handle'>handle</span><span class='comma'>,</span> <span class='id identifier rubyid_security'>security</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>You must use security for tags</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='id identifier rubyid_policy'>policy</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_policy'>policy</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_security'>security</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span>
+  <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="FilestackConfig.html" title="FilestackConfig (class)">FilestackConfig</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="FilestackConfig.html#CDN_URL-constant" title="FilestackConfig::CDN_URL (constant)">CDN_URL</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_task'>task</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span>\
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>security=signature:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_content'>,policy:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_policy'>policy</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_handle'>handle</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'><span class='object_link'><a href="UploadUtils.html" title="UploadUtils (module)">UploadUtils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_make_call'><span class='object_link'><a href="UploadUtils.html#make_call-instance_method" title="UploadUtils#make_call (method)">make_call</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>get</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='lbracket'>[</span><span class='id identifier rubyid_task'>task</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Aug 17 10:04:38 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.4.0).
+</div>
+
+    </div>
+  </body>
+</html>
