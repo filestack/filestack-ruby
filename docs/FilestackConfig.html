@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: FilestackConfig
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "FilestackConfig";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (F)</a> &raquo;
+    
+    
+    <span class="title">FilestackConfig</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: FilestackConfig
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">FilestackConfig</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/filestack/config.rb</dd>
+  </dl>
+  
+</div>
+
+
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="API_URL-constant" class="">API_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://www.filestackapi.com/api</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="CDN_URL-constant" class="">CDN_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://cdn.filestackcontent.com</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="PROCESS_URL-constant" class="">PROCESS_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://process.filestackapi.com</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="MULTIPART_START_URL-constant" class="">MULTIPART_START_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rc-upload.filestackapi.com/multipart/start</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="MULTIPART_UPLOAD_URL-constant" class="">MULTIPART_UPLOAD_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rc-upload.filestackapi.com/multipart/upload</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="MULTIPART_COMMIT_URL-constant" class="">MULTIPART_COMMIT_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rc-upload.filestackapi.com/multipart/commit</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="MULTIPART_COMPLETE_URL-constant" class="">MULTIPART_COMPLETE_URL =
+        
+      </dt>
+      <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rc-upload.filestackapi.com/multipart/complete</span><span class='tstring_end'>&#39;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="MULTIPART_PARAMS-constant" class="">MULTIPART_PARAMS =
+        
+      </dt>
+      <dd><pre class="code"><span class='qwords_beg'>%w[
+</span><span class='tstring_content'>  store_location</span><span class='words_sep'> </span><span class='tstring_content'>store_region</span><span class='words_sep'> </span><span class='tstring_content'>store_container</span><span class='words_sep'>
+</span><span class='tstring_content'>  store_path</span><span class='words_sep'> </span><span class='tstring_content'>store_access</span><span class='words_sep'>
+</span><span class='tstring_end'>]</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="DEFAULT_CHUNK_SIZE-constant" class="">DEFAULT_CHUNK_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='int'>8</span> <span class='op'>*</span> <span class='int'>1024</span><span class='op'>**</span><span class='int'>2</span></pre></dd>
+    
+      <dt id="DEFAULT_OFFSET_SIZE-constant" class="">DEFAULT_OFFSET_SIZE =
+        
+      </dt>
+      <dd><pre class="code"><span class='int'>1</span> <span class='op'>*</span> <span class='int'>1024</span><span class='op'>**</span><span class='int'>2</span></pre></dd>
+    
+      <dt id="VERSION-constant" class="">VERSION =
+        
+      </dt>
+      <dd><pre class="code"><span class='const'><span class='object_link'><a href="Filestack.html" title="Filestack (module)">Filestack</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Filestack/Ruby.html" title="Filestack::Ruby (module)">Ruby</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Filestack/Ruby.html#VERSION-constant" title="Filestack::Ruby::VERSION (constant)">VERSION</a></span></span></pre></dd>
+    
+      <dt id="HEADERS-constant" class="">HEADERS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>User-Agent</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>filestack-ruby </span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#VERSION-constant" title="FilestackConfig::VERSION (constant)">VERSION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Filestack-Source</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ruby-</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#VERSION-constant" title="FilestackConfig::VERSION (constant)">VERSION</a></span></span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+    
+      <dt id="INTELLIGENT_ERROR_MESSAGES-constant" class="">INTELLIGENT_ERROR_MESSAGES =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BACKEND_SERVER</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>BACKEND_NETWORK</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>S3_SERVER</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>S3_NETWORK</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span></pre></dd>
+    
+  </dl>
+
+
+
+
+
+
+
+
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Aug 17 10:04:38 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.4.0).
+</div>
+
+    </div>
+  </body>
+</html>

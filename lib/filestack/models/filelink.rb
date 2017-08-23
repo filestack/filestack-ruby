@@ -37,7 +37,7 @@ class FilestackFilelink
   #                                           downloaded filelink
   # @return [Unirest::Response]
   def download(filepath)
-    send_download(filepath)
+    send_download(url, filepath)
   end
 
   # Delete filelink
@@ -69,6 +69,13 @@ class FilestackFilelink
   # @return [Hash]
   def tags
     send_tags('tags', @handle, @security)
+  end
+
+  # Return metadata for file handle
+  #
+  # @return [Unirest::Response]
+  def metadata(params = {})
+    send_metadata(@handle, @security, params)
   end
 
   # Return true (SFW) or false (NSFW)

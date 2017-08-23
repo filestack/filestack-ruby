@@ -23,7 +23,7 @@ module FilestackCommon
   # @param [String]             filepath      Local path of file to be written
   #
   # @return [Int]                             Size of file written
-  def send_download(filepath)
+  def send_download(url, filepath)
     content = send_get_content(url)
     File.write(filepath, content.body)
   end
@@ -89,5 +89,21 @@ module FilestackCommon
     url = "#{FilestackConfig::CDN_URL}/#{task}/"\
       "security=signature:#{signature},policy:#{policy}/#{handle}"
     UploadUtils.make_call(url, 'get').body[task]
+  end
+
+  def send_metadata(handle, security = nil, params)
+    if security
+      policy = security.policy
+      signature = security.signature
+      url = "#{FilestackConfig::CDN_URL}/#{handle}/metadata?signature=#{signature}&policy=#{policy}"
+    else
+      url = "#{FilestackConfig::CDN_URL}/#{handle}/metadata"
+    end
+    response = UploadUtils.make_call(url, 'get', parameters: params)
+
+    if response.code == 200
+      return response.body
+    end
+    raise response.body
   end
 end

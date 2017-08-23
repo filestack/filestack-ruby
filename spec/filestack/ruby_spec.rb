@@ -16,20 +16,29 @@ include UploadUtils
 include FilestackCommon
 
 class Response
+  def initialize(error_number = nil)
+    @code = error_number || 200
+  end
+
   def body
     'thisissomecontent'
   end
 
   def code
-    200
+    @code
   end
 end
 
 class GeneralResponse
-  attr_reader :body
+  attr_reader :body, :code
 
-  def initialize(body_content)
+  def initialize(body_content, error_number = 200)
+    @code = error_number
     @body = body_content
+  end
+  
+  def code
+    @code
   end
 end
 
@@ -45,10 +54,18 @@ RSpec.describe Filestack::Ruby do
     @test_filesize = 10000
     @test_mimetype = 'image/jpeg'
     @start_response = {
-      uri: 'uri',
-      region: 'region',
-      upload_id: 'upload_id',
-      location_url: 'location_url'
+      'uri' => 'uri',
+      'region' => 'region',
+      'upload_id' => 'upload_id',
+      'location_url' => 'location_url',
+      'upload_type' => 'not_intelligent'
+    }
+    @intelligent_start_response = {
+      'uri' => 'uri',
+      'region' => 'region',
+      'upload_id' => 'upload_id',
+      'location_url' => 'location_url',
+      'upload_type' => 'intelligent_ingestion'
     }
     @job = {
       seek: 0,
@@ -140,6 +157,12 @@ RSpec.describe Filestack::Ruby do
     expect(bad).to eq('You cannot upload a URL and file at the same time')
   end
 
+  it 'zips corectly' do
+    allow(Unirest).to receive(:get)
+      .and_return(GeneralResponse.new('somebytes'))
+    @test_client.zip('test-files/test.zip', ["https://www.example.com","https://www.example.com"])
+  end
+
   ######################
   ## MULTIPART TESTING #
   ######################
@@ -199,6 +222,10 @@ RSpec.describe Filestack::Ruby do
       def headers
         { etag: 'someetag' }
       end
+
+      def code
+        200
+      end
     end
 
     jobs = []
@@ -240,6 +267,233 @@ RSpec.describe Filestack::Ruby do
     )
     expect(response.body).to eq(@response.body)
   end
+
+  it 'runs multipart uploads' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@start_response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:run_uploads)
+      .and_return(['somepartsandetags'])
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}))
+    filelink = @test_client.upload(filepath: @test_filepath)
+  end
+
+  ##############################
+  ## INTELLIGENT UTILS TESTING #
+  ##############################
+
+  it 'runs intelligent multipart uploads' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@intelligent_start_response)
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_upload_flow)
+      .and_return(true)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}))
+    filelink = @test_client.upload(filepath: @test_filepath, intelligent: true)
+    expect(filelink.handle).to eq('somehandle')
+  end
+
+  it 'intelligent uploads fails upon 202 timeout' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@intelligent_start_response)
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_upload_flow)
+      .and_return(true)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({'handle' => 'somehandle'}, 202))
+    expect{@test_client.upload(filepath: @test_filepath, intelligent: true, timeout: 1)}.to raise_error(RuntimeError)
+  end
+  
+  it 'creates a batch of jobs' do
+    jobs = []
+
+    4.times do
+      jobs.push([])
+    end
+
+    generator = IntelligentUtils.create_intelligent_generator(jobs)
+    batch = get_generator_batch(generator)
+    expect(batch.length).to eq(4)
+  end
+
+  it 'runs intelligent upload flow without failure' do
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+
+    IntelligentUtils.run_intelligent_upload_flow(jobs, state)
+    expect(true)
+  end
+
+  it 'runs intelligent upload flow with failure' do
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    state.ok = false
+    jobs = MultipartUploadUtils.create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
+  end
+
+  it 'runs intelligent uploads without error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_return(state)
+    allow(Unirest).to receive(:post)
+      .and_return(@response)
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok)
+  end
+
+  it 'runs intelligent uploads with failure error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_raise('FAILURE')
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok).to eq(false)
+    expect(state.error_type).to eq('FAILURE')
+  end
+
+  it 'retries upon failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'BACKEND_SERVER'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'retries upon network failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'S3_NETWORK'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'retries upon server failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'S3_SERVER'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'retries upon backend network failure' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    state.ok = false
+    state.error_type = 'BACKEND_NETWORK'
+    allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
+      .and_return(state)
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+  end
+
+  it 'runs intelligent uploads with 400 error' do 
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+    allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
+      .and_return(true)
+    allow(Unirest).to receive(:post)
+      .and_return(Response.new(400))
+
+    state = IntelligentUtils.run_intelligent_uploads(jobs[0], state)
+    expect(state.ok).to eq(false)
+  end
+
+  it 'uploads chunk intelligently' do
+    class FilestackResponse
+      def body
+        {
+          url: 'someurl',
+          headers: 'someheaders'
+        }
+      end
+
+      def code
+        200
+      end
+    end
+
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+
+    allow(Unirest).to receive(:post)
+      .and_return(FilestackResponse.new)
+    allow(Unirest).to receive(:put)
+      .and_return(@response)
+    jobs[0][:offset] = 0
+    response = IntelligentUtils.upload_chunk_intelligently(jobs[0], state, @test_apikey, @test_filepath, {})
+    expect(response.code).to eq(200)
+  end
+
+   it 'catches failure' do
+    class FilestackResponse
+      def body
+        {
+          url: 'someurl',
+          headers: 'someheaders'
+        }
+      end
+
+      def code
+        200
+      end
+    end
+
+    state = IntelligentState.new
+    filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
+    jobs = create_upload_jobs(
+      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+    )
+
+    allow(Unirest).to receive(:post)
+      .and_return(FilestackResponse.new)
+    allow(Unirest).to receive(:put)
+      .and_return(Response.new(400))
+    jobs[0][:offset] = 0
+    expect {IntelligentUtils.upload_chunk_intelligently(jobs[0], state, @test_apikey, @test_filepath, {})}.to raise_error(RuntimeError)
+  end
+
 
   #########################
   ## COMMON MIXIN TESTING #
@@ -284,6 +538,20 @@ RSpec.describe Filestack::Ruby do
   it 'does not ovewrite an unsecure filelink' do
     bad = @test_filelink.overwrite(@test_filepath)
     expect(bad).to eq('Overwrite requires security')
+  end
+
+  it 'gets metadata' do 
+    allow(UploadUtils).to receive(:make_call)
+      .and_return(GeneralResponse.new({data: 'data'}))
+    metadata = @test_filelink.metadata
+    expect(metadata[:data]).to eq('data')
+  end
+
+  it 'gets metadata with security' do 
+    allow(UploadUtils).to receive(:make_call)
+      .and_return(GeneralResponse.new({data: 'data'}))
+    metadata = @test_secure_filelink.metadata
+    expect(metadata[:data]).to eq('data')
   end
 
   ###################
