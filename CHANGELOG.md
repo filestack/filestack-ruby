@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.2.0 (August 23, 2017)
+- FS-1304 Filestack Intelligent Ingestion
+
 ## 2.1.0 (August 4, 2017)
 - FS-1452 Rename Client to FilestackClient, Filelink to FilestackFilelink
 
