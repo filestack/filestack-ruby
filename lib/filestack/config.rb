@@ -7,10 +7,10 @@ class FilestackConfig
   CDN_URL = 'https://cdn.filestackcontent.com'.freeze
   PROCESS_URL = 'https://process.filestackapi.com'.freeze
 
-  MULTIPART_START_URL = 'https://rc-upload.filestackapi.com/multipart/start'.freeze
-  MULTIPART_UPLOAD_URL = 'https://rc-upload.filestackapi.com/multipart/upload'.freeze
-  MULTIPART_COMMIT_URL = 'https://rc-upload.filestackapi.com/multipart/commit'.freeze
-  MULTIPART_COMPLETE_URL = 'https://rc-upload.filestackapi.com/multipart/complete'.freeze
+  MULTIPART_START_URL = 'https://upload.filestackapi.com/multipart/start'.freeze
+  MULTIPART_UPLOAD_URL = 'https://upload.filestackapi.com/multipart/upload'.freeze
+  MULTIPART_COMMIT_URL = 'https://upload.filestackapi.com/multipart/commit'.freeze
+  MULTIPART_COMPLETE_URL = 'https://upload.filestackapi.com/multipart/complete'.freeze
 
   MULTIPART_PARAMS = %w[
     store_location store_region store_container
