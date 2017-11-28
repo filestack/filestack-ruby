@@ -30,7 +30,7 @@ class IntelligentState
   end
 
   def backoff
-    @backoff = 2 ** retries
+    @backoff = 2 ** @retries
   end
 
   def next_offset

@@ -380,10 +380,10 @@ RSpec.describe Filestack::Ruby do
     state.error_type = 'BACKEND_SERVER'
     allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
-    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
   end
 
-  it 'retries upon network failure' do 
+  it 'retries upon network failure' do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
@@ -393,10 +393,10 @@ RSpec.describe Filestack::Ruby do
     state.error_type = 'S3_NETWORK'
     allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
-    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
   end
 
-  it 'retries upon server failure' do 
+  it 'retries upon server failure' do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
@@ -406,10 +406,10 @@ RSpec.describe Filestack::Ruby do
     state.error_type = 'S3_SERVER'
     allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
-    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
   end
 
-  it 'retries upon backend network failure' do 
+  it 'retries upon backend network failure' do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
@@ -419,10 +419,10 @@ RSpec.describe Filestack::Ruby do
     state.error_type = 'BACKEND_NETWORK'
     allow_any_instance_of(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
-    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error
+    expect {IntelligentUtils.run_intelligent_upload_flow(jobs, state)}.to raise_error(RuntimeError)
   end
 
-  it 'runs intelligent uploads with 400 error' do 
+  it 'runs intelligent uploads with 400 error' do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
