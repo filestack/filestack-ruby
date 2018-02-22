@@ -43,7 +43,7 @@ class FilestackSecurity
   # @param [String]   secret    Your filestack security secret
   # @param [Hash]     options   Hash of options - see constructor
   def generate(secret, options)
-    policy_json = create_policy_string(options)
+    policy_json = create_policy_string(Filestack::Hash.symbolize_keys(options))
     @policy = Base64.urlsafe_encode64(policy_json)
     @signature = OpenSSL::HMAC.hexdigest('sha256', secret, policy)
   end
