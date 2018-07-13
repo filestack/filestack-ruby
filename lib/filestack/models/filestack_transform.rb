@@ -64,7 +64,7 @@ class Transform
 
   # Add debug parameter to get information on transformation image
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def debug
     @transform_tasks.push(
       add_transform_task('debug')

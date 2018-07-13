@@ -35,14 +35,14 @@ class FilestackFilelink
   #
   # @param [String]              filepath     The local destination of the
   #                                           downloaded filelink
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def download(filepath)
     send_download(url, filepath)
   end
 
   # Delete filelink
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def delete
     send_delete(handle, apikey, security)
   end
@@ -51,7 +51,7 @@ class FilestackFilelink
   #
   # @param [String]             filepath      filepath of file to upload
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def overwrite(filepath)
     send_overwrite(filepath, handle, apikey, security)
   end
@@ -73,7 +73,7 @@ class FilestackFilelink
 
   # Return metadata for file handle
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def metadata(params = {})
     send_metadata(@handle, @security, params)
   end

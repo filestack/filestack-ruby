@@ -3,14 +3,13 @@ require 'digest'
 require 'mimemagic'
 require 'json'
 require 'parallel'
-require 'unirest'
+require 'typhoeus'
 require 'progress_bar'
 require 'filestack/config'
 require 'filestack/utils/utils'
 
 include UploadUtils
 include IntelligentUtils
-Unirest.timeout(30)
 # Includes all the utility functions for Filestack multipart uploads
 module MultipartUploadUtils
   def get_file_info(file)
@@ -34,7 +33,7 @@ module MultipartUploadUtils
   # @param [Hash]               options       User-defined options for
   #                                           multipart uploads
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def multipart_start(apikey, filename, filesize, mimetype, security, options)
     params = {
       apikey: apikey,
@@ -53,8 +52,8 @@ module MultipartUploadUtils
       params[:signature] = security.signature
     end
 
-    response = Unirest.post(
-      FilestackConfig::MULTIPART_START_URL, parameters: params,
+    response = Typhoeus.post(
+      FilestackConfig::MULTIPART_START_URL, body: params,
                                             headers: FilestackConfig::HEADERS
     )
     if response.code == 200
@@ -70,7 +69,7 @@ module MultipartUploadUtils
   # @param [String]             filename       Name of incoming file
   # @param [String]             filepath       Local path to file
   # @param [Int]                filesize       Size of incoming file
-  # @param [Unirest::Response]  start_response Response body from
+  # @param [Typhoeus::Response]  start_response Response body from
   #                                            multipart_start
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
@@ -109,7 +108,7 @@ module MultipartUploadUtils
     jobs
   end
 
- 
+
   # Uploads one chunk of the file
   #
   # @param [Hash]               job            Hash of options needed
@@ -121,12 +120,12 @@ module MultipartUploadUtils
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def upload_chunk(job, apikey, filepath, options)
     file = File.open(filepath)
     file.seek(job[:seek])
     chunk = file.read(FilestackConfig::DEFAULT_CHUNK_SIZE)
-    
+
     md5 = Digest::MD5.new
     md5 << chunk
     data = {
@@ -141,12 +140,12 @@ module MultipartUploadUtils
       file: Tempfile.new(job[:filename])
     }
     data = data.merge!(options) if options
-    fs_response = Unirest.post(
-      FilestackConfig::MULTIPART_UPLOAD_URL, parameters: data,
+    fs_response = Typhoeus.post(
+      FilestackConfig::MULTIPART_UPLOAD_URL, body: data,
                                              headers: FilestackConfig::HEADERS
     ).body
-    Unirest.put(
-      fs_response['url'], headers: fs_response['headers'], parameters: chunk
+    Typhoeus.put(
+      fs_response['url'], headers: fs_response['headers'], body: chunk
     )
   end
   # Runs all jobs in parallel
@@ -164,7 +163,7 @@ module MultipartUploadUtils
       response = upload_chunk(
         job, apikey, filepath, options
       )
-      if response.code == 200 
+      if response.code == 200
         bar.increment!
         part = job[:part]
         etag = response.headers[:etag]
@@ -179,7 +178,7 @@ module MultipartUploadUtils
   # @param [String]             filename        Name of incoming file
   # @param [Int]                filesize        Size of incoming file
   # @param [String]             mimetype        Mimetype of incoming file
-  # @param [Unirest::Response]  start_response  Response body from
+  # @param [Typhoeus::Response]  start_response  Response body from
   #                                             multipart_start
   # @param [FilestackSecurity]  security        Security object with
   #                                             policy/signature
@@ -189,7 +188,7 @@ module MultipartUploadUtils
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, intelligent = false)
     if !intelligent
       data = {
@@ -220,8 +219,8 @@ module MultipartUploadUtils
     end
     data = data.merge!(options) if options
 
-    Unirest.post(
-      FilestackConfig::MULTIPART_COMPLETE_URL, parameters: data,
+    Typhoeus.post(
+      FilestackConfig::MULTIPART_COMPLETE_URL, body: data,
                                                headers: FilestackConfig::HEADERS
     )
   end
@@ -235,7 +234,7 @@ module MultipartUploadUtils
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def multipart_upload(apikey, filepath, security, options, timeout, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
@@ -267,7 +266,7 @@ module MultipartUploadUtils
           response_complete = multipart_complete(
             apikey, filename, filesize, mimetype,
             start_response, nil, options, intelligent
-          )      
+          )
         end
       }
     rescue
