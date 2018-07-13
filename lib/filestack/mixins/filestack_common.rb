@@ -33,7 +33,7 @@ module FilestackCommon
   # @param [String]             url           The url of the Filehandle
   #                                           to be deleted (includes security)
   #
-  # @return [unirest::Response]
+  # @return [Typhoeus::Response]
   def send_delete(handle, apikey, security)
     return 'Delete requires security' if security.nil?
     signature = security.signature
