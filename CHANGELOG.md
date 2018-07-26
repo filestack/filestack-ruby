@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.3.0 (July 26, 2018)
+- FS-3437 Change Unirest library to Typhoeus, and fix warning in rspecs
+
 ## 2.2.0 (August 23, 2017)
 - FS-1304 Filestack Intelligent Ingestion
 

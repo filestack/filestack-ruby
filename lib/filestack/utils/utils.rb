@@ -3,11 +3,9 @@ require 'digest'
 require 'fiber'
 require 'mimemagic'
 require 'json'
-require 'unirest'
+require 'typhoeus'
 
 require 'filestack/config'
-# set timeout for all requests to be 30 seconds
-Unirest.timeout(30)
 class IntelligentState
   attr_accessor :offset, :ok, :error_type
   def initialize
@@ -30,7 +28,7 @@ class IntelligentState
   end
 
   def backoff
-    @backoff = 2 ** retries
+    @backoff = 2 ** @retries
   end
 
   def next_offset
@@ -52,15 +50,15 @@ module UploadUtils
   #                                        ('get', 'post', 'delete', 'put')
   # @param [Hash]             parameters   The query and/or body parameters
   #
-  # @return [Unirest::Request]
+  # @return [Typhoeus::Request]
   def make_call(url, action, parameters: nil, headers: nil)
     headers = if headers
                 headers.merge!(FilestackConfig::HEADERS)
               else
                 FilestackConfig::HEADERS
               end
-    Unirest.public_send(
-      action, url, parameters: parameters, headers: headers
+    Typhoeus.public_send(
+      action, url, body: parameters, headers: headers
     )
   end
 
@@ -75,7 +73,7 @@ module UploadUtils
   #                                            multipart uploads
   # @param [String]             storage        Storage destination
   #                                            (s3, rackspace, etc)
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def send_upload(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: 'S3')
     data = if filepath
              { fileUpload: File.open(filepath) }
@@ -162,10 +160,10 @@ module IntelligentUtils
   end
 
   # Check if state is in error state
-  # or has reached maximum retries  
+  # or has reached maximum retries
   #
   # @param [IntelligentState]  state   An IntelligentState object
-  # 
+  #
   # @return [Boolean]
   def bad_state(state)
     !state.ok && state.alive?
@@ -178,7 +176,7 @@ module IntelligentUtils
   # @param [Integer]    working_offset    The current offset
   # @param [IntelligentState]    state    An IntelligentState object
   #
-  # @return [Integer] 
+  # @return [Integer]
   def change_offset(working_offset, state)
     if state.offset > working_offset
       working_offset
@@ -186,7 +184,7 @@ module IntelligentUtils
       state.offset = state.next_offset
     end
   end
-  
+
   # Runs the intelligent upload flow, from start to finish
   #
   # @param [Array]    jobs      A list of file parts
@@ -198,8 +196,8 @@ module IntelligentUtils
     generator = create_intelligent_generator(jobs)
     working_offset = FilestackConfig::DEFAULT_OFFSET_SIZE
     while generator.alive?
-      batch = get_generator_batch(generator)   
-      # run parts   
+      batch = get_generator_batch(generator)
+      # run parts
       Parallel.map(batch, in_threads: 4) do |part|
         state = run_intelligent_uploads(part, state)
         # condition: a chunk has failed but we have not reached the maximum retries
@@ -220,7 +218,7 @@ module IntelligentUtils
       end
     end
   end
-  
+
   # Creates a generator of part jobs
   #
   # @param [Array]     jobs      A list of file parts
@@ -229,7 +227,7 @@ module IntelligentUtils
   def create_intelligent_generator(jobs)
     jobs_gen = jobs.lazy.each
     Fiber.new do
-      (jobs.length-1).times do 
+      (jobs.length-1).times do
         Fiber.yield jobs_gen.next
       end
       jobs_gen.next
@@ -244,7 +242,7 @@ module IntelligentUtils
   # @param [String]             filename        Name of incoming file
   # @param [String]             filepath        Local path to the file
   # @param [Int]                filesize        Size of incoming file
-  # @param [Unirest::Response]  start_response  Response body from
+  # @param [Typhoeus::Response]  start_response  Response body from
   #                                             multipart_start
   #
   # @return [Array]
@@ -256,7 +254,7 @@ module IntelligentUtils
     }
     jobs
   end
-  
+
   # Chunk a specific job into offests
   #
   # @param [Dict]               job             Dictionary with all job options
@@ -265,7 +263,7 @@ module IntelligentUtils
   # @param [String]             filename        Name of incoming file
   # @param [String]             filepath        Local path to the file
   # @param [Int]                filesize        Size of incoming file
-  # @param [Unirest::Response]  start_response  Response body from
+  # @param [Typhoeus::Response]  start_response  Response body from
   #                                             multipart_start
   #
   # @return [Dict]
@@ -303,7 +301,7 @@ module IntelligentUtils
   def run_intelligent_uploads(part, state)
     failed = false
     chunks = chunk_job(
-      part, state, part[:apikey], part[:filename], part[:filepath], 
+      part, state, part[:apikey], part[:filename], part[:filepath],
       part[:filesize], part[:start_response]
     )
     Parallel.map(chunks, in_threads: 3) do |chunk|
@@ -333,18 +331,18 @@ module IntelligentUtils
       store_location: part[:store_location],
       file: Tempfile.new(part[:filename])
     }
-    response = Unirest.post(FilestackConfig::MULTIPART_COMMIT_URL, parameters: commit_params,
+    response = Typhoeus.post(FilestackConfig::MULTIPART_COMMIT_URL, body: commit_params,
                                                                    headers: FilestackConfig::HEADERS)
     if response.code == 200
       state.reset
-    else 
+    else
       state.ok = false
     end
     state
   end
 
   # Upload a single chunk
-  # 
+  #
   # @param [Dict]               job             Dictionary with all job options
   # @param [IntelligentState]   state           An IntelligentState object
   # @param [String]             apikey          Filestack API key
@@ -353,13 +351,13 @@ module IntelligentUtils
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
   #
-  # @return [Unirest::Response]
+  # @return [Typhoeus::Response]
   def upload_chunk_intelligently(job, state, apikey, filepath, options)
     file = File.open(filepath)
     file.seek(job[:seek] + job[:offset])
     chunk = file.read(state.offset)
     md5 = Digest::MD5.new
-    md5 << chunk  
+    md5 << chunk
     data = {
       apikey: apikey,
       part: job[:part],
@@ -375,16 +373,16 @@ module IntelligentUtils
     }
 
     data = data.merge!(options) if options
-    fs_response = Unirest.post(
-      FilestackConfig::MULTIPART_UPLOAD_URL, parameters: data,
+    fs_response = Typhoeus.post(
+      FilestackConfig::MULTIPART_UPLOAD_URL, body: data,
                                              headers: FilestackConfig::HEADERS
     )
     # POST to multipart/upload
-    begin 
+    begin
       unless fs_response.code == 200
         if [400, 403, 404].include? fs_response.code
           raise 'FAILURE'
-        else 
+        else
           raise 'BACKEND_SERVER'
         end
       end
@@ -393,20 +391,20 @@ module IntelligentUtils
       raise 'BACKEND_NETWORK'
     end
     fs_response = fs_response.body
-    
+
     # PUT to S3
-    begin 
-      amazon_response = Unirest.put(
-        fs_response['url'], headers: fs_response['headers'], parameters: chunk
+    begin
+      amazon_response = Typhoeus.put(
+        fs_response['url'], headers: fs_response['headers'], body: chunk
       )
       unless amazon_response.code == 200
         if [400, 403, 404].include? amazon_response.code
           raise 'FAILURE'
-        else 
+        else
           raise 'S3_SERVER'
         end
       end
-    
+
     rescue
       raise 'S3_NETWORK'
     end
