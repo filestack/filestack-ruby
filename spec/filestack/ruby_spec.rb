@@ -34,7 +34,7 @@ class GeneralResponse
 
   def initialize(body_content, error_number = 200)
     @code = error_number
-    @body = body_content
+    @body = body_content.to_json
   end
 
   def code
@@ -544,14 +544,14 @@ RSpec.describe Filestack::Ruby do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   it 'gets metadata with security' do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_secure_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   ###################

@@ -73,7 +73,7 @@ class FilestackFilelink
 
   # Return metadata for file handle
   #
-  # @return [Typhoeus::Response]
+  # @return [Hash]
   def metadata(params = {})
     send_metadata(@handle, @security, params)
   end
