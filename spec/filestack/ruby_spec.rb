@@ -127,7 +127,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -143,7 +143,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -204,7 +204,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'seomheaders'
-        }
+        }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(FilestackResponse.new)
@@ -443,7 +443,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -472,7 +472,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -576,7 +576,7 @@ RSpec.describe Filestack::Ruby do
         { 'status' => 'completed',
           'data' => {
             'url' => 'https://cdn.filestackcontent.com/somehandle'
-          } }
+          } }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(@response)
