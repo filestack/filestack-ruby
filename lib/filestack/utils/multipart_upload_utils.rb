@@ -234,7 +234,7 @@ module MultipartUploadUtils
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
   #
-  # @return [Typhoeus::Response]
+  # @return [Hash]
   def multipart_upload(apikey, filepath, security, options, timeout, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
@@ -272,6 +272,6 @@ module MultipartUploadUtils
     rescue
       raise "Upload timed out upon completion. Please try again later"
     end
-    response_complete.body
+    JSON.parse(response_complete.body)
   end
 end

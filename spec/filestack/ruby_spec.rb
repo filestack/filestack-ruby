@@ -34,7 +34,7 @@ class GeneralResponse
 
   def initialize(body_content, error_number = 200)
     @code = error_number
-    @body = body_content
+    @body = body_content.to_json
   end
 
   def code
@@ -127,7 +127,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -143,7 +143,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -204,7 +204,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'seomheaders'
-        }
+        }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(FilestackResponse.new)
@@ -443,7 +443,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -472,7 +472,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -544,14 +544,14 @@ RSpec.describe Filestack::Ruby do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   it 'gets metadata with security' do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_secure_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   ###################
@@ -576,7 +576,7 @@ RSpec.describe Filestack::Ruby do
         { 'status' => 'completed',
           'data' => {
             'url' => 'https://cdn.filestackcontent.com/somehandle'
-          } }
+          } }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(@response)

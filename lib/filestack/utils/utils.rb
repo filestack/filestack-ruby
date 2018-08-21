@@ -73,7 +73,7 @@ module UploadUtils
   #                                            multipart uploads
   # @param [String]             storage        Storage destination
   #                                            (s3, rackspace, etc)
-  # @return [Typhoeus::Response]
+  # @return [Hash]
   def send_upload(apikey, filepath: nil, external_url: nil, security: nil, options: nil, storage: 'S3')
     data = if filepath
              { fileUpload: File.open(filepath) }
@@ -93,7 +93,8 @@ module UploadUtils
 
     response = make_call(base, 'post', parameters: data)
     if response.code == 200
-      handle = response.body['url'].split('/').last
+      response_body = JSON.parse(response.body)
+      handle = response_body['url'].split('/').last
       return { 'handle' => handle }
     end
     raise response.body
@@ -390,7 +391,7 @@ module IntelligentUtils
     rescue
       raise 'BACKEND_NETWORK'
     end
-    fs_response = fs_response.body
+    fs_response = JSON.parse(fs_response.body)
 
     # PUT to S3
     begin
