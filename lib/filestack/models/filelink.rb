@@ -73,7 +73,7 @@ class FilestackFilelink
 
   # Return metadata for file handle
   #
-  # @return [Typhoeus::Response]
+  # @return [Hash]
   def metadata(params = {})
     send_metadata(@handle, @security, params)
   end
@@ -81,7 +81,7 @@ class FilestackFilelink
   # Return true (SFW) or false (NSFW)
   #
   # @return [Bool]
-  def sfw 
+  def sfw
     send_tags('sfw', @handle, @security)
   end
 

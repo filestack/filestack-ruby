@@ -2,6 +2,7 @@ require 'filestack/config'
 require 'filestack/utils/utils'
 require 'filestack/utils/multipart_upload_utils'
 require 'mimemagic'
+require 'json'
 
 # Module is mixin for common functionalities that all Filestack
 # objects can call.
@@ -88,7 +89,8 @@ module FilestackCommon
     signature = security.signature
     url = "#{FilestackConfig::CDN_URL}/#{task}/"\
       "security=signature:#{signature},policy:#{policy}/#{handle}"
-    UploadUtils.make_call(url, 'get').body[task]
+    response = UploadUtils.make_call(url, 'get')
+    JSON.parse(response.body)[task]
   end
 
   def send_metadata(handle, security = nil, params)
@@ -102,7 +104,7 @@ module FilestackCommon
     response = UploadUtils.make_call(url, 'get', parameters: params)
 
     if response.code == 200
-      return response.body
+      return JSON.parse(response.body)
     end
     raise response.body
   end
