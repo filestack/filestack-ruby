@@ -34,7 +34,7 @@ class GeneralResponse
 
   def initialize(body_content, error_number = 200)
     @code = error_number
-    @body = body_content
+    @body = body_content.to_json
   end
 
   def code
@@ -98,12 +98,13 @@ RSpec.describe Filestack::Ruby do
     allow(Base64).to receive(:urlsafe_encode64).and_return(mock_hash)
     allow(OpenSSL::HMAC).to receive(:hexdigest).and_return(mock_signature)
 
-    options = { 'expiry' => 3600 }
-    security = FilestackSecurity.new(@test_secret)
-    security.generate(@test_secret, options)
+    [{ 'expiry' => 3600 }, { expiry: 3600 }].each do |options|
+      security = FilestackSecurity.new(@test_secret)
+      security.generate(@test_secret, options)
 
-    expect(security.policy).to eq(mock_hash)
-    expect(security.signature).to eq(mock_signature)
+      expect(security.policy).to eq(mock_hash)
+      expect(security.signature).to eq(mock_signature)
+    end
   end
 
   it 'Filesecurity.sign_url called successfully' do
@@ -127,7 +128,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -143,7 +144,7 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        {'url' => 'https://cdn.filestackcontent.com/somehandle'}
+        {'url' => 'https://cdn.filestackcontent.com/somehandle'}.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
@@ -204,7 +205,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'seomheaders'
-        }
+        }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(FilestackResponse.new)
@@ -443,7 +444,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -472,7 +473,7 @@ RSpec.describe Filestack::Ruby do
         {
           url: 'someurl',
           headers: 'someheaders'
-        }
+        }.to_json
       end
 
       def code
@@ -544,14 +545,14 @@ RSpec.describe Filestack::Ruby do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   it 'gets metadata with security' do
     allow(UploadUtils).to receive(:make_call)
       .and_return(GeneralResponse.new({data: 'data'}))
     metadata = @test_secure_filelink.metadata
-    expect(metadata[:data]).to eq('data')
+    expect(metadata['data']).to eq('data')
   end
 
   ###################
@@ -576,7 +577,7 @@ RSpec.describe Filestack::Ruby do
         { 'status' => 'completed',
           'data' => {
             'url' => 'https://cdn.filestackcontent.com/somehandle'
-          } }
+          } }.to_json
       end
     end
     allow(Typhoeus).to receive(:post).and_return(@response)

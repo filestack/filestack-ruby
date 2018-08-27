@@ -1,5 +1,6 @@
 require 'filestack/config'
 require 'filestack/models/filestack_av'
+require 'json'
 
 # Class for creating transformation chains and storing them to Filestack
 class Transform
@@ -64,12 +65,13 @@ class Transform
 
   # Add debug parameter to get information on transformation image
   #
-  # @return [Typhoeus::Response]
+  # @return [Hash]
   def debug
     @transform_tasks.push(
       add_transform_task('debug')
     )
-    UploadUtils.make_call(url, 'get').body
+    response = UploadUtils.make_call(url, 'get')
+    JSON.parse(response.body)
   end
 
   # Stores a transformation URL and returns a filelink
@@ -80,7 +82,8 @@ class Transform
       add_transform_task('store', {})
     )
     response = UploadUtils.make_call(url, 'get')
-    handle = response.body['url'].split('/').last
+    response_body = JSON.parse(response.body)
+    handle = response_body['url'].split('/').last
     FilestackFilelink.new(handle, apikey: @apikey, security: @security)
   end
 
