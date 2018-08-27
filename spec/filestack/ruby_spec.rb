@@ -98,12 +98,13 @@ RSpec.describe Filestack::Ruby do
     allow(Base64).to receive(:urlsafe_encode64).and_return(mock_hash)
     allow(OpenSSL::HMAC).to receive(:hexdigest).and_return(mock_signature)
 
-    options = { 'expiry' => 3600 }
-    security = FilestackSecurity.new(@test_secret)
-    security.generate(@test_secret, options)
+    [{ 'expiry' => 3600 }, { expiry: 3600 }].each do |options|
+      security = FilestackSecurity.new(@test_secret)
+      security.generate(@test_secret, options)
 
-    expect(security.policy).to eq(mock_hash)
-    expect(security.signature).to eq(mock_signature)
+      expect(security.policy).to eq(mock_hash)
+      expect(security.signature).to eq(mock_signature)
+    end
   end
 
   it 'Filesecurity.sign_url called successfully' do
