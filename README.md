@@ -1,4 +1,4 @@
-<p align="center"><img src="https://filestack.com/themes/filestack/assets/images/press-articles/color.svg" align="center" width="100"/></p>
+<p align="center"><img src="logo.svg" align="center" width="100"/></p>
 <h1 align="center">Filestack Ruby SDK</h1>
 <p align="center">
   <a href="https://travis-ci.org/filestack/filestack-ruby.svg?branch=master">
