@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.5.0 (October 10, 2018)
+- Update logo in README
+- FS-4256 Fix issue with uploading file
 ## 2.4.0 (August 27, 2018)
 - FS-3813 Convert security options hash with string keys to symbols
 - FS-3903 Add parsing the response body before reading it
