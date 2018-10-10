@@ -261,12 +261,16 @@ RSpec.describe Filestack::Ruby do
   end
 
   it 'Multipart upload returns the correct response' do
-    allow(MultipartUploadUtils).to receive(:multipart_upload)
-      .and_return(@response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@start_response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:run_uploads)
+      .and_return(['somepartsandetags'])
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new(@start_response))
     response = MultipartUploadUtils.multipart_upload(
-      @test_apikey, @test_filepath
+      @test_apikey, @test_filepath, nil, nil, 60, intelligent: false
     )
-    expect(response.body).to eq(@response.body)
+    expect(response.to_json).to eq(@response.body)
   end
 
   it 'runs multipart uploads' do
