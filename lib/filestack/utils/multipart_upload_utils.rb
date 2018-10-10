@@ -1,4 +1,5 @@
 require 'base64'
+require 'timeout'
 require 'digest'
 require 'mimemagic'
 require 'json'
@@ -57,7 +58,7 @@ module MultipartUploadUtils
                                             headers: FilestackConfig::HEADERS
     )
     if response.code == 200
-      response.body
+      JSON.parse(response.body)
     else
       raise RuntimeError.new(response.body)
     end
@@ -144,6 +145,7 @@ module MultipartUploadUtils
       FilestackConfig::MULTIPART_UPLOAD_URL, body: data,
                                              headers: FilestackConfig::HEADERS
     ).body
+    fs_response = JSON.parse(fs_response)
     Typhoeus.put(
       fs_response['url'], headers: fs_response['headers'], body: chunk
     )
@@ -261,7 +263,7 @@ module MultipartUploadUtils
       )
     end
     begin
-      Timeout::timeout(timeout){
+      Timeout::timeout(timeout) {
         while response_complete.code == 202
           response_complete = multipart_complete(
             apikey, filename, filesize, mimetype,
