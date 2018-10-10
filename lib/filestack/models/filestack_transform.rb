@@ -60,7 +60,7 @@ class Transform
     if response.code == 200
       return AV.new(url, apikey: @apikey, security: @security)
     end
-    response.body
+    JSON.parse(response.body)
   end
 
   # Add debug parameter to get information on transformation image

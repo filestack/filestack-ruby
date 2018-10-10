@@ -78,7 +78,7 @@ RSpec.describe Filestack::Ruby do
       upload_id: @start_response[:upload_id],
       location_url: @start_response[:location_url]
     }
-    @response = Response.new
+    @response = GeneralResponse.new(@start_response)
     @test_client = FilestackClient.new(@test_apikey)
     @test_filelink = FilestackFilelink.new(@test_handle)
     @test_security = FilestackSecurity.new(@test_secret)
@@ -188,7 +188,7 @@ RSpec.describe Filestack::Ruby do
       @test_apikey, @test_filename, @test_filesize,
       @start_response, @test_security, nil
     )
-    expect(response).to eq('thisissomecontent')
+    expect(response.to_json).to eq(@response.body)
   end
 
   it 'returns the correct create_upload_jobs array' do
@@ -215,7 +215,7 @@ RSpec.describe Filestack::Ruby do
     response = MultipartUploadUtils.upload_chunk(
       @job, @test_apikey, @test_filepath, nil
     )
-    expect(response.body).to eq('thisissomecontent')
+    expect(response.body).to eq(@response.body)
   end
 
   it 'returns the correct parallel results' do
