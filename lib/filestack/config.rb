@@ -35,6 +35,6 @@ class TransformConfig
     torn_edges shadow circle border sharpen blur monochrome
     blackwhite sepia pixelate oil_paint negative modulate
     partial_pixelate partial_blur collage upscale enhance
-    redeye ascii filetype_conversion quality urlscreenshot
+    redeye ascii filetype_conversion quality urlscreenshot no_metadata
   ].freeze
 end
