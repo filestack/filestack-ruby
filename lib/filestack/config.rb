@@ -31,7 +31,7 @@ end
 class TransformConfig
   TRANSFORMATIONS = %w[
     resize crop rotate flip flop watermark detect_faces
-    crop_faces pixelate_faces round_corners vignette polaroid
+    crop_faces pixelate_faces rounded_corners vignette polaroid
     torn_edges shadow circle border sharpen blur monochrome
     blackwhite sepia pixelate oil_paint negative modulate
     partial_pixelate partial_blur collage upscale enhance
