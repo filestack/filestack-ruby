@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.5.2 (January 7, 2019)
+- Fix rounded_corners typo in transformations
+
 ## 2.5.1 (December 4, 2018)
 - Add no_metadata transformation and update docs
 
