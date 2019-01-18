@@ -52,9 +52,25 @@ Filestack uses multipart uploading by default, which is faster for larger files.
 ```ruby
 filelink = client.upload(filepath: '/path/to/file')
 
+filelink = client.upload(filepath: '/path/to/file', multipart: false)
+
 # OR
 
 filelink = client.upload(external_url: 'http://someurl.com')
+```
+
+To upload a local and an external file with query parameters:
+```ruby
+filelink = client.upload(filepath: '/path/to/file', options: {mimetype: 'image/png'})
+
+filelink = client.upload(external_url: 'http://someurl.com/image.png', options: {mimetype: 'image/jpeg'})
+```
+
+To store file on `dropbox`, `azure`, `gcs` or `rackspace`, you must have the chosen provider configured in the developer portal to enable this feature. By default the file is stored on `s3`.
+```ruby
+filelink = client.upload(filepath: '/path/to/file', storage: 'dropbox', options: {path: 'folder_name/'})
+
+filelink = client.upload(external_url: 'http://someurl.com/image.png', storage: 'dropbox', options: {path: 'folder_name/'})
 ```
 
 ### Security
