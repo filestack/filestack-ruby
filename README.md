@@ -59,7 +59,7 @@ filelink = client.upload(filepath: '/path/to/file', multipart: false)
 filelink = client.upload(external_url: 'http://someurl.com')
 ```
 
-To upload a local and external file with query parameters:
+To upload a local and an external file with query parameters:
 ```ruby
 filelink = client.upload(filepath: '/path/to/file', options: {mimetype: 'image/png'})
 
@@ -72,6 +72,7 @@ filelink = client.upload(filepath: '/path/to/file', storage: 'dropbox', options:
 
 filelink = client.upload(external_url: 'http://someurl.com/image.png', storage: 'dropbox', options: {path: 'folder_name/'})
 ```
+
 ### Security
 If security is enabled on your account, or if you are using certain actions that require security (delete, overwrite and certain transformations), you will need to create a security object and pass it into the client on instantiation.
 
