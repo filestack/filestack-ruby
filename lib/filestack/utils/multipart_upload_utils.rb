@@ -23,6 +23,16 @@ module MultipartUploadUtils
     [filename, filesize, mimetype.to_s]
   end
 
+  def multipart_options(options)
+    [:region, :container, :path, :access].each do |key|
+      if options.has_key?(key)
+        options[:"store_#{key}"] = options[key]
+        options.delete(key)
+      end
+    end
+    return options
+  end
+
   # Send start response to multipart endpoint
   #
   # @param [String]             apikey        Filestack API key
@@ -35,17 +45,17 @@ module MultipartUploadUtils
   #                                           multipart uploads
   #
   # @return [Typhoeus::Response]
-  def multipart_start(apikey, filename, filesize, mimetype, security, options)
+  def multipart_start(apikey, filename, filesize, mimetype, security, storage, options = {})
     params = {
       apikey: apikey,
       filename: filename,
       mimetype: mimetype,
       size: filesize,
-      store_location: options.nil? ? 's3' : options[:store_location],
+      store_location: storage,
       file: Tempfile.new(filename),
-      options: options,
       'multipart' => 'true'
     }
+    options = multipart_options(options)
     params = params.merge!(options) if options
 
     unless security.nil?
@@ -76,7 +86,7 @@ module MultipartUploadUtils
   #                                            multipart uploads
   #
   # @return [Array]
-  def create_upload_jobs(apikey, filename, filepath, filesize, start_response, options)
+  def create_upload_jobs(apikey, filename, filepath, filesize, start_response, storage, options)
     jobs = []
     part = 1
     seek_point = 0
@@ -93,9 +103,11 @@ module MultipartUploadUtils
         upload_id: start_response['upload_id'],
         location_url: start_response['location_url'],
         start_response: start_response,
-        options: options,
-        store_location: options.nil? ? 's3' : options[:store_location]
+        store_location: storage
       }
+      options = multipart_options(options)
+      part_info = part_info.merge!(options) if options
+
       if seek_point + FilestackConfig::DEFAULT_CHUNK_SIZE > filesize
         size = filesize - (seek_point)
       else
@@ -191,7 +203,7 @@ module MultipartUploadUtils
   #                                             multipart uploads
   #
   # @return [Typhoeus::Response]
-  def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, intelligent = false)
+  def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, storage, intelligent = false)
     if !intelligent
       data = {
         apikey: apikey,
@@ -202,7 +214,7 @@ module MultipartUploadUtils
         size: filesize,
         mimetype: mimetype,
         parts: parts_and_etags.join(';'),
-        store_location: options.nil? ? 's3' : options[:store_location],
+        store_location: storage,
         file: Tempfile.new(filename)
       }
     else
@@ -214,11 +226,12 @@ module MultipartUploadUtils
         filename: filename,
         size: filesize,
         mimetype: mimetype,
-        store_location: options.nil? ? 's3' : options[:store_location],
+        store_location: storage,
         file: Tempfile.new(filename),
         'multipart' => 'true'
       }
     end
+    options = multipart_options(options)
     data = data.merge!(options) if options
 
     Typhoeus.post(
@@ -237,29 +250,32 @@ module MultipartUploadUtils
   #                                             multipart uploads
   #
   # @return [Hash]
-  def multipart_upload(apikey, filepath, security, options, timeout, intelligent: false)
+  def multipart_upload(apikey, filepath, security, options, timeout, storage, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
-      apikey, filename, filesize, mimetype, security, options
+      apikey, filename, filesize, mimetype, security, storage, options
     )
+
     unless start_response['upload_type'].nil?
       intelligent_enabled = ((start_response['upload_type'].include? 'intelligent_ingestion')) && intelligent
     end
+
     jobs = create_upload_jobs(
-      apikey, filename, filepath, filesize, start_response, options
+      apikey, filename, filepath, filesize, start_response, storage, options
     )
+
     if intelligent_enabled
       state = IntelligentState.new
       run_intelligent_upload_flow(jobs, state)
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
-        start_response, nil, options, intelligent
+        start_response, nil, options, storage, intelligent
       )
     else
       parts_and_etags = run_uploads(jobs, apikey, filepath, options)
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
-        start_response, parts_and_etags, options
+        start_response, parts_and_etags, options, storage
       )
     end
     begin
@@ -267,7 +283,7 @@ module MultipartUploadUtils
         while response_complete.code == 202
           response_complete = multipart_complete(
             apikey, filename, filesize, mimetype,
-            start_response, nil, options, intelligent
+            start_response, nil, options, storage, intelligent
           )
         end
       }

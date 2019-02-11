@@ -66,7 +66,8 @@ filelink = client.upload(filepath: '/path/to/file', options: {mimetype: 'image/p
 filelink = client.upload(external_url: 'http://someurl.com/image.png', options: {mimetype: 'image/jpeg'})
 ```
 
-To store file on `dropbox`, `azure`, `gcs` or `rackspace`, you must have the chosen provider configured in the developer portal to enable this feature. By default the file is stored on `s3`.
+To store file on `dropbox`, `azure`, `gcs` or `rackspace`, you must have the chosen provider configured in the developer portal to enable this feature. By default the file is stored on `s3`. You can add more details of the storage in `options`.
+
 ```ruby
 filelink = client.upload(filepath: '/path/to/file', storage: 'dropbox', options: {path: 'folder_name/'})
 
