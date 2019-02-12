@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.5.4 (February 12, 2019)
+- Fixed issue with multipart upload
+
 ## 2.5.3 (January 18, 2019)
 - Fixed issue with upload with passed params (mimetype, path, etc.) for external url
 

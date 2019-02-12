@@ -194,7 +194,7 @@ RSpec.describe Filestack::Ruby do
   it 'returns the correct create_upload_jobs array' do
     jobs = create_upload_jobs(
       @test_apikey, @test_filename, @test_filepath,
-      @test_filesize, @start_response, nil
+      @test_filesize, @start_response, 's3', {}
     )
     expect(jobs[0][:filepath]).to eq(@test_filepath)
   end
@@ -255,7 +255,7 @@ RSpec.describe Filestack::Ruby do
     allow(Typhoeus).to receive(:post).and_return(@response)
     response = MultipartUploadUtils.multipart_complete(
       @test_apikey, @test_filename, @test_filesize, @test_mimetype,
-      @start_response, %w[somepartsandetags somepartsandetags], nil
+      @start_response, %w[somepartsandetags somepartsandetags], {}, 's3'
     )
     expect(response.body).to eq(@response.body)
   end
@@ -268,7 +268,7 @@ RSpec.describe Filestack::Ruby do
     allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
       .and_return(GeneralResponse.new(@start_response))
     response = MultipartUploadUtils.multipart_upload(
-      @test_apikey, @test_filepath, nil, nil, 60, intelligent: false
+      @test_apikey, @test_filepath, nil, {}, 60, 's3', intelligent: false
     )
     expect(response.to_json).to eq(@response.body)
   end
@@ -324,7 +324,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     allow(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
@@ -338,7 +338,7 @@ RSpec.describe Filestack::Ruby do
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     state.ok = false
     jobs = MultipartUploadUtils.create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     allow(IntelligentUtils).to receive(:run_intelligent_uploads)
       .and_return(state)
@@ -350,7 +350,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
       .and_return(state)
@@ -365,7 +365,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
       .and_raise('FAILURE')
@@ -379,7 +379,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     state.ok = false
     state.error_type = 'BACKEND_SERVER'
@@ -392,7 +392,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     state.ok = false
     state.error_type = 'S3_NETWORK'
@@ -405,7 +405,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     state.ok = false
     state.error_type = 'S3_SERVER'
@@ -418,7 +418,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     state.ok = false
     state.error_type = 'BACKEND_NETWORK'
@@ -431,7 +431,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
     allow(IntelligentUtils).to receive(:upload_chunk_intelligently)
       .and_return(true)
@@ -459,7 +459,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
 
     allow(Typhoeus).to receive(:post)
@@ -488,7 +488,7 @@ RSpec.describe Filestack::Ruby do
     state = IntelligentState.new
     filename, filesize, mimetype = MultipartUploadUtils.get_file_info(@test_filepath)
     jobs = create_upload_jobs(
-      @test_apikey, filename, @test_filepath, filesize, @start_response, {}
+      @test_apikey, filename, @test_filepath, filesize, @start_response, 's3', {}
     )
 
     allow(Typhoeus).to receive(:post)
