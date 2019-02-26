@@ -24,6 +24,18 @@ class AV
     handle = response_body['data']['url'].split('/').last
     FilestackFilelink.new(handle, apikey: @apikey, security: @security)
   end
+    
+  # Returns filelink of the video thumbnail
+  # if video conversion is complete
+  #
+  # @return [Filestack::FilestackFilelink]
+  def thumbnail
+    return 'Video conversion incomplete' unless status == 'completed'
+    response = UploadUtils.make_call(@url, 'get')
+    response_body = JSON.parse(response.body)
+    handle = response_body['data']['thumb'].split('/').last
+    FilestackFilelink.new(handle, apikey: @apikey, security: @security)
+  end
 
   # Checks the status of the video conversion
   #
