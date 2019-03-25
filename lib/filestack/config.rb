@@ -36,6 +36,6 @@ class TransformConfig
     blackwhite sepia pixelate oil_paint negative modulate
     partial_pixelate partial_blur collage upscale enhance
     redeye ascii filetype_conversion quality urlscreenshot
-    no_metadata fallback
+    no_metadata fallback pdfinfo pdfconvert monochrome
   ].freeze
 end
