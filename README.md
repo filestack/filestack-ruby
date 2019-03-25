@@ -118,6 +118,20 @@ new_filelink = transform.store
 
 For a list of valid transformations, please see [here](https://www.filestack.com/docs/image-transformations).
 
+### Fallback
+Return `default` file if the source of the transformation does not work or the transformation fails.
+To use fallback, you should provide `handle` of the file that should be returned. Optionally, you can add `cache`, which means number of seconds fallback response should be cached in CDN.
+
+```ruby
+transform = client.transform_external('https://someurl.com').fallback(handle: 'DEFAULT_HANDLE')
+```
+
+If you are using fallback handle that belongs to different application than the one which runs transformation (APIKEY) and it is secured with security policy, appropriate signature and policy with read call should be used:
+
+```ruby
+transform = client.transform_external('https://someurl.com').fallback(handle: 'DEFAULT_HANDLE?policy=HANDLE_APIKEY_POLICY&signature=HANDLE_APIKEY_SIGNATURE', cache: 10)
+```
+
 ### Tagging
 
 If you have auto-tagging enabled onto your account, it can be called on any filelink object (tags don't work on external URLs).
