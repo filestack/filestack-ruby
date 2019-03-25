@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.0 (March 25, 2019)
+- Add fallback and docs processing to transformations
+
 ## 2.5.4 (February 12, 2019)
 - Fixed issue with multipart upload
 
