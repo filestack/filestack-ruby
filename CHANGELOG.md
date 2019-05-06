@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.1 (May 6, 2019)
+- Add cache transformation and remove monochrome duplicates
+
 ## 2.6.0 (March 25, 2019)
 - Add fallback and docs processing to transformations
 
