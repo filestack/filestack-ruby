@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.3 (August 12, 2019)
+- Add animate to transformations
+
 ## 2.6.2 (August 8, 2019)
 - Add minify_js, minify_css and auto_image to transformations
 
