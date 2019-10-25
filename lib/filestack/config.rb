@@ -37,6 +37,6 @@ class TransformConfig
     partial_pixelate partial_blur collage upscale enhance
     redeye ascii filetype_conversion quality urlscreenshot
     no_metadata fallback pdfinfo pdfconvert cache auto_image
-    minify_js minify_css animate
+    minify_js minify_css animate output
   ].freeze
 end
