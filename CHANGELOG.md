@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.4 (November 4, 2019)
+- Fix issue with file upload
+
 ## 2.6.3 (August 12, 2019)
 - Add animate to transformations
 
