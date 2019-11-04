@@ -45,7 +45,7 @@ module MultipartUploadUtils
   #                                           multipart uploads
   #
   # @return [Typhoeus::Response]
-  def multipart_start(apikey, filename, filesize, mimetype, security, storage, options = {})
+  def multipart_start(apikey, filename, filesize, mimetype, security, storage, options = {}, intelligent)
     params = {
       apikey: apikey,
       filename: filename,
@@ -53,8 +53,9 @@ module MultipartUploadUtils
       size: filesize,
       store_location: storage,
       file: Tempfile.new(filename),
-      'multipart' => 'true'
+      multipart: intelligent
     }
+
     options = multipart_options(options)
     params = params.merge!(options) if options
 
@@ -204,35 +205,20 @@ module MultipartUploadUtils
   #
   # @return [Typhoeus::Response]
   def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, storage, intelligent = false)
-    if !intelligent
-      data = {
-        apikey: apikey,
-        uri: start_response['uri'],
-        region: start_response['region'],
-        upload_id: start_response['upload_id'],
-        filename: filename,
-        size: filesize,
-        mimetype: mimetype,
-        parts: parts_and_etags.join(';'),
-        store_location: storage,
-        file: Tempfile.new(filename)
-      }
-    else
-      data = {
-        apikey: apikey,
-        uri: start_response['uri'],
-        region: start_response['region'],
-        upload_id: start_response['upload_id'],
-        filename: filename,
-        size: filesize,
-        mimetype: mimetype,
-        store_location: storage,
-        file: Tempfile.new(filename),
-        'multipart' => 'true'
-      }
-    end
+    data = {
+      apikey: apikey,
+      uri: start_response['uri'],
+      region: start_response['region'],
+      upload_id: start_response['upload_id'],
+      filename: filename,
+      size: filesize,
+      mimetype: mimetype,
+      store_location: storage,
+      file: Tempfile.new(filename)
+    }
     options = multipart_options(options)
-    data = data.merge!(options) if options
+    data.merge!(options) if options
+    data.merge!(intelligent ? { multipart: intelligent } : { parts: parts_and_etags.join(';') })
 
     Typhoeus.post(
       FilestackConfig::MULTIPART_COMPLETE_URL, body: data,
@@ -253,7 +239,7 @@ module MultipartUploadUtils
   def multipart_upload(apikey, filepath, security, options, timeout, storage, intelligent: false)
     filename, filesize, mimetype = get_file_info(filepath)
     start_response = multipart_start(
-      apikey, filename, filesize, mimetype, security, storage, options
+      apikey, filename, filesize, mimetype, security, storage, options, intelligent
     )
 
     unless start_response['upload_type'].nil?
