@@ -91,7 +91,8 @@ module UploadUtils
       base = "#{base}&signature=#{signature}&policy=#{policy}"
     end
 
-    response = make_call(base, 'post', parameters: data)
+    response = Typhoeus.post(base, body: data, headers: FilestackConfig::HEADERS)
+
     if response.code == 200
       response_body = JSON.parse(response.body)
       handle = response_body['url'].split('/').last

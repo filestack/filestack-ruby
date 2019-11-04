@@ -186,7 +186,7 @@ RSpec.describe Filestack::Ruby do
 
     response = MultipartUploadUtils.multipart_start(
       @test_apikey, @test_filename, @test_filesize,
-      @start_response, @test_security, nil
+      @start_response, @test_security, nil, false
     )
     expect(response.to_json).to eq(@response.body)
   end
