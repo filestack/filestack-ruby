@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "typhoeus", "~> 1.1"
-  spec.add_dependency "parallel", "~> 1.11.2"
+  spec.add_dependency "parallel", "~> 1.11", ">= 1.11.2"
   spec.add_dependency "mimemagic", "~> 0.3.2"
   spec.add_dependency "progress_bar"
 
