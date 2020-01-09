@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.5 (January 9, 2020)
+- Updated version of the parallel gem
+
 ## 2.6.4 (November 4, 2019)
 - Fix issue with file upload
 
