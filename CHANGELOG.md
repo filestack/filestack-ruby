@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.6 (June 19, 2020)
+- Add compress task to transformations
+
 ## 2.6.5 (January 9, 2020)
 - Updated version of the parallel gem
 
