@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.6.7 (August 4, 2020)
+- Add content disposition task
+
 ## 2.6.6 (June 19, 2020)
 - Add compress task to transformations
 
