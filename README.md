@@ -123,13 +123,20 @@ Return `default` file if the source of the transformation does not work or the t
 To use fallback, you should provide `handle` of the file that should be returned. Optionally, you can add `cache`, which means number of seconds fallback response should be cached in CDN.
 
 ```ruby
-transform = client.transform_external('https://someurl.com').fallback(handle: 'DEFAULT_HANDLE')
+transform = client.transform_external('https://someurl.com/file.png').fallback(file: 'DEFAULT_HANDLE_OR_FILEPATH')
 ```
 
 If you are using fallback handle that belongs to different application than the one which runs transformation (APIKEY) and it is secured with security policy, appropriate signature and policy with read call should be used:
 
 ```ruby
-transform = client.transform_external('https://someurl.com').fallback(handle: 'DEFAULT_HANDLE?policy=HANDLE_APIKEY_POLICY&signature=HANDLE_APIKEY_SIGNATURE', cache: 10)
+transform = client.transform_external('https://someurl.com/file.png').fallback(file: 'DEFAULT_HANDLE_OR_FILEPATH?policy=HANDLE_APIKEY_POLICY&signature=HANDLE_APIKEY_SIGNATURE', cache: 10)
+```
+
+### Content
+Sets `Content-Disposition` header for given file.
+
+```ruby
+transform = filelink.transform.content(filename: 'DEFAULT_FILENAME', type: 'TYPE')
 ```
 
 ### Tagging
