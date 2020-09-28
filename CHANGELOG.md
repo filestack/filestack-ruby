@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.7.0 (September 28, 2020)
+- Add workflows
+
 ## 2.6.7 (August 4, 2020)
 - Add content disposition task
 
