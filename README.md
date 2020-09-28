@@ -44,41 +44,50 @@ Or install it yourself as:
 require 'filestack'
 ```
 Intialize the client using your API key, and security if you are using it.
+
 ```ruby
 client = FilestackClient.new('YOUR_API_KEY', security: security_object)
 ```
 ### Uploading
-Filestack uses multipart uploading by default, which is faster for larger files. This can be turned off by passing in ```multipart: false```. Multipart is disabled when uploading external URLs.
 ```ruby
-filelink = client.upload(filepath: '/path/to/file')
-
-filelink = client.upload(filepath: '/path/to/file', multipart: false)
+filelink = client.upload(filepath: '/path/to/localfile')
 
 # OR
 
-filelink = client.upload(external_url: 'http://someurl.com')
+filelink = client.upload(external_url: 'http://domain.com/image.png')
 ```
 
 To upload a local and an external file with query parameters:
 ```ruby
-filelink = client.upload(filepath: '/path/to/file', options: {mimetype: 'image/png'})
+filelink = client.upload(filepath: '/path/to/localfile', options: { mimetype: 'image/png' })
 
-filelink = client.upload(external_url: 'http://someurl.com/image.png', options: {mimetype: 'image/jpeg'})
+filelink = client.upload(external_url: 'http://domain.com/image.png', options: { mimetype: 'image/jpeg' })
 ```
 
 To store file on `dropbox`, `azure`, `gcs` or `rackspace`, you must have the chosen provider configured in the developer portal to enable this feature. By default the file is stored on `s3`. You can add more details of the storage in `options`.
 
 ```ruby
-filelink = client.upload(filepath: '/path/to/file', storage: 'dropbox', options: {path: 'folder_name/'})
+filelink = client.upload(filepath: '/path/to/file', storage: 's3', options: { path: 'folder_name/', container: 'container_name', location: 's3', region: 'region_name' })
 
-filelink = client.upload(external_url: 'http://someurl.com/image.png', storage: 'dropbox', options: {path: 'folder_name/'})
+filelink = client.upload(external_url: 'http://someurl.com/image.png', options: { location: 'dropbox', path: 'folder_name' })
+```
+
+### Workflows
+Workflows allow you to wire up conditional logic and image processing to enforce business processes, automate ingest, and save valuable development time. In order to trigger the workflow job for each upload:
+
+```ruby
+filelink = client.upload(filepath: '/path/to/file', options: { workflows: ["workflow_id_1", "workflow_id_2"] })
+
+#OR
+
+filelink = client.upload(external_url: 'http://someurl.com/image.png', options: { workflows: ["workflow_id_1"] })
 ```
 
 ### Security
 If security is enabled on your account, or if you are using certain actions that require security (delete, overwrite and certain transformations), you will need to create a security object and pass it into the client on instantiation.
 
 ```ruby
-security = FilestackSecurity.new('YOUR_APP_SECRET', options: {call: %w[read store pick]})
+security = FilestackSecurity.new('YOUR_APP_SECRET', options: {call: %w[read store pick runWorkflow]})
 client = FilestackClient.new('YOUR_API_KEY', security: security)
 ```
 

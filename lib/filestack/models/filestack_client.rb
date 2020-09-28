@@ -26,26 +26,19 @@ class FilestackClient
   # Upload a local file or external url
   # @param [String]               filepath         The path of a local file
   # @param [String]               external_url     An external URL
-  # @param [Bool]                 multipart        Switch for miltipart
-  #                                                    (Default: true)
   # @param [Hash]                 options          User-supplied upload options
   #
   # return [Filestack::FilestackFilelink]
-  def upload(filepath: nil, external_url: nil, multipart: true, options: {}, storage: 's3', intelligent: false, timeout: 60)
-    if filepath && external_url
-      return 'You cannot upload a URL and file at the same time'
-    end
-    response = if filepath && multipart
+  def upload(filepath: nil, external_url: nil, options: {}, intelligent: false, timeout: 60, storage: 'S3')
+    return 'You cannot upload a URL and file at the same time' if filepath && external_url
+
+    response = if filepath
                  multipart_upload(@apikey, filepath, @security, options, timeout, storage, intelligent: intelligent)
                else
-                 send_upload(
-                   @apikey,
-                   filepath: filepath,
-                   external_url: external_url,
-                   options: options,
-                   security: @security,
-                   storage: storage
-                 )
+                 send_upload(@apikey,
+                             external_url: external_url,
+                             options: options,
+                             security: @security)
                end
     FilestackFilelink.new(response['handle'], security: @security, apikey: @apikey)
   end
