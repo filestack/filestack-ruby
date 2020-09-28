@@ -7,11 +7,6 @@ class FilestackConfig
   CDN_URL = 'https://cdn.filestackcontent.com'.freeze
   PROCESS_URL = 'https://process.filestackapi.com'.freeze
 
-  MULTIPART_START_URL = 'https://upload.filestackapi.com/multipart/start'.freeze
-  MULTIPART_UPLOAD_URL = 'https://upload.filestackapi.com/multipart/upload'.freeze
-  MULTIPART_COMMIT_URL = 'https://upload.filestackapi.com/multipart/commit'.freeze
-  MULTIPART_COMPLETE_URL = 'https://upload.filestackapi.com/multipart/complete'.freeze
-
   MULTIPART_PARAMS = %w[
     store_location store_region store_container
     store_path store_access
@@ -22,10 +17,28 @@ class FilestackConfig
   VERSION = Filestack::Ruby::VERSION
   HEADERS = {
     'User-Agent' => "filestack-ruby #{VERSION}",
-    'Filestack-Source' => "Ruby-#{VERSION}"
+    'Filestack-Source' => "Ruby-#{VERSION}",
+    'Content-Type' => "application/json",
+    'Accept-Encoding' => "application/json"
   }.freeze
 
   INTELLIGENT_ERROR_MESSAGES = ['BACKEND_SERVER', 'BACKEND_NETWORK', 'S3_SERVER', 'S3_NETWORK']
+
+  def self.multipart_start_url
+    "https://upload.filestackapi.com/multipart/start"
+  end
+
+  def self.multipart_upload_url(base_url)
+    "https://#{base_url}/multipart/upload"
+  end
+
+  def self.multipart_commit_url(base_url)
+    "https://#{base_url}/multipart/commit"
+  end
+
+  def self.multipart_complete_url(base_url)
+    "https://#{base_url}/multipart/complete"
+  end
 end
 
 class TransformConfig
