@@ -55,13 +55,33 @@ filelink = client.upload(filepath: '/path/to/localfile')
 # OR
 
 filelink = client.upload(external_url: 'http://domain.com/image.png')
+
+# OR
+
+file = StringIO.new
+filelink = client.upload(io: file)
 ```
 
-To upload a local and an external file with query parameters:
-```ruby
-filelink = client.upload(filepath: '/path/to/localfile', options: { mimetype: 'image/png' })
+To upload a local, an IO object and an external file with following optional options:
 
-filelink = client.upload(external_url: 'http://domain.com/image.png', options: { mimetype: 'image/jpeg' })
+```ruby
+options = {
+  filename: 'string',
+  location: 'string',
+  path: 'string',
+  container: 'string',
+  mimetype: 'string',
+  region: 'string',
+  workflows: ['workflow-id-1', 'workflow-id-2'],
+  upload_tags: {
+    key: 'value',
+    key2: 'value'
+  }
+}
+
+filelink = client.upload(filepath: '/path/to/localfile', options: { mimetype: 'image/png', filename: 'custom_filename.png' })
+
+filelink = client.upload(external_url: 'http://domain.com/image.png', options: { mimetype: 'image/jpeg', filename: 'custom_filename.png' })
 ```
 
 To store file on `dropbox`, `azure`, `gcs` or `rackspace`, you must have the chosen provider configured in the developer portal to enable this feature. By default the file is stored on `s3`. You can add more details of the storage in `options`.
