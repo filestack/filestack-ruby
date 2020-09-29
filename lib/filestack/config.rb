@@ -22,6 +22,8 @@ class FilestackConfig
     'Accept-Encoding' => "application/json"
   }.freeze
 
+  DEFAULT_UPLOAD_MIMETYPE = 'application/octet-stream'
+
   INTELLIGENT_ERROR_MESSAGES = ['BACKEND_SERVER', 'BACKEND_NETWORK', 'S3_SERVER', 'S3_NETWORK']
 
   def self.multipart_start_url

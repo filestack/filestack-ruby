@@ -13,13 +13,22 @@ include UploadUtils
 include IntelligentUtils
 # Includes all the utility functions for Filestack multipart uploads
 module MultipartUploadUtils
-  def get_file_info(file)
-    filename = File.basename(file)
+
+  def get_file_attributes(file, options = {})
+    filename = options[:filename] || File.basename(file)
+    mimetype = options[:mimetype] || MimeMagic.by_magic(File.open(file)) || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
     filesize = File.size(file)
-    mimetype = MimeMagic.by_magic(File.open(file))
-    if mimetype.nil?
-      mimetype = 'application/octet-stream'
-    end
+
+    [filename, filesize, mimetype.to_s]
+  end
+
+  def get_io_attributes(io, options = {})
+    filename = options[:filename] || 'unnamed_file'
+    mimetype = options[:mimetype] || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
+
+    io.seek(0, IO::SEEK_END)
+    filesize = io.tell
+
     [filename, filesize, mimetype.to_s]
   end
 
@@ -31,8 +40,10 @@ module MultipartUploadUtils
   # @param [String]             mimetype      Mimetype of incoming file
   # @param [FilestackSecurity]  security      Security object with
   #                                           policy/signature
+  # @param [String]             storage        Default storage to be used for uploads
   # @param [Hash]               options       User-defined options for
   #                                           multipart uploads
+  # @param [Bool]               intelligent   Upload file using Filestack Intelligent Ingestion
   #
   # @return [Typhoeus::Response]
   def multipart_start(apikey, filename, filesize, mimetype, security, storage, options = {}, intelligent)
@@ -67,22 +78,21 @@ module MultipartUploadUtils
   #
   # @param [String]             apikey         Filestack API key
   # @param [String]             filename       Name of incoming file
-  # @param [String]             filepath       Local path to file
   # @param [Int]                filesize       Size of incoming file
   # @param [Typhoeus::Response]  start_response Response body from
   #                                            multipart_start
+  # @param [String]             storage        Default storage to be used for uploads
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
   #
   # @return [Array]
-  def create_upload_jobs(apikey, filename, filepath, filesize, start_response, storage, options)
+  def create_upload_jobs(apikey, filename, filesize, start_response, storage, options)
     jobs = []
     part = 1
     seek_point = 0
     while seek_point < filesize
       part_info = {
         seek_point: seek_point,
-        filepath: filepath,
         filename: filename,
         apikey: apikey,
         part: part,
@@ -92,7 +102,7 @@ module MultipartUploadUtils
         upload_id: start_response['upload_id'],
         location_url: start_response['location_url'],
         start_response: start_response,
-        store: { location: storage }
+        store: { location: storage },
       }
 
       part_info[:store].merge!(options) if options
@@ -116,15 +126,16 @@ module MultipartUploadUtils
   # @param [Hash]               job            Hash of options needed
   #                                            to upload a chunk
   # @param [String]             apikey         Filestack API key
-  # @param [String]             location_url   Location url given back
+  # @param [String]             filepath       Location url given back
   #                                            from endpoint
-  # @param [String]             filepath       Local path to file
+  # @param [StringIO]           io             The IO object
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
+  # @param [String]             storage        Default storage to be used for uploads
   #
   # @return [Typhoeus::Response]
-  def upload_chunk(job, apikey, filepath, options, storage)
-    file = File.open(filepath)
+  def upload_chunk(job, apikey, filepath, io, options, storage)
+    file = filepath ? File.open(filepath) : io
     file.seek(job[:seek_point])
     chunk = file.read(FilestackConfig::DEFAULT_CHUNK_SIZE)
 
@@ -139,7 +150,6 @@ module MultipartUploadUtils
       region: job[:region],
       upload_id: job[:upload_id],
       store: { location: storage },
-      file: Tempfile.new(job[:filename])
     }
     data = data.merge!(options) if options
 
@@ -158,13 +168,14 @@ module MultipartUploadUtils
   # @param [String]             filepath       Local path to file
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
+  # @param [String]             storage        Default storage to be used for uploads
   #
   # @return [Array]                            Array of parts/etags strings
-  def run_uploads(jobs, apikey, filepath, options, storage)
+  def run_uploads(jobs, apikey, filepath, io, options, storage)
     bar = ProgressBar.new(jobs.length)
     results = Parallel.map(jobs, in_threads: 4) do |job|
       response = upload_chunk(
-        job, apikey, filepath, options, storage
+        job, apikey, filepath, io, options, storage
       )
       if response.code == 200
         bar.increment!
@@ -190,6 +201,8 @@ module MultipartUploadUtils
   #                                             part numbers
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
+  # @param [String]             storage        Default storage to be used for uploads
+  # @param [Boolean]            intelligent     Upload file using Filestack Intelligent Ingestion
   #
   # @return [Typhoeus::Response]
   def multipart_complete(apikey, filename, filesize, mimetype, start_response, parts_and_etags, options, storage, intelligent = false)
@@ -215,32 +228,39 @@ module MultipartUploadUtils
   #
   # @param [String]             apikey          Filestack API key
   # @param [String]             filename        Name of incoming file
+  # @param [StringIO]           io              The IO object
   # @param [FilestackSecurity]  security        Security object with
   #                                             policy/signature
   # @param [Hash]               options         User-defined options for
   #                                             multipart uploads
+  # @param [String]             storage         Default storage to be used for uploads
+  # @param [Boolean]            intelligent     Upload file using Filestack Intelligent Ingestion
   #
   # @return [Hash]
-  def multipart_upload(apikey, filepath, security, options, timeout, storage, intelligent: false)
-    filename, filesize, mimetype = get_file_info(filepath)
+  def multipart_upload(apikey, filepath, io, security, options, timeout, storage, intelligent = false)
+    filename, filesize, mimetype = if filepath
+                                    get_file_attributes(filepath, options)
+                                   else
+                                    get_io_attributes(io, options)
+                                   end
 
     start_response = multipart_start(
       apikey, filename, filesize, mimetype, security, storage, options, intelligent
     )
 
     jobs = create_upload_jobs(
-      apikey, filename, filepath, filesize, start_response, storage, options
+      apikey, filename, filesize, start_response, storage, options
     )
 
     if intelligent
       state = IntelligentState.new
-      run_intelligent_upload_flow(jobs, state, storage)
+      run_intelligent_upload_flow(jobs, filepath, io, state, storage)
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
         start_response, nil, options, storage, intelligent
       )
     else
-      parts_and_etags = run_uploads(jobs, apikey, filepath, options, storage)
+      parts_and_etags = run_uploads(jobs, apikey, filepath, io, options, storage)
       response_complete = multipart_complete(
         apikey, filename, filesize, mimetype,
         start_response, parts_and_etags, options, storage

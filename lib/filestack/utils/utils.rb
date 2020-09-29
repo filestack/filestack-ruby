@@ -88,7 +88,7 @@ module UploadUtils
   # @param [Hash]               options        User-defined options for
   #                                            multipart uploads
   # @return [Hash]
-  def send_upload(apikey, external_url: nil, security: nil, options: nil)
+  def send_upload(apikey, external_url = nil, security = nil, options = nil)
     base = "#{FilestackConfig::CDN_URL}/#{apikey}/#{build_store_task(options)}"
 
     if security
@@ -199,7 +199,7 @@ module IntelligentUtils
   # @param [IntelligentState]    state     An IntelligentState object
   #
   # @return [Array]
-  def run_intelligent_upload_flow(jobs, state, storage)
+  def run_intelligent_upload_flow(jobs, filepath, io, state, storage)
     bar = ProgressBar.new(jobs.length)
     generator = create_intelligent_generator(jobs)
     working_offset = FilestackConfig::DEFAULT_OFFSET_SIZE
@@ -207,7 +207,7 @@ module IntelligentUtils
       batch = get_generator_batch(generator)
       # run parts
       Parallel.map(batch, in_threads: 4) do |part|
-        state = run_intelligent_uploads(part, state, storage)
+        state = run_intelligent_uploads(part, filepath, io, state, storage)
         # condition: a chunk has failed but we have not reached the maximum retries
         while bad_state(state)
           # condition: timeout to S3, requiring offset size to be changed
@@ -219,7 +219,7 @@ module IntelligentUtils
             sleep(state.backoff)
           end
           state.add_retry
-          state = run_intelligent_uploads(part, state, storage)
+          state = run_intelligent_uploads(part, filepath, io, state, storage)
         end
         raise "Upload has failed. Please try again later." unless state.ok
         bar.increment!
@@ -275,7 +275,7 @@ module IntelligentUtils
   #                                             multipart_start
   #
   # @return [Dict]
-  def chunk_job(job, state, apikey, filename, filepath, filesize, start_response, storage)
+  def chunk_job(job, state, apikey, filename, filesize, start_response, storage)
     offset = 0
     seek_point = job[:seek_point]
     chunk_list = []
@@ -283,7 +283,6 @@ module IntelligentUtils
     while (offset < FilestackConfig::DEFAULT_CHUNK_SIZE) && (seek_point + offset) < filesize
       chunk_list.push(
         seek_point: seek_point,
-        filepath: filepath,
         filename: filename,
         apikey: apikey,
         part: job[:part],
@@ -307,15 +306,14 @@ module IntelligentUtils
   # @param [IntelligentState]  state     An IntelligentState object
   #
   # @return [IntelligentState]
-  def run_intelligent_uploads(part, state, storage)
+  def run_intelligent_uploads(part, filepath, io, state, storage)
     failed = false
     chunks = chunk_job(
-      part, state, part[:apikey], part[:filename], part[:filepath],
-      part[:filesize], part[:start_response], storage
+      part, state, part[:apikey], part[:filename], part[:filesize], part[:start_response], storage
     )
     Parallel.map(chunks, in_threads: 3) do |chunk|
       begin
-        upload_chunk_intelligently(chunk, state, part[:apikey], part[:filepath], part[:options], storage)
+        upload_chunk_intelligently(chunk, state, part[:apikey], filepath, io, part[:options], storage)
       rescue => e
         state.error_type = e.message
         failed = true
@@ -364,8 +362,8 @@ module IntelligentUtils
   #                                             multipart uploads
   #
   # @return [Typhoeus::Response]
-  def upload_chunk_intelligently(job, state, apikey, filepath, options, storage)
-    file = File.open(filepath)
+  def upload_chunk_intelligently(job, state, apikey, filepath, io, options, storage)
+    file = filepath ? File.open(filepath) : io
     file.seek(job[:seek_point] + job[:offset])
 
     chunk = file.read(state.offset)
