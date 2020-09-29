@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.8.0 (September 29, 2020)
+- Add IO object upload
+
 ## 2.7.0 (September 28, 2020)
 - Add workflows
 
