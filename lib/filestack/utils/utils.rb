@@ -63,7 +63,7 @@ module UploadUtils
   end
 
   def build_store_task(options = {})
-    return 'store' if options.empty?
+    return 'store' if options.nil? || options.empty?
     tasks = []
     options.each do |key, value|
       value = case key
@@ -100,7 +100,11 @@ module UploadUtils
     response = Typhoeus.post("#{base}/#{external_url}", headers: FilestackConfig::HEADERS)
 
     if response.code == 200
-      response_body = JSON.parse(response.body)
+      begin
+        response_body = JSON.parse(response.body)
+      rescue
+        raise response.body
+      end
       handle = response_body['url'].split('/').last
       return { 'handle' => handle }
     end

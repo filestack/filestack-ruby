@@ -606,6 +606,24 @@ RSpec.describe Filestack::Ruby do
     expect(UploadUtils.build_store_task).to eq("store")
   end
 
+  it 'handles non json response' do
+    class UploadResponse
+      def code
+        200
+      end
+
+      def body
+        "docs provider error: conversion was taking too long (idx 0)"
+      end
+
+    end
+    allow(Typhoeus).to receive(:post)
+      .and_return(UploadResponse.new)
+    expect {
+      lamdba UploadUtils.send_upload("fakekey")
+    }.to raise_error(RuntimeError, "docs provider error: conversion was taking too long (idx 0)")
+  end
+
   ###################
   ## TRANFORM TESTS #
   ###################
