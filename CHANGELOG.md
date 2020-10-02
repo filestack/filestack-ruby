@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.8.1 (October 1, 2020)
+- Add rescue and raises body message on upload
+
 ## 2.8.0 (September 29, 2020)
 - Add IO object upload
 
