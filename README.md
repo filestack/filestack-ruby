@@ -114,6 +114,19 @@ client = FilestackClient.new('YOUR_API_KEY', security: security)
 ### Using FilestackFilelinks
 FilestackFilelink objects are representation of a file handle. You can download, get raw file content, delete and overwrite file handles directly. Security is required for overwrite and delete methods.
 
+Intialize the filelink using the file handle, your API key, and security if required. The file handle is the string following the last slash `/` in the file URL.
+
+```ruby
+filelink = FilestackFilelink.new(handle, apikey: 'YOUR_API_KEY', security: security_object)
+```
+
+### Deletion
+You can delete a file by simply calling `delete` on the filelink.
+
+```ruby
+filelink.delete
+```
+
 ### Transformations
 Transforms can be initiated one of two ways. The first, by calling ```transform``` on a filelink:
 
