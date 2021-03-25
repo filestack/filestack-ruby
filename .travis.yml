@@ -11,6 +11,10 @@ before_install:
     - gem install bundler -v '< 2'
     - sudo apt-get update -y
     - sudo apt-get install -y shared-mime-info
+    - cp /usr/share/mime/packages/freedesktop.org.xml ./ \
+      && sudo apt-get remove -y --purge shared-mime-info \
+      && mkdir -p /usr/share/mime/packages \
+      && cp ./freedesktop.org.xml /usr/share/mime/packages/
 
 after_success:
   - coveralls
