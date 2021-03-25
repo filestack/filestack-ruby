@@ -9,6 +9,9 @@ rvm:
 before_install:
     - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
     - gem install bundler -v '< 2'
+    - sudo apt-get update -y
+    - sudo apt-get install -y shared-mime-info
+    - mkdir -p ./usr/share/mime/packages && cp -a /usr/share/mime/packages/freedesktop.org.xml ./usr/share/mime/packages/
 
 after_success:
   - coveralls
