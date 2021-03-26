@@ -1,7 +1,10 @@
 # Filestack-Ruby Changelog
 
-## 2.9.0 (March 25, 2020)
-- Update version of mimemagic gem
+## 2.9.1 (March 26, 2021)
+- Update version of mimemagic gem to 0.3.9
+
+## 2.9.0 (March 25, 2021)
+- Update version of mimemagic gem to 0.3.8
 
 ## 2.8.1 (October 1, 2020)
 - Add rescue and raises body message on upload
