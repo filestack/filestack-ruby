@@ -1,7 +1,7 @@
 require 'base64'
 require 'digest'
 require 'fiber'
-require 'mimemagic'
+require 'mini_mime'
 require 'json'
 require 'typhoeus'
 

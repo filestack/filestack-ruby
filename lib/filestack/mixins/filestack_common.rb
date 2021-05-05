@@ -1,7 +1,7 @@
 require 'filestack/config'
 require 'filestack/utils/utils'
 require 'filestack/utils/multipart_upload_utils'
-require 'mimemagic'
+require 'mini_mime'
 require 'json'
 
 # Module is mixin for common functionalities that all Filestack
@@ -58,7 +58,7 @@ module FilestackCommon
     return 'Overwrite requires security' if security.nil?
 
     file = File.open(filepath, 'r')
-    mimetype = MimeMagic.by_magic(file)
+    mimetype = MiniMime.lookup_by_filename(file).content_type
     content = file.read
 
     signature = security.signature
