@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.2 (May 5, 2021)
+- Replace mimemagic with mini_magic
+
 ## 2.9.1 (March 26, 2021)
 - Update version of mimemagic gem to 0.3.9
 
