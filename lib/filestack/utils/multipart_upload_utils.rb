@@ -1,7 +1,7 @@
 require 'base64'
 require 'timeout'
 require 'digest'
-require 'mimemagic'
+require 'mini_mime'
 require 'json'
 require 'parallel'
 require 'typhoeus'
@@ -16,7 +16,7 @@ module MultipartUploadUtils
 
   def get_file_attributes(file, options = {})
     filename = options[:filename] || File.basename(file)
-    mimetype = options[:mimetype] || MimeMagic.by_magic(File.open(file)) || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
+    mimetype = options[:mimetype] || MiniMime.lookup_by_filename(File.open(file)).content_type || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
     filesize = File.size(file)
 
     [filename, filesize, mimetype.to_s]
