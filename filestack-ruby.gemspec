@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "typhoeus", "~> 1.1"
   spec.add_dependency "parallel", "~> 1.11", ">= 1.11.2"
-  spec.add_dependency "mimemagic", "~> 0.3.9"
+  spec.add_dependency "mini_mime", "~> 1.0.2"
   spec.add_dependency "progress_bar"
 
   spec.add_development_dependency "bundler", "~> 1.7"
