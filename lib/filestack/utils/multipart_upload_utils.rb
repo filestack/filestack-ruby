@@ -16,7 +16,7 @@ module MultipartUploadUtils
 
   def get_file_attributes(file, options = {})
     filename = options[:filename] || File.basename(file)
-    mimetype = options[:mimetype] || MiniMime.lookup_by_filename(File.open(file)).try(:content_type) || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
+    mimetype = options[:mimetype] || get_mimetype_from_file(file) || FilestackConfig::DEFAULT_UPLOAD_MIMETYPE
     filesize = File.size(file)
 
     [filename, filesize, mimetype.to_s]
@@ -279,5 +279,13 @@ module MultipartUploadUtils
       raise "Upload timed out upon completion. Please try again later"
     end
     JSON.parse(response_complete.body)
+  end
+
+  private
+
+  def get_mimetype_from_file(file)
+    file_info = MiniMime.lookup_by_filename(File.open(file))
+
+    file_info ? file_info.content_type : nil
   end
 end
