@@ -207,6 +207,15 @@ RSpec.describe Filestack::Ruby do
     expect(mimetype).to eq(@test_mimetype)
   end
 
+  it 'returns default mimetype of Tempfile' do
+    tempfile = Tempfile.new('test.txt')
+
+    _, _, mimetype =
+      MultipartUploadUtils.get_file_attributes(tempfile.path)
+
+    expect(mimetype).to eq('application/octet-stream')
+  end
+
   it 'returns the right IO object attributes' do
     filename, filesize, mimetype =
       MultipartUploadUtils.get_io_attributes(@test_io, @options)
