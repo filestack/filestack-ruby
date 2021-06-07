@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.3 (June 7, 2021)
+- Handle nil mimetype of file
+
 ## 2.9.2 (May 5, 2021)
 - Replace mimemagic with mini_magic
 
