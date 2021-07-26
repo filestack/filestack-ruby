@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.4 (July 26, 2021)
+- Change the version of mini_mime
+
 ## 2.9.3 (June 7, 2021)
 - Handle nil mimetype of file
 
