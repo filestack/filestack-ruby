@@ -58,7 +58,7 @@ module UploadUtils
                 FilestackConfig::HEADERS
               end
     Typhoeus.public_send(
-      action, url, params: parameters, headers: headers
+      action, URI.encode(url), params: parameters, headers: headers
     )
   end
 
