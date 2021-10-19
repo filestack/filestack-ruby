@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.5 (Oct 19, 2021)
+- Add url encoding - fix the issue with transformation crop dim
+
 ## 2.9.4 (July 26, 2021)
 - Change the version of mini_mime
 
