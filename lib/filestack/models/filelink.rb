@@ -10,7 +10,7 @@ require 'filestack/mixins/filestack_common'
 class FilestackFilelink
   include FilestackCommon
   include UploadUtils
-  attr_reader :handle, :apikey, :security
+  attr_reader :handle, :apikey, :security, :upload_response
 
   # Initialize FilestackFilelink
   #
@@ -18,10 +18,11 @@ class FilestackFilelink
   # @param [String]             apikey        Your Filestack API Key (optional)
   # @param [FilestackSecurity]  security      Filestack security object, if
   #                                           security is enabled.
-  def initialize(handle, apikey: nil, security: nil)
+  def initialize(handle, apikey: nil, security: nil, upload_response: nil)
     @handle = handle
     @apikey = apikey
     @security = security
+    @upload_response = upload_response
   end
 
   # Get content of filelink

@@ -102,8 +102,7 @@ module UploadUtils
     if response.code == 200
       begin
         response_body = JSON.parse(response.body)
-        handle = response_body['url'].split('/').last
-        return { 'handle' => handle }
+        return response_body
       rescue
         raise response.body
       end
