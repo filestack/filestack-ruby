@@ -42,7 +42,7 @@ class FilestackClient
                 multipart_upload(@apikey, filepath, io, @security, options, timeout, storage, intelligent)
                end
 
-    FilestackFilelink.new(response['handle'], security: @security, apikey: @apikey)
+    FilestackFilelink.new(response['handle'], security: @security, apikey: @apikey, upload_response: response)
   end
   # Transform an external URL
   #

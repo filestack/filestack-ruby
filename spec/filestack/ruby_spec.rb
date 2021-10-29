@@ -139,6 +139,7 @@ RSpec.describe Filestack::Ruby do
       .and_return(UploadResponse.new)
     filelink = @test_secure_client.upload(filepath: @test_filepath)
     expect(filelink.handle).to eq('somehandle')
+    expect(filelink.upload_response).to eq({ "handle" => "somehandle", "url" => "https://cdn.filestackcontent.com/somehandle" })
   end
 
   it 'FilestackFilelink uploads external' do
@@ -148,13 +149,16 @@ RSpec.describe Filestack::Ruby do
       end
 
       def body
-        { url: 'https://cdn.filestackcontent.com/somehandle' }.to_json
+        { handle: 'somehandle',
+          url: 'https://cdn.filestackcontent.com/somehandle'
+        }.to_json
       end
     end
     allow(Typhoeus).to receive(:post)
       .and_return(UploadResponse.new)
     filelink = @test_secure_client.upload(external_url: @test_filepath)
     expect(filelink.handle).to eq('somehandle')
+    expect(filelink.upload_response).to eq({ "handle" => "somehandle", "url" => "https://cdn.filestackcontent.com/somehandle" })
   end
 
   it 'FilestackFilelink uploads io object' do

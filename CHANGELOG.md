@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.6 (Oct 29, 2021)
+- Return response body on upload complete to get workflows jobid
+
 ## 2.9.5 (Oct 19, 2021)
 - Add url encoding - fix the issue with transformation crop dim
 

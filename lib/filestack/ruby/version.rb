@@ -1,5 +1,5 @@
 module Filestack
   module Ruby
-    VERSION = '2.9.5'.freeze
+    VERSION = '2.9.6'.freeze
   end
 end
