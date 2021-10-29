@@ -60,6 +60,13 @@ filelink = client.upload(external_url: 'http://domain.com/image.png')
 
 file = StringIO.new
 filelink = client.upload(io: file)
+
+
+# Return response body on upload complete
+puts filelink.upload_response
+
+# Return uploaded filelink handle
+puts filelink.handle
 ```
 
 To upload a local, an IO object and an external file with following optional options:
@@ -101,6 +108,9 @@ filelink = client.upload(filepath: '/path/to/file', options: { workflows: ["work
 #OR
 
 filelink = client.upload(external_url: 'http://someurl.com/image.png', options: { workflows: ["workflow_id_1"] })
+
+# Return workflows jobids on upload complete
+puts filelink.upload_response["workflows"]
 ```
 
 ### Security
