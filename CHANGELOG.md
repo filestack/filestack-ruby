@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 2.9.7 (Sept 07, 2023)
+- Replace URI encode to ERB
+
 ## 2.9.6 (Oct 29, 2021)
 - Return response body on upload complete to get workflows jobid
 
