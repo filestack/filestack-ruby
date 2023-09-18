@@ -107,11 +107,11 @@ module MultipartUploadUtils
 
       part_info[:store].merge!(options) if options
 
-      if seek_point + FilestackConfig::DEFAULT_CHUNK_SIZE > filesize
-        size = filesize - (seek_point)
+      size = if seek_point + FilestackConfig::DEFAULT_CHUNK_SIZE > filesize
+        filesize - (seek_point)
       else
-        size = FilestackConfig::DEFAULT_CHUNK_SIZE
-      end
+        FilestackConfig::DEFAULT_CHUNK_SIZE
+             end
       part_info[:size] = size
       jobs.push(part_info)
       part += 1

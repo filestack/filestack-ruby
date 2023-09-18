@@ -9,13 +9,13 @@ require 'filestack/config'
 class IntelligentState
   attr_accessor :offset, :ok, :error_type
   def initialize
-    @offset = 524288
+    @offset = 524_288
     @ok = true
     @alive = true
     @retries = 0
     @backoff = 1
     @offset_index = 0
-    @offset_sizes = [524288, 262144, 131072, 65536, 32768]
+    @offset_sizes = [524_288, 262_144, 131_072, 65_536, 32_768]
   end
 
   def alive?
