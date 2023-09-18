@@ -275,7 +275,7 @@ module MultipartUploadUtils
           )
         end
       }
-    rescue
+    rescue StandardError
       raise "Upload timed out upon completion. Please try again later"
     end
     JSON.parse(response_complete.body)
