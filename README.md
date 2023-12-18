@@ -56,11 +56,6 @@ filelink = client.upload(filepath: '/path/to/localfile')
 
 filelink = client.upload(external_url: 'http://domain.com/image.png')
 
-# OR
-
-file = StringIO.new
-filelink = client.upload(io: file)
-
 
 # Return response body on upload complete
 puts filelink.upload_response

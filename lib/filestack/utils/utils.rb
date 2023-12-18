@@ -9,13 +9,13 @@ require 'filestack/config'
 class IntelligentState
   attr_accessor :offset, :ok, :error_type
   def initialize
-    @offset = 524288
+    @offset = 524_288
     @ok = true
     @alive = true
     @retries = 0
     @backoff = 1
     @offset_index = 0
-    @offset_sizes = [524288, 262144, 131072, 65536, 32768]
+    @offset_sizes = [524_288, 262_144, 131_072, 65_536, 32_768]
   end
 
   def alive?
@@ -103,7 +103,7 @@ module UploadUtils
       begin
         response_body = JSON.parse(response.body)
         return response_body
-      rescue
+      rescue StandardError
         raise response.body
       end
     end
@@ -317,7 +317,7 @@ module IntelligentUtils
     Parallel.map(chunks, in_threads: 3) do |chunk|
       begin
         upload_chunk_intelligently(chunk, state, part[:apikey], filepath, io, part[:options], storage)
-      rescue => e
+      rescue StandardError => e
         state.error_type = e.message
         failed = true
         Parallel::Kill
@@ -401,7 +401,7 @@ module IntelligentUtils
         end
       end
 
-    rescue
+    rescue StandardError
       raise 'BACKEND_NETWORK'
     end
     fs_response = JSON.parse(fs_response.body)
@@ -419,7 +419,7 @@ module IntelligentUtils
         end
       end
 
-    rescue
+    rescue StandardError
       raise 'S3_NETWORK'
     end
     amazon_response
