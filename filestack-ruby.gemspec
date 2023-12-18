@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = Filestack::Ruby::VERSION
   spec.authors       = ["Filestack"]
   spec.email         = ["dev@filestack.com"]
+  spec.required_ruby_version = '>= 3.0.0'
 
   spec.summary       = %q{Official Ruby SDK for the Filestack API}
   spec.description   = %q{This is the official Ruby SDK for Filestack - API and content management system that makes it easy to add powerful file uploading and transformation capabilities to any web or mobile application.}

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Filestack
   # A helper class for the purpose of implementing a symbolize_keys method
   # similar to ActiveSupport's symbolize_keys.
