@@ -1,5 +1,8 @@
 # Filestack-Ruby Changelog
 
+## 3.0.0 (Sept 07, 2023)
+- Upgrade to Ruby 3.0
+
 ## 2.9.7 (Sept 07, 2023)
 - Replace URI encode to ERB
 
