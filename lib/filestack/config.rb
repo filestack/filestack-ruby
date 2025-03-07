@@ -53,6 +53,6 @@ class TransformConfig
     redeye ascii filetype_conversion quality urlscreenshot
     no_metadata fallback pdfinfo pdfconvert cache auto_image
     minify_js minify_css animate video_convert video_playlist
-    compress content
+    compress content imagesize
   ].freeze
 end
