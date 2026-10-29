@@ -14,6 +14,8 @@ class FilestackConfig
 
   DEFAULT_CHUNK_SIZE = 8 * 1024**2
   DEFAULT_OFFSET_SIZE = 1 * 1024**2
+  DEFAULT_PART_RETRIES = 3
+  PART_RETRY_BACKOFF = 1
   VERSION = Filestack::Ruby::VERSION
   HEADERS = {
     'User-Agent' => "filestack-ruby #{VERSION}",
