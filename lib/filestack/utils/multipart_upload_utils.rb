@@ -161,6 +161,34 @@ module MultipartUploadUtils
       fs_response['url'], headers: fs_response['headers'], body: chunk
     )
   end
+  # Uploads one chunk, retrying failed attempts
+  #
+  # @param [Hash]               job            Hash of options needed
+  #                                            to upload a chunk
+  # @param [String]             apikey         Filestack API key
+  # @param [String]             filepath       Local path to file
+  # @param [StringIO]           io             The IO object
+  # @param [Hash]               options        User-defined options for
+  #                                            multipart uploads
+  # @param [String]             storage        Default storage to be used for uploads
+  #
+  # @raise [RuntimeError]                      If the part could not be uploaded
+  #
+  # @return [Typhoeus::Response]
+  def upload_chunk_with_retries(job, apikey, filepath, io, options, storage)
+    attempts = FilestackConfig::DEFAULT_PART_RETRIES + 1
+    response = nil
+    attempts.times do |attempt|
+      sleep(FilestackConfig::PART_RETRY_BACKOFF * 2**(attempt - 1)) if attempt > 0
+      response = upload_chunk(job, apikey, filepath, io, options, storage)
+      return response if response.code == 200
+    end
+
+    reason = "HTTP #{response.code}"
+    reason += " (#{response.return_code})" if response.respond_to?(:return_code) && response.return_code
+    raise RuntimeError.new("Upload of part #{job[:part]} failed after #{attempts} attempts: #{reason}")
+  end
+
   # Runs all jobs in parallel
   #
   # @param [Array]              jobs           Array of jobs to be run
@@ -170,19 +198,19 @@ module MultipartUploadUtils
   #                                            multipart uploads
   # @param [String]             storage        Default storage to be used for uploads
   #
+  # @raise [RuntimeError]                      If any part could not be uploaded
+  #
   # @return [Array]                            Array of parts/etags strings
   def run_uploads(jobs, apikey, filepath, io, options, storage)
     bar = ProgressBar.new(jobs.length)
     results = Parallel.map(jobs, in_threads: 4) do |job|
-      response = upload_chunk(
+      response = upload_chunk_with_retries(
         job, apikey, filepath, io, options, storage
       )
-      if response.code == 200
-        bar.increment!
-        part = job[:part]
-        etag = response.headers[:etag]
-        { part_number: part, etag: etag }
-      end
+      bar.increment!
+      part = job[:part]
+      etag = response.headers[:etag]
+      { part_number: part, etag: etag }
     end
     results
   end
@@ -278,6 +306,10 @@ module MultipartUploadUtils
     rescue StandardError
       raise "Upload timed out upon completion. Please try again later"
     end
+    unless response_complete.code == 200
+      raise RuntimeError.new("Multipart complete failed: HTTP #{response_complete.code} #{response_complete.body}")
+    end
+
     JSON.parse(response_complete.body)
   end
 

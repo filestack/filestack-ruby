@@ -137,6 +137,8 @@ RSpec.describe Filestack::Ruby do
     end
     allow(Typhoeus).to receive(:post)
       .and_return(UploadResponse.new)
+    allow(Typhoeus).to receive(:put)
+      .and_return(double(code: 200, headers: { etag: 'someetag' }))
     filelink = @test_secure_client.upload(filepath: @test_filepath)
     expect(filelink.handle).to eq('somehandle')
     expect(filelink.upload_response).to eq({ "handle" => "somehandle", "url" => "https://cdn.filestackcontent.com/somehandle" })
@@ -175,6 +177,8 @@ RSpec.describe Filestack::Ruby do
     end
     allow(Typhoeus).to receive(:post)
       .and_return(UploadResponse.new)
+    allow(Typhoeus).to receive(:put)
+      .and_return(double(code: 200, headers: { etag: 'someetag' }))
     filelink = @test_secure_client.upload(io: @test_io)
     expect(filelink.handle).to eq('somehandle')
   end
@@ -297,6 +301,70 @@ RSpec.describe Filestack::Ruby do
     2.times do |i|
       expect(results[i]).to eq(result)
     end
+  end
+
+  it 'retries a failed part and returns its etag' do
+    class FlakyPartResponse
+      attr_reader :code
+
+      def initialize(code)
+        @code = code
+      end
+
+      def headers
+        { etag: 'someetag' }
+      end
+
+      def return_code
+        @code.zero? ? :couldnt_connect : :ok
+      end
+    end
+
+    stub_const('FilestackConfig::PART_RETRY_BACKOFF', 0)
+    allow(MultipartUploadUtils).to receive(:upload_chunk)
+      .and_return(FlakyPartResponse.new(0), FlakyPartResponse.new(200))
+
+    results = MultipartUploadUtils.run_uploads(
+      [@job], @test_apikey, @test_filepath, nil, nil, @storage
+    )
+    expect(results).to eq([{ part_number: @job[:part], etag: 'someetag' }])
+    expect(MultipartUploadUtils).to have_received(:upload_chunk).twice
+  end
+
+  it 'raises when a part keeps failing' do
+    stub_const('FilestackConfig::PART_RETRY_BACKOFF', 0)
+    allow(MultipartUploadUtils).to receive(:upload_chunk)
+      .and_return(FlakyPartResponse.new(0))
+
+    expect {
+      MultipartUploadUtils.run_uploads(
+        [@job], @test_apikey, @test_filepath, nil, nil, @storage
+      )
+    }.to raise_error(RuntimeError, /part 1 failed after 4 attempts: HTTP 0 \(couldnt_connect\)/)
+    expect(MultipartUploadUtils).to have_received(:upload_chunk).exactly(4).times
+  end
+
+  it 'does not complete the upload when a part fails' do
+    stub_const('FilestackConfig::PART_RETRY_BACKOFF', 0)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@start_response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:upload_chunk)
+      .and_return(Response.new(503))
+    expect_any_instance_of(MultipartUploadUtils).not_to receive(:multipart_complete)
+
+    expect { @test_client.upload(filepath: @test_filepath) }.to raise_error(RuntimeError)
+  end
+
+  it 'raises when multipart complete is rejected' do
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_start)
+      .and_return(@start_response)
+    allow_any_instance_of(MultipartUploadUtils).to receive(:run_uploads)
+      .and_return(['somepartsandetags'])
+    allow_any_instance_of(MultipartUploadUtils).to receive(:multipart_complete)
+      .and_return(GeneralResponse.new({ 'error' => 'invalid params: parts' }, 400))
+
+    expect { @test_client.upload(filepath: @test_filepath) }
+      .to raise_error(RuntimeError, /invalid params: parts/)
   end
 
   it 'returns the correct multipart_complete response' do
